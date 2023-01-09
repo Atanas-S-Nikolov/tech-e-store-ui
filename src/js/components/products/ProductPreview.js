@@ -1,3 +1,5 @@
+import "../../../styles/products/ProductPreview.css";
+
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -11,7 +13,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 export default function ProductPreview({ product }) {
   const { name, price, image } = product;
   return (
-    <Card sx={{ maxWidth: 275 }}>
+    <Card className='product-preview' sx={{ maxWidth: 275 }}>
       <CardMedia
         sx={{ height: 140 }}
         image={image}

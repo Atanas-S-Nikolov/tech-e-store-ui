@@ -1,3 +1,5 @@
+import "../../../styles/menu/NavigationBar.css";
+
 import { useState } from 'react';
 
 import { styled, alpha } from '@mui/material/styles';
@@ -12,11 +14,14 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 
 import MenuIcon from '@mui/icons-material/Menu';
+import ShopIcon from '@mui/icons-material/Shop';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { Button } from '@mui/material';
+
+import { HOME_URL, LOGIN_URL } from '../../constants/UrlConstants';
+import StyledLink from "../styled/StyledLink";
 import CustomSwipeableDrawer from './CustomSwipeableDrawer';
 
 const Search = styled('div')(({ theme }) => ({
@@ -120,7 +125,8 @@ export default function NavigationBar() {
           >
             <MenuIcon />
           </IconButton>
-          <a href='/' style={{ color: "inherit", textDecoration: "inherit" }}>
+          <StyledLink to={HOME_URL}>
+            <ShopIcon fontSize="small" sx={{ mr: 1 }}/>
             <Typography
               variant="h6"
               edge="start"
@@ -130,7 +136,7 @@ export default function NavigationBar() {
             >
               Tech E-Store
             </Typography>
-          </a>
+          </StyledLink>
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
@@ -169,9 +175,9 @@ export default function NavigationBar() {
                 </IconButton>
             ) 
             : (
-              <Button sx={{ color: "white" }}>
-                <Typography component="div">Login</Typography>
-              </Button>
+              <StyledLink to={LOGIN_URL}>
+                <Typography component="div">LOGIN</Typography>
+              </StyledLink>
             )}
           </Box>
         </Toolbar>

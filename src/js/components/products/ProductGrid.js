@@ -1,11 +1,10 @@
 import ProductPreview from "./ProductPreview";
 
-import Paper from "@mui/material/Paper";
 import { styled } from "@mui/system";
 
 export default function ProductGrid({ items }) {
-  const GridPaper = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.secondary.main,
+  const GridContainer = styled('div')(({ theme }) => ({
+    border: "none",
     padding: theme.spacing(1),
     display: 'grid',
     gridTemplateColumns: 'repeat(5, 1fr)',
@@ -13,8 +12,8 @@ export default function ProductGrid({ items }) {
   }));
 
   return(
-    <GridPaper elevation={3}>
+    <GridContainer>
         {items.map(item => <ProductPreview product={item} key={crypto.randomUUID()}/>)}
-    </GridPaper>
+    </GridContainer>
   )
 }

@@ -1,10 +1,10 @@
-import "../../../styles/content/AppContent.css";
-
-import ProductGrid from '../products/ProductGrid';
-import logo from "../../../logo.svg"
+import ProductGrid from '../components/products/ProductGrid';
+import logo from "../../logo.svg"
 import { Typography } from "@mui/material";
+import NavigationBar from '../components/menu/NavigationBar';
+import AppFooter from '../components/footer/AppFooter';
 
-export default function AppContent() {
+export default function Home() {
   const products = [
     {
       name: "Xiaomi Poco X3",
@@ -59,10 +59,14 @@ export default function AppContent() {
   ];
 
   return (
-    <div className='app-content'>
-      <Typography variant="h3" sx={{ mt: 3 }}>Welcome to Tech E-Store</Typography>
-      <Typography variant="h5" sx={{ mt: 5 }}>View our newest products</Typography>
-      <ProductGrid items={products} />
-    </div>
+    <>
+      <NavigationBar />
+      <div className='app-content'>
+        <Typography variant="h3" sx={{ mt: 3 }}>Welcome to Tech E-Store</Typography>
+        <Typography variant="h5" sx={{ mt: 5, mb: 1 }}>View our newest products</Typography>
+        <ProductGrid items={products} />
+      </div>
+      <AppFooter />
+    </>
   );
 }

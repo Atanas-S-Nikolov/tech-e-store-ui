@@ -1,4 +1,4 @@
-import { isNotBlank } from "../utils/StringUtils";
+import { isNotBlank } from "../../utils/StringUtils";
 
 export default class ProductType {
   static DESKTOP_PC = new ProductType("Desktop PC", "Desktop PCs");

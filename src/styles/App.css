@@ -1,0 +1,11 @@
+.app-content {
+  display: grid;
+  place-items: center;
+  text-align: center;
+}
+
+.link:hover {
+  color: green;
+  text-decoration: underline;
+  cursor: pointer;
+}

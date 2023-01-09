@@ -14,7 +14,7 @@ export default function ProductTypeMenu({ itemId, items, onClose, isOpen }) {
       <MenuList>
         {items.map((item) => (
           <ListItem key={crypto.randomUUID()} onClick={(event) => onClose(event, itemId)} disablePadding>
-            <ListItemText primary={item}/>
+            <ListItemText className="link" primary={item}/>
           </ListItem>
         ))}
       </MenuList>
