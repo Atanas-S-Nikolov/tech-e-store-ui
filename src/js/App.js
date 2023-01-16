@@ -11,7 +11,6 @@ function App() {
     <div className="app">
       <ThemeProvider theme={appTheme}>
         <RouterProvider router={appRouter}>
-          <main></main>
         </RouterProvider>
       </ThemeProvider>
     </div>

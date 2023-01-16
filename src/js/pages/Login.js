@@ -1,22 +1,32 @@
 import "../../styles/pages/Login.css";
 
+import { useState } from "react";
+
 import { Link } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
-import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 
-import ShopIcon from '@mui/icons-material/Shop';
-
-import { HOME_URL, REGISTER_URL } from '../constants/UrlConstants';
-import StyledLink from '../components/styled/StyledLink';
+import { REGISTER_URL } from '../constants/UrlConstants';
 import StyledFormControl from '../components/styled/StyledFormControl';
 import StyledFormButton from "../components/styled/StyledFormButton";
 import CustomFormTextInput from "../components/utils/CustomFormTextInput";
 import AppFooter from '../components/footer/AppFooter';
 import CustomFormPasswordInput from "../components/utils/CustomFormPasswordInput";
+import StyledHeader from "../components/styled/StyledHeader";
+import AuthenticationDto from "../model/auth/AuthenticationDto";
+import { login } from "../api/backend";
 
 export default function Login() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const loginUser = () => {
+    login(new AuthenticationDto(username, password))
+    .then(response => console.log(response))
+    .catch(error => console.log(error));
+  }
+
   return (
     <>
       <Box sx={{
@@ -25,24 +35,19 @@ export default function Login() {
         textAlign: "center"
         }}
       >
-        <StyledLink
-          to={HOME_URL}
-          sx={{ color: "primary.main" }}
-        >
-          <ShopIcon fontSize='large'/>
-          <Typography variant='h2'>Tech E-Store</Typography>
-        </StyledLink>
-        <Divider color="primary.main" sx={{width: "100%" }} />
+        <StyledHeader />
         <CustomFormTextInput
           id="username"
           label="Username"
+          onChange={event => setUsername(event.target.value)}
           sx={{ mt: 10 }}
         />
         <CustomFormPasswordInput
           id="password"
           label="Password"
+          onChange={event => setPassword(event.target.value)}
         />
-        <StyledFormControl>
+        <StyledFormControl onClick={loginUser}>
           <StyledFormButton>LOGIN</StyledFormButton>
         </StyledFormControl>
         <Typography component="span">

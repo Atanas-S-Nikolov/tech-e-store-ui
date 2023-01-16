@@ -8,7 +8,7 @@ import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
-export default function CustomFormPasswordInput({ id, label, sx }) {
+export default function CustomFormPasswordInput({ id, label, sx, onChange }) {
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -19,6 +19,7 @@ export default function CustomFormPasswordInput({ id, label, sx }) {
         id={id}
         label={label}
         type={showPassword ? 'text' : 'password'}
+        onChange={onChange}
         endAdornment={
           <IconButton
             aria-label="toggle password visibility"

@@ -3,20 +3,16 @@ import "../../styles/pages/Login.css";
 import { useNavigate } from "react-router-dom";
 
 import Box from '@mui/material/Box';
-import Divider from '@mui/material/Divider';
-import Typography from '@mui/material/Typography';
 
-import ShopIcon from '@mui/icons-material/Shop';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
 import PhoneIcon from '@mui/icons-material/Phone';
 
-import { HOME_URL, LOGIN_URL } from '../constants/UrlConstants';
-import StyledLink from '../components/styled/StyledLink';
 import StyledFormControl from '../components/styled/StyledFormControl';
 import AppFooter from '../components/footer/AppFooter';
 import StyledFormButton from "../components/styled/StyledFormButton";
 import CustomFormTextInput from "../components/utils/CustomFormTextInput";
 import CustomFormPasswordInput from "../components/utils/CustomFormPasswordInput";
+import StyledHeader from "../components/styled/StyledHeader";
 
 export default function Register() {
   const passwordId = "password";
@@ -32,14 +28,7 @@ export default function Register() {
         textAlign: "center",
         }}
       >
-        <StyledLink
-          to={HOME_URL}
-          sx={{ color: "primary.main" }}
-        >
-          <ShopIcon fontSize='large'/>
-          <Typography variant='h2'>Tech E-Store</Typography>
-        </StyledLink>
-        <Divider color="primary.main" sx={{width: "100%" }}/>
+        <StyledHeader />
         <CustomFormTextInput
           id="username"
           label="Username"
@@ -91,7 +80,7 @@ export default function Register() {
               REGISTER
             </StyledFormButton>
             <StyledFormButton
-              onClick={() => navigate(`../${LOGIN_URL}`)}
+              onClick={() => navigate(-1)}
               sx={{ width: "48.5%", ml: 1 }}
             >
               CANCEL

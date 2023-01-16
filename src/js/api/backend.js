@@ -39,12 +39,12 @@ export function getProduct(productName) {
   return backendFormDataRequest.get(`/product/${productName}`);
 }
 
-export function getAllNotEarlyAccessProducts() {
-  return backendFormDataRequest.get(`/product/?early_access=false`);
+export async function getAllNotEarlyAccessProducts() {
+  return await backendFormDataRequest.get(`/product?early_access=false`);
 }
 
-export function getAllProducts() {
-  return backendFormDataRequest.get("/product");
+export async function getAllProducts() {
+  return await backendFormDataRequest.get("/product");
 }
 
 export function deleteProduct(productName) {
