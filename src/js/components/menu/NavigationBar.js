@@ -20,9 +20,14 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
-import { HOME_URL, LOGIN_URL } from '../../constants/UrlConstants';
+import { CART_URL, HOME_URL, LOGIN_URL } from '../../constants/UrlConstants';
 import StyledLink from "../styled/StyledLink";
 import CustomSwipeableDrawer from './CustomSwipeableDrawer';
+
+import { useNavigate } from "react-router-dom";
+
+import { logoutReducer } from "../../redux/authenticationSlice";
+import { useSelector, useDispatch } from "react-redux";
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -65,7 +70,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function NavigationBar() {
-  let isAuthenticated = false;
+  const dispatch = useDispatch();
+  const { isLoggedIn } = useSelector(state => state.authentication);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -106,9 +112,17 @@ export default function NavigationBar() {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
+      <MenuItem onClick={() => {
+        handleMenuClose()
+        dispatch(logoutReducer())
+      }}>Logout</MenuItem>
     </Menu>
   );
+
+  const navigate = useNavigate();
+  const navigateToCart = () => {
+    navigate(CART_URL);
+  }
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -157,10 +171,11 @@ export default function NavigationBar() {
             <IconButton
               size="large"
               color="inherit"
+              onClick={navigateToCart}
             >
               <ShoppingCartIcon />
             </IconButton>
-            {isAuthenticated 
+            {isLoggedIn 
             ? (
                 <IconButton
                   size="large"

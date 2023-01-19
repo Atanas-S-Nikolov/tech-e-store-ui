@@ -1,0 +1,16 @@
+.cart-product {
+  display: flex;
+  width: 100%;
+}
+
+.cart-product img {
+  width: 200px;
+  aspect-ratio: 1 / 1;
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  border: 1px solid lightgrey;
+}

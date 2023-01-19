@@ -12,9 +12,11 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { styled } from "@mui/system";
+import CustomPriceTypography from "./CustomPriceTypography";
 
 export default function ProductHeader({ product }) {
-    const { name, price, stocks, image } = product;
+    const { name, price, stocks, imageUrls } = product;
+    const productDisplayImage = imageUrls ? imageUrls[0] : "";
 
     const BorderlessTableCell = styled(TableCell)(() => ({
       borderBottom: "none"
@@ -28,7 +30,7 @@ export default function ProductHeader({ product }) {
 
     return (
       <div className='product-header-section'>
-        <img className='main-image' src={image} alt='product'/>
+        <img className='main-image' src={productDisplayImage} alt={name}/>
         <TableContainer>
           <Table>
             <TableBody>
@@ -45,7 +47,7 @@ export default function ProductHeader({ product }) {
               <TableRow>
                 <BorderlessTableCell>
                   <Typography variant="h6">
-                    Price: <b style={{ color: "green" }}>{price} lv</b>
+                    Price: <CustomPriceTypography price={price}/>
                   </Typography>
                 </BorderlessTableCell>
                 <BorderlessTableCell>

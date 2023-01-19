@@ -1,0 +1,14 @@
+.cart-content {
+  display: grid;
+  place-items: center;
+  grid-auto-flow: row;
+  margin-top: 50px;
+}
+
+.navigation-buttons {
+  display: grid;
+  place-items: center;
+  grid-auto-flow: column;
+  width: 80%;
+  margin-top: 30px;
+}

@@ -9,7 +9,7 @@ import Paper from '@mui/material/Paper';
 function createRow({ label, value }, index, ) {
   const bgColor = index % 2 === 0 ? "#f9f9f9" : "none";
   return (
-    <TableRow sx={{ backgroundColor: bgColor }}>
+    <TableRow key={crypto.randomUUID()} sx={{ backgroundColor: bgColor }}>
       <TableCell variant='head'><Typography>{label}</Typography></TableCell>
       <TableCell align='right'><Typography>{value}</Typography></TableCell>
     </TableRow>

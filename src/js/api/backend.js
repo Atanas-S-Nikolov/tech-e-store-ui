@@ -1,5 +1,6 @@
 import axios from "axios";
 import { LOGIN_URL, REFRESH_TOKEN_URL, REGISTER_URL } from "../constants/UrlConstants";
+import { buildProductUrl } from "./builder/URLBuilder";
 
 const BASE_URL = process.env.REACT_APP_BACKEND_URL;
 const ROLE_ADMIN = "ROLE_ADMIN";
@@ -35,8 +36,8 @@ export function updateProduct(productDto, images) {
   return backendFormDataRequest.put("/product", buildFormData(productDto, images));
 }
 
-export function getProduct(productName) {
-  return backendFormDataRequest.get(`/product/${productName}`);
+export async function getProduct(productName) {
+  return await backendFormDataRequest.get(buildProductUrl(productName));
 }
 
 export async function getAllNotEarlyAccessProducts() {
@@ -52,7 +53,7 @@ export function deleteProduct(productName) {
 }
 
 //cart
-export function getCart(usernameDto) {
+export async function getCart(usernameDto) {
   return backendRequest.get("/cart", JSON.stringify(usernameDto));
 }
 
