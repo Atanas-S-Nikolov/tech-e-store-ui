@@ -19,14 +19,16 @@ import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
 
-import { CART_URL, HOME_URL, LOGIN_URL } from '../../constants/UrlConstants';
+import { CART_URL, COMPARE_URL, HOME_URL, LOGIN_URL } from '../../constants/UrlConstants';
 import StyledLink from "../styled/StyledLink";
 import CustomSwipeableDrawer from './CustomSwipeableDrawer';
 
 import { useNavigate } from "react-router-dom";
 
 import { logoutReducer } from "../../redux/authenticationSlice";
+import { resetCompareStateReducer } from "../../redux/productCompareSlice";
 import { useSelector, useDispatch } from "react-redux";
 
 const Search = styled('div')(({ theme }) => ({
@@ -70,13 +72,24 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function NavigationBar() {
-  const dispatch = useDispatch();
-  const { isLoggedIn } = useSelector(state => state.authentication);
+  const { isAuthenticated } = useSelector(state => state.authentication);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const isMenuOpen = Boolean(anchorEl);
+  
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+
+  const navigateToCart = () => {
+    navigate(CART_URL);
+  }
+
+  const navigateToCompare = () => {
+    navigate(COMPARE_URL);
+  }
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -92,6 +105,13 @@ export default function NavigationBar() {
 
   const handleDrawerClose = () => {
     setIsDrawerOpen(false);
+  }
+
+  const handleLogout = () => {
+    handleMenuClose();
+    dispatch(logoutReducer());
+    dispatch(resetCompareStateReducer());
+    navigate(HOME_URL);
   }
 
   const menuId = 'primary-search-account-menu';
@@ -112,17 +132,11 @@ export default function NavigationBar() {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-      <MenuItem onClick={() => {
-        handleMenuClose()
-        dispatch(logoutReducer())
-      }}>Logout</MenuItem>
+      <MenuItem onClick={handleLogout}>
+        Logout
+      </MenuItem>
     </Menu>
   );
-
-  const navigate = useNavigate();
-  const navigateToCart = () => {
-    navigate(CART_URL);
-  }
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -165,6 +179,13 @@ export default function NavigationBar() {
             <IconButton
               size="large"
               color="inherit"
+              onClick={navigateToCompare}
+            >
+              <CompareArrowsIcon />
+            </IconButton>
+            <IconButton
+              size="large"
+              color="inherit"
             >
               <FavoriteIcon />
             </IconButton>
@@ -175,25 +196,27 @@ export default function NavigationBar() {
             >
               <ShoppingCartIcon />
             </IconButton>
-            {isLoggedIn 
-            ? (
-                <IconButton
-                  size="large"
-                  edge="end"
-                  aria-label="account of current user"
-                  aria-controls={menuId}
-                  aria-haspopup="true"
-                  onClick={handleProfileMenuOpen}
-                  color="inherit"
-                >
-                  <AccountCircle />
-                </IconButton>
-            ) 
-            : (
-              <StyledLink to={LOGIN_URL}>
-                <Typography component="div">LOGIN</Typography>
-              </StyledLink>
-            )}
+            {
+              isAuthenticated 
+                ? (
+                    <IconButton
+                      size="large"
+                      edge="end"
+                      aria-label="account of current user"
+                      aria-controls={menuId}
+                      aria-haspopup="true"
+                      onClick={handleProfileMenuOpen}
+                      color="inherit"
+                    >
+                      <AccountCircle />
+                    </IconButton>
+                  ) 
+                : (
+                    <StyledLink to={LOGIN_URL}>
+                      <Typography component="div">LOGIN</Typography>
+                    </StyledLink>
+                  )
+            }
           </Box>
         </Toolbar>
       </AppBar>

@@ -5,10 +5,13 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { addProductReducer } from "../../redux/productCompareSlice";
 
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { buildProductUrl } from "../../api/builder/URLBuilder";
 
@@ -21,6 +24,13 @@ export default function ProductPreview({ product }) {
   const handleOnClick = (event) => {
     event.preventDefault();
     navigate(buildProductUrl(name));
+  }
+
+  const dispatch = useDispatch();
+
+  const handleCompare = (event) => {
+    event.preventDefault();
+    dispatch(addProductReducer(product));
   }
 
   return (
@@ -43,7 +53,14 @@ export default function ProductPreview({ product }) {
         </CardContent>
       </div>
       <Button size='large' startIcon={<ShoppingCartIcon/>} sx={{ width: "100%" }}>Buy</Button>
-      <Button size="small" startIcon={<CompareArrowsIcon/>} sx={{ float: "left", width: "50%" }}>Compare</Button>
+      <Button
+        onClick={handleCompare}
+        size="small"
+        startIcon={<CompareArrowsIcon/>}
+        sx={{ float: "left", width: "50%" }}
+      >
+        Compare
+      </Button>
       <Button size="small" startIcon={<FavoriteBorderIcon/>} sx={{ float: "right", width: "50%" }}>Favorite</Button>
     </Card>
   );

@@ -9,6 +9,7 @@
 .product-header-section > .main-image {
   width: 521px;
   aspect-ratio: 1 / 1;
+  border-radius: 5px;
 }
 
 .product-header-section table .actions > * {

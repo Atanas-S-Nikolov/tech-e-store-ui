@@ -1,0 +1,17 @@
+.products-compare {
+  display: grid;
+  place-items: center;
+  grid-auto-flow: row;
+  margin-top: 50px;
+}
+
+.products-compare .compare-details {
+  display: grid;
+  place-items: center;
+  grid-auto-flow: column;
+}
+
+.products-compare .compare-details img {
+  width: 200px;
+  aspect-ratio: 1 / 1;
+}

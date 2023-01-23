@@ -2,6 +2,8 @@ import { configureStore } from "@reduxjs/toolkit";
 import { persistCombineReducers } from 'reduxjs-toolkit-persist';
 import storage from 'reduxjs-toolkit-persist/lib/storage';
 import authenticationReducer from "./authenticationSlice";
+import cartReducer from "./cartSlice";
+import productCompareReducer from "./productCompareSlice";
 
 const persistConfig = {
     key: 'root',
@@ -11,7 +13,9 @@ const persistConfig = {
 const persistedReducer = persistCombineReducers(
     persistConfig, 
     {
-        authentication: authenticationReducer
+        authentication: authenticationReducer,
+        cart: cartReducer,
+        productCompare: productCompareReducer
     }
 ); 
 

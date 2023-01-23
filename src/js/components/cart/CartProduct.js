@@ -1,6 +1,6 @@
 import "../../../styles/cart/CartProduct.css";
 
-import { useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 import Typography from "@mui/material/Typography";
 import Table from '@mui/material/Table';
@@ -16,19 +16,36 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CustomPriceTypography from "../products/CustomPriceTypography";
 
-export default function CartProduct({ product }) {
-  const { name, price, imageUrls } = product;
+export default function CartProduct({ index, productWrapper, onUpdate, onRemove }) {
+  const { name, price, imageUrls } = productWrapper.product;
+  const initialQuantityValue = productWrapper.quantity;
+  const quantity = useRef(initialQuantityValue);
   const productDisplayImage = imageUrls ? imageUrls[0] : "";
-
-  const [quantity, setQuantity] = useState(1);
+  const [stateQuantity, setStateQuantity] = useState(quantity.current);
 
   const increaseQuantity = () => {
-    setQuantity(prevState => ++prevState);
+    setStateQuantity(prevState => prevState += 1);
   }
 
   const decreaseQuantity = () => {
-    setQuantity(prevState => --prevState);
+    setStateQuantity(prevState => prevState -= 1);
   }
+
+  useEffect(() => {
+    if (stateQuantity === initialQuantityValue) {
+      onUpdate(false);
+    } else {
+      if (stateQuantity <= 0) {
+        setStateQuantity(1);
+      }
+      quantity.current = stateQuantity;
+      onUpdate(true);
+    }
+  }, [initialQuantityValue ,stateQuantity, onUpdate])
+
+  useEffect(() => {
+    onUpdate(false);
+  }, [onUpdate])
 
   return (
     <div className="cart-product">
@@ -43,16 +60,25 @@ export default function CartProduct({ product }) {
                 <Typography variant="h5">{name}</Typography>
               </TableCell>
               <TableCell align="right">
-                <Button startIcon={<DeleteIcon/>} sx={{ mb: 1 }}>Remove</Button>
+                <Button
+                  onClick={(event) => {
+                    onUpdate(true);
+                    onRemove(event, index);
+                  }}
+                  startIcon={<DeleteIcon/>}
+                  sx={{ mb: 1 }}
+                >
+                  Remove
+                </Button>
                 <div className="quantity-controls">
                   <IconButton onClick={decreaseQuantity}>
                     <RemoveIcon/> 
                   </IconButton>
-                  <Typography color="text.secondary" variant="h5">{quantity}</Typography>
+                  <Typography color="text.secondary" variant="h5">{stateQuantity}</Typography>
                   <IconButton onClick={increaseQuantity}>
                     <AddIcon/> 
                   </IconButton>
-                  <CustomPriceTypography price={quantity * price}/>
+                  <CustomPriceTypography price={stateQuantity * price}/>
                 </div>
                 <Typography variant="subtitle1" sx={{ mt: 1 }}>Price for one: {price} lv</Typography>
               </TableCell>

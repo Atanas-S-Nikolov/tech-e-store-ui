@@ -5,7 +5,7 @@ const initialState = {
     role: "",
     accessToken: "",
     refreshToken: "",
-    isLoggedIn: false
+    isAuthenticated: false
 }
 
 export const authenticationSlice = createSlice({
@@ -18,17 +18,21 @@ export const authenticationSlice = createSlice({
             state.role = payload.role;
             state.accessToken = payload.accessToken;
             state.refreshToken = payload.refreshToken;
-            state.isLoggedIn = true;
+            state.isAuthenticated = true;
         },
         logoutReducer: (state) => {
             state.username = initialState.username;
             state.role = initialState.role;
             state.accessToken = initialState.accessToken;
             state.refreshToken = initialState.refreshToken;
-            state.isLoggedIn = initialState.isLoggedIn;
+            state.isAuthenticated = initialState.isAuthenticated;
+        },
+        refreshTokenReducer: (state, action) => {
+            const payload = action.payload;
+            state.accessToken = payload.accessToken;
         }
     }
 });
 
-export const { loginReducer, logoutReducer } = authenticationSlice.actions;
+export const { loginReducer, logoutReducer, refreshTokenReducer } = authenticationSlice.actions;
 export default authenticationSlice.reducer;
