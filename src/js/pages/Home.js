@@ -7,6 +7,7 @@ import AppFooter from '../components/footer/AppFooter';
 import { getAllProducts, getAllNotEarlyAccessProducts } from "../api/backend";
 
 import { Typography } from "@mui/material";
+import { sortProductsByEarlyAccess } from "../utils/ProductUtils";
 
 export default function Home() {
   const { isAuthenticated } = useSelector(state => state.authentication);
@@ -27,13 +28,15 @@ export default function Home() {
     
   }, [isAuthenticated]);
 
+  const productsToRender = isAuthenticated ? sortProductsByEarlyAccess(products) : products;
+  
   return (
     <>
       <NavigationBar />
       <div className='app-content'>
         <Typography variant="h3" sx={{ mt: 3 }}>Welcome to Tech E-Store</Typography>
         <Typography variant="h5" sx={{ mt: 5, mb: 1 }}>View our newest products</Typography>
-        {loading ? <ProductGrid items={products} /> : null}
+        {loading ? <ProductGrid items={productsToRender} /> : null}
       </div>
       <AppFooter />
     </>

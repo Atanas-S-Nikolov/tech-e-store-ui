@@ -7,6 +7,7 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
+import Chip from "@mui/material/Chip";
 import { addProductReducer } from "../../redux/productCompareSlice";
 
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
@@ -18,7 +19,7 @@ import CustomPriceTypography from "./CustomPriceTypography";
 import { useDispatch } from "react-redux";
 
 export default function ProductHeader({ product }) {
-  const { name, price, stocks, imageUrls } = product;
+  const { name, price, stocks, earlyAccess, imageUrls } = product;
   const productDisplayImage = imageUrls ? imageUrls[0] : "";
 
   const BorderlessTableCell = styled(TableCell)(() => ({
@@ -54,6 +55,13 @@ export default function ProductHeader({ product }) {
             <TableRow>
               <BorderlessTableCell>{renderStocksLabel()}</BorderlessTableCell>
             </TableRow>
+            {
+              earlyAccess 
+                ? <TableRow>
+                    <Chip label="Early Access" variant="outlined" sx={{ color: "primary.main", borderColor: "primary.main" }}/>
+                  </TableRow>
+                : null
+            }
             <TableRow>
               <BorderlessTableCell>
                 <Typography variant="h6">

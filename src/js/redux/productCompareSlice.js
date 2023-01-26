@@ -16,7 +16,7 @@ export const productCompareSlice = createSlice({
         },
         removeProductReducer: (state, action) => {
           const productsCopy = [...state.products];
-          const index = productsCopy.indexOf(action.payload);
+          const index = action.payload;
           productsCopy.splice(index, 1);
           state.products = productsCopy;
         },

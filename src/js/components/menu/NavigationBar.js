@@ -10,6 +10,7 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
+import ListItemIcon from '@mui/material/ListItemIcon';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 
@@ -20,6 +21,8 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 import { CART_URL, COMPARE_URL, HOME_URL, LOGIN_URL } from '../../constants/UrlConstants';
 import StyledLink from "../styled/StyledLink";
@@ -131,8 +134,22 @@ export default function NavigationBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleMenuClose}>
+        <ListItemIcon>
+          <AccountCircle/>
+        </ListItemIcon>
+        My account
+      </MenuItem>
+      <MenuItem onClick={handleMenuClose}>
+        <ListItemIcon>
+          <AdminPanelSettingsIcon/>
+        </ListItemIcon>
+        Admin panel
+      </MenuItem>
       <MenuItem onClick={handleLogout}>
+        <ListItemIcon>
+          <LogoutIcon/>
+        </ListItemIcon>
         Logout
       </MenuItem>
     </Menu>

@@ -4,8 +4,11 @@
   text-align: center;
 }
 
-.link:hover {
+.link {
   color: green;
+}
+
+.link:hover {
   text-decoration: underline;
   cursor: pointer;
 }

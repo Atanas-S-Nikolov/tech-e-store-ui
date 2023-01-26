@@ -5,6 +5,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import Chip from '@mui/material/Chip';
 import { addProductReducer } from "../../redux/productCompareSlice";
 
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
@@ -16,7 +17,7 @@ import { useNavigate } from "react-router-dom";
 import { buildProductUrl } from "../../api/builder/URLBuilder";
 
 export default function ProductPreview({ product }) {
-  const { name, price, imageUrls } = product;
+  const { name, price, earlyAccess, imageUrls } = product;
   const imageUrl = imageUrls[0];
   
   const navigate = useNavigate();
@@ -41,7 +42,7 @@ export default function ProductPreview({ product }) {
           src={imageUrl}
           alt={name}
           title={name}
-          sx={{ height: 140 }}
+          sx={{ height: 180 }}
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
@@ -50,6 +51,11 @@ export default function ProductPreview({ product }) {
           <Typography variant="body2" color="text.secondary">
             Price: <b style={{ color: "green" }}>{price} lv</b>
           </Typography>
+          {
+            earlyAccess 
+              ? <Chip label="Early Access" variant="outlined" sx={{ color: "primary.main", borderColor: "primary.main" }}/>
+              : null
+          }
         </CardContent>
       </div>
       <Button size='large' startIcon={<ShoppingCartIcon/>} sx={{ width: "100%" }}>Buy</Button>
