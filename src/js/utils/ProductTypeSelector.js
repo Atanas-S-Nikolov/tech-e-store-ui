@@ -7,13 +7,13 @@ const { HEADSET, EARPHONES, TWS, DESKTOP_PC, LAPTOP, MOUSE, KEYBOARD, TV, MONITO
 export function select(productCategory) {
   switch(productCategory) {
     case AUDIO:
-      return [HEADSET.plural, EARPHONES.plural, TWS.plural];
+      return [HEADSET, EARPHONES, TWS];
     case COMPUTERS_AND_LAPTOPS:
-      return [DESKTOP_PC.plural, LAPTOP.plural];
+      return [DESKTOP_PC, LAPTOP];
     case MICE_AND_KEYBOARDS:
-      return [MOUSE.plural, KEYBOARD.plural];
+      return [MOUSE, KEYBOARD];
     case TV_AND_MONITORS:
-      return [TV.plural, MONITOR.plural];
+      return [TV, MONITOR];
     default:
         return [];
   }

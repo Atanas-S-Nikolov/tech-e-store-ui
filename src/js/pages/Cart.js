@@ -26,11 +26,14 @@ export default function Cart() {
   const { username } = useSelector(state => state.authentication);
   const [cart, setCart] = useState({});
   const [loading, setLoading] = useState(false);
+  const [isCartEmpty, setIsCartEmpty] = useState(true);
 
   useLayoutEffect(() => {
     getCart(new UsernameDto(username))
       .then(response => {
-        setCart(response.data);
+        const cartDto = response.data;
+        setCart(cartDto);
+        setIsCartEmpty(cartDto.products.length === 0);
         setLoading(true);
       })
       .catch(error => {
@@ -108,21 +111,16 @@ export default function Cart() {
               ) 
             : null
           }
-          {
-            (!loading || !shouldRenderEmptyCartMessage) 
-            ? (
-                <Button
-                  variant="contained"
-                  endIcon={<KeyboardArrowRightIcon/>}
-                  size="large"
-                  onClick={handleNextStep}
-                  sx={{ width: "48%" }}
-                >
-                  {rightBtnLabel}
-                </Button>
-              )
-            : null
-          }
+          <Button
+            variant="contained"
+            endIcon={<KeyboardArrowRightIcon/>}
+            size="large"
+            disabled={isCartEmpty || shouldRenderEmptyCartMessage}
+            onClick={handleNextStep}
+            sx={{ width: "48%" }}
+          >
+            {rightBtnLabel}
+          </Button>
         </div>
       </div>
       <AppFooter />

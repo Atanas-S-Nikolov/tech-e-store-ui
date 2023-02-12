@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import Box from '@mui/material/Box';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
@@ -15,7 +17,6 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
 import ProductTypeMenu from './ProductTypeMenu';
-
 import { categoriesItems } from '../../utils/categories';
 
 export default function CustomSwipeableDrawer({ onClose }) {
@@ -41,12 +42,28 @@ export default function CustomSwipeableDrawer({ onClose }) {
 
   const toggleSubMenu = (event, id) => {
     event.preventDefault();
+    event.stopPropagation();
     setSubMenuOpen((prevState) => ({ ...prevState, [id]: !prevState[id] }));
   }
 
   const toggleMenu = (event, id) => {
     toggleSubMenu(event, id);
     toggleDrawer(event);
+  }
+
+  const { isAuthenticated } = useSelector(state => state.authentication);
+  const navigate = useNavigate();
+  
+  const navigateToProductsByCategory = (event, id, category) => {
+    const url = isAuthenticated ? `/product?category=${category}` : `/product?early_access=false&category=${category}`;
+    toggleMenu(event, id);
+    navigate(url);
+  }
+
+  const navigateToProductsByType = (event, id, type) => {
+    const url = isAuthenticated ? `/product?type=${type}` : `/product?early_access=false&type=${type}`;
+    toggleMenu(event, id);
+    navigate(url);
   }
 
   const renderItems = () => (
@@ -58,7 +75,9 @@ export default function CustomSwipeableDrawer({ onClose }) {
         {categoriesItems.map(({ id, icon, text, productTypes }, index) => (
           <>
             <ListItem key={crypto.randomUUID()} disablePadding>
-              <ListItemButton>
+              <ListItemButton
+                onClick={(event, id) => navigateToProductsByCategory(event, id, text)}
+              >
                 <ListItemIcon>
                   <Icon>{icon}</Icon>
                 </ListItemIcon>
@@ -74,7 +93,7 @@ export default function CustomSwipeableDrawer({ onClose }) {
                   isOpen={subMenuOpen[id]}
                   itemId={id}
                   items={productTypes}
-                  onClose={toggleMenu}
+                  itemOnClick={navigateToProductsByType}
                 />
               : null
             }

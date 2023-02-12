@@ -3,7 +3,7 @@ import MenuList from "@mui/material/MenuList";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 
-export default function ProductTypeMenu({ itemId, items, onClose, isOpen }) {
+export default function ProductTypeMenu({ itemId, items, itemOnClick, isOpen }) {
   return (
     <Collapse
       in={isOpen}
@@ -13,8 +13,8 @@ export default function ProductTypeMenu({ itemId, items, onClose, isOpen }) {
     >
       <MenuList>
         {items.map((item) => (
-          <ListItem key={crypto.randomUUID()} onClick={(event) => onClose(event, itemId)} disablePadding>
-            <ListItemText className="link" primary={item}/>
+          <ListItem key={crypto.randomUUID()} onClick={(event) => itemOnClick(event, itemId, item.name)} disablePadding>
+            <ListItemText className="link" primary={item.plural}/>
           </ListItem>
         ))}
       </MenuList>

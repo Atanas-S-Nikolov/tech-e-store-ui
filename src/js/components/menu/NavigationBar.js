@@ -75,7 +75,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function NavigationBar() {
-  const { isAuthenticated } = useSelector(state => state.authentication);
+  const { isAuthenticated, role } = useSelector(state => state.authentication);
+  const isAdmin = role === "ROLE_ADMIN";
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -140,12 +141,17 @@ export default function NavigationBar() {
         </ListItemIcon>
         My account
       </MenuItem>
-      <MenuItem onClick={handleMenuClose}>
-        <ListItemIcon>
-          <AdminPanelSettingsIcon/>
-        </ListItemIcon>
-        Admin panel
-      </MenuItem>
+      {
+        isAdmin
+          ? <MenuItem onClick={handleMenuClose}>
+              <ListItemIcon>
+                <AdminPanelSettingsIcon/>
+              </ListItemIcon>
+              Admin panel
+            </MenuItem>
+          : null
+      }
+      
       <MenuItem onClick={handleLogout}>
         <ListItemIcon>
           <LogoutIcon/>

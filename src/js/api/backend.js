@@ -64,12 +64,16 @@ export async function getProduct(productName) {
   return await request.get(buildProductUrl(productName));
 }
 
-export function getAllNotEarlyAccessProducts() {
-  return request.get(`/product?early_access=false`);
+export function getNotEarlyAccessProducts(category, type) {
+  const categoryParamPart = category ? `&category=${category}` : "";
+  const typeParamPart = type ? `&type=${type}` : "";
+  return request.get(`/product?early_access=false${categoryParamPart}${typeParamPart}`);
 }
 
-export function getAllProducts() {
-  return request.get("/product", buildAccessTokenConfig());
+export function getProducts(category, type) {
+  const categoryParamPart = category ? `?category=${category}` : "";
+  const typeParamPart = type ? `?type=${type}` : "";
+  return request.get(`/product${categoryParamPart}${typeParamPart}`, buildAccessTokenConfig());
 }
 
 export function deleteProduct(productName) {

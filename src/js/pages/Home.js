@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import NavigationBar from '../components/menu/NavigationBar';
 import ProductGrid from '../components/products/ProductGrid';
 import AppFooter from '../components/footer/AppFooter';
-import { getAllProducts, getAllNotEarlyAccessProducts } from "../api/backend";
+import { getProducts, getNotEarlyAccessProducts } from "../api/backend";
 
 import { Typography } from "@mui/material";
 import { sortProductsByEarlyAccess } from "../utils/ProductUtils";
@@ -15,10 +15,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const loadProducts = () => {
-      return isAuthenticated ? getAllProducts() : getAllNotEarlyAccessProducts();
-    }
-
+    const loadProducts = () => isAuthenticated ? getProducts() : getNotEarlyAccessProducts();
     loadProducts()
     .then(response => {
       setProducts(response.data);
