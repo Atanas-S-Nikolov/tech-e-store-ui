@@ -2,6 +2,8 @@ import "../../../styles/cart/CartProduct.css";
 
 import { useEffect, useState, useRef } from "react";
 
+import { useSelector } from "react-redux";
+
 import Typography from "@mui/material/Typography";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -16,12 +18,17 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CustomPriceTypography from "../products/CustomPriceTypography";
 
-export default function CartProduct({ index, productWrapper, onUpdate, onRemove }) {
+import { addProductToCart, removeProductFromCart } from "../../api/backend";
+import CartDto from "../../model/cart/CartDto";
+import ProductToBuyDto from "../../model/product/ProductToBuyDto";
+
+export default function CartProduct({ productWrapper, onUpdate }) {
   const { name, price, imageUrls } = productWrapper.product;
   const initialQuantityValue = productWrapper.quantity;
   const quantity = useRef(initialQuantityValue);
   const productDisplayImage = imageUrls ? imageUrls[0] : "";
   const [stateQuantity, setStateQuantity] = useState(quantity.current);
+  const { username } = useSelector(state => state.authentication);
 
   const increaseQuantity = () => {
     setStateQuantity(prevState => prevState += 1);
@@ -32,20 +39,28 @@ export default function CartProduct({ index, productWrapper, onUpdate, onRemove 
   }
 
   useEffect(() => {
-    if (stateQuantity === initialQuantityValue) {
-      onUpdate(false);
-    } else {
-      if (stateQuantity <= 0) {
-        setStateQuantity(1);
-      }
-      quantity.current = stateQuantity;
-      onUpdate(true);
+    if (stateQuantity <= 0) {
+      setStateQuantity(1);
     }
-  }, [initialQuantityValue ,stateQuantity, onUpdate])
+    quantity.current = stateQuantity;
+    const products = ProductToBuyDto.buildProductsToBuy(name, stateQuantity);
+    const cartDto = new CartDto(username, ProductToBuyDto.convertToProductsToBuy(products));
+    addProductToCart(cartDto)
+      .then(response => {
+        onUpdate(response.data);
+      })
+      .catch(error => console.log(error));
+  }, [stateQuantity])
 
-  useEffect(() => {
-    onUpdate(false);
-  }, [onUpdate])
+  const handleRemoveProduct = (event) => {
+    event.preventDefault();
+    const products = ProductToBuyDto.buildProductToBuy(name);
+    removeProductFromCart(new CartDto(username, ProductToBuyDto.convertToProductsToBuy(products)))
+      .then(response => {
+        onUpdate(response.data);
+      })
+      .catch(error => console.log(error));
+  }
 
   return (
     <div className="cart-product">
@@ -61,10 +76,7 @@ export default function CartProduct({ index, productWrapper, onUpdate, onRemove 
               </TableCell>
               <TableCell align="right">
                 <Button
-                  onClick={(event) => {
-                    onUpdate(true);
-                    onRemove(event, index);
-                  }}
+                  onClick={handleRemoveProduct}
                   startIcon={<DeleteIcon/>}
                   sx={{ mb: 1 }}
                 >

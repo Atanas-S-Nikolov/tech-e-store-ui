@@ -1,6 +1,12 @@
 import "../../../styles/products/ProductHeader.css";
 
-import Button from '@mui/material/Button';
+import CustomPriceTypography from "./CustomPriceTypography";
+import FavoriteButton from "../utils/FavoriteButton";
+import CompareButton from "../utils/CompareButton";
+import BuyButton from "../utils/BuyButton";
+
+import { styled } from "@mui/system";
+
 import Typography from '@mui/material/Typography';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -8,15 +14,6 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import Chip from "@mui/material/Chip";
-import { addProductReducer } from "../../redux/productCompareSlice";
-
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import { styled } from "@mui/system";
-import CustomPriceTypography from "./CustomPriceTypography";
-
-import { useDispatch } from "react-redux";
 
 export default function ProductHeader({ product }) {
   const { name, price, stocks, earlyAccess, imageUrls } = product;
@@ -25,13 +22,6 @@ export default function ProductHeader({ product }) {
   const BorderlessTableCell = styled(TableCell)(() => ({
     borderBottom: "none"
   }));
-
-  const dispatch = useDispatch();
-
-  const handleCompare = (event) => {
-    event.preventDefault();
-    dispatch(addProductReducer(product));
-  }
 
   const renderStocksLabel = () => {
     return stocks > 0
@@ -69,19 +59,12 @@ export default function ProductHeader({ product }) {
                 </Typography>
               </BorderlessTableCell>
               <BorderlessTableCell>
-                <Button
-                  fullWidth
-                  size='large'
-                  variant="contained"
-                  startIcon={<ShoppingCartIcon/>}
-                >
-                  Buy
-                </Button>
+                <BuyButton fullWidth variant="contained" product={product}/>
               </BorderlessTableCell>
             </TableRow>
             <TableRow className="actions">
-              <Button onClick={handleCompare} startIcon={<CompareArrowsIcon/>}>Compare</Button>
-              <Button startIcon={<FavoriteBorderIcon/>}>Favorite</Button>
+              <CompareButton product={product}/>
+              <FavoriteButton productName={name}/>
             </TableRow>
           </TableBody>
         </Table>

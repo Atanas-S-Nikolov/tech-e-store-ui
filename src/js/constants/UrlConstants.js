@@ -9,3 +9,4 @@ export const PRODUCT_URL = `${PRODUCTS_URL}/:name`;
 export const NAVIGATE_PRODUCTS_URL= `${PRODUCTS_URL}/:early_access?/:category?/:type?`;
 export const CART_URL = "/cart";
 export const COMPARE_URL = "/compare";
+export const FAVORITES_URL = "/favorites";

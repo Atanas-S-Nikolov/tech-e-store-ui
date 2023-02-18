@@ -8,7 +8,7 @@ import AppFooter from "../components/footer/AppFooter";
 import StyledHeader from "../components/styled/StyledHeader";
 import StyledStepper from "../components/styled/StyledStepper";
 import { HOME_URL } from "../constants/UrlConstants";
-import { getCart, updateCart, clearCart } from "../api/backend";
+import { getCart, clearCart } from "../api/backend";
 import UsernameDto from "../model/auth/UsernameDto.js";
 
 import Button from "@mui/material/Button";
@@ -21,19 +21,21 @@ import { useNavigate } from "react-router-dom";
 
 import { useSelector, useDispatch } from "react-redux";
 import { backStepReducer, nextStepReducer, resetStepReducer } from "../redux/cartSlice";
+import { updateProductsCountReducer } from "../redux/cartSlice";
 
 export default function Cart() {
   const { username } = useSelector(state => state.authentication);
   const [cart, setCart] = useState({});
   const [loading, setLoading] = useState(false);
   const [isCartEmpty, setIsCartEmpty] = useState(true);
+  const dispatch = useDispatch();
 
   useLayoutEffect(() => {
     getCart(new UsernameDto(username))
       .then(response => {
-        const cartDto = response.data;
-        setCart(cartDto);
-        setIsCartEmpty(cartDto.products.length === 0);
+        const cartResponse = response.data;
+        setCart(cartResponse);
+        setIsCartEmpty(cartResponse.products.length === 0);
         setLoading(true);
       })
       .catch(error => {
@@ -42,17 +44,10 @@ export default function Cart() {
       })
   }, []);
 
-  const handleUpdateCart = (cartDto) => {
-    updateCart(cartDto)
-      .then(response => {
-        setCart(response.data)
-        setLoading(true);
-        window.location.reload();
-      })
-      .catch(error => {
-        console.log(error);
-        setLoading(false);
-      })
+  const handleUpdateCart = (cartResponse) => {
+    dispatch(updateProductsCountReducer(cartResponse.products.length));
+    setCart(cartResponse);
+    setLoading(true);
   }
 
   const { activeStep } = useSelector(state => state.cart)
@@ -63,7 +58,6 @@ export default function Cart() {
   let backBtnVisible = isSecondStep;
   let rightBtnLabel = isFinalStep ?  "Finish" : "Next";
 
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleBackStep = (event) => {
@@ -71,10 +65,10 @@ export default function Cart() {
     dispatch(backStepReducer());
   }
 
-  const handleNextStep = (event) => {
+  async function handleNextStep(event) {
     event.preventDefault();
     if (isFinalStep) {
-      clearCart(new UsernameDto(username));
+      await clearCart(new UsernameDto(username));
       dispatch(resetStepReducer());
       navigate(HOME_URL);
       return;

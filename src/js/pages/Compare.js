@@ -75,7 +75,7 @@ export default function Compare() {
               { value: type },
             ];
             return (
-              <div align="center" style={{ width: "300px" }}>
+              <div key={crypto.randomUUID()} align="center" style={{ width: "300px" }}>
                 <StyledCloseIconButton onClick={() => handleRemoveProduct(index)}/>
                 <img src={productDisplayImage} alt={name}/>
                 <Typography>{name}</Typography>
@@ -102,7 +102,7 @@ export default function Compare() {
       <StyledHeader />
         <div className="products-compare">
           <Typography variant="h3">Compare products</Typography>
-          {areProductsEmpty ? <Link className="link" to={HOME_URL}>Add product to be compared</Link> : renderComparedProducts()}
+          {areProductsEmpty ? <Link className="link" to={HOME_URL}>Add products to be compared</Link> : renderComparedProducts()}
         </div>
       <AppFooter />
     </>

@@ -1,51 +1,28 @@
-import { useState } from "react";
-
-import CartDto from "../../model/cart/CartDto.js";
 import CartProduct from "./CartProduct";
 import CustomPriceTypography from "../products/CustomPriceTypography";
 
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import Fab from "@mui/material/Fab";
-import Zoom from "@mui/material/Zoom";
 
 import DeleteIcon from '@mui/icons-material/Delete';
 
+import { clearCart } from "../../api/backend";
 import { useSelector } from "react-redux";
+import UsernameDto from "../../model/auth/UsernameDto";
 
 export default function CartItemsSection({ cart, onUpdateCart }) {
-  const [isUpdateBtnVisible, setIsUpdateBtnVisible] = useState(false);
   const { products, totalPrice } = cart;
-  const [stateProducts, setStateProducts] = useState(products);
-
-  const handleRemoveProduct = (event, index) => {
-    event.preventDefault();
-    stateProducts.splice(index, 1);
-    setStateProducts(stateProducts)
-    if (stateProducts.length === 0) {
-      setStateProducts([])
-    }
-  }
-
-  const handleRemoveAllProducts = (event) => {
-    event.preventDefault();
-    setStateProducts([]);
-    setIsUpdateBtnVisible(true);
-  }
-
-  const convertToProductsToBuy = () => {
-    const productsToBuy = [];
-    products.forEach(p => {
-      productsToBuy.push({
-        "productName": p.product.name,
-        "quantity": p.quantity
-      })
-    });
-    return productsToBuy;
-  } 
-
   const { username } = useSelector(state => state.authentication);
   
+  const handleRemoveAllProducts = (event) => {
+    event.preventDefault();
+    clearCart(new UsernameDto(username))
+      .then(response => {
+        onUpdateCart(response.data);
+      })
+      .catch(error => console.log(error));
+  }
+
   return (
     <>
       <Typography
@@ -67,23 +44,12 @@ export default function CartItemsSection({ cart, onUpdateCart }) {
       >
         Remove all
       </Button>
-      <Zoom in={isUpdateBtnVisible}>
-        <Fab
-          variant="extended"
-          color="primary"
-          onClick={() => onUpdateCart(new CartDto(username, convertToProductsToBuy()))}
-        >
-          Update
-        </Fab>
-      </Zoom>
       <div className="products-container">
-        {stateProducts.map((product, index) => (
+        {products.map((product, index) => (
           <CartProduct
             key={index}
-            index={index}
             productWrapper={product}
-            onUpdate={setIsUpdateBtnVisible}
-            onRemove={handleRemoveProduct}
+            onUpdate={onUpdateCart}
           />))}
       </div>
     </>

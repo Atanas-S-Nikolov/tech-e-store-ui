@@ -1,0 +1,6 @@
+.favorites-content {
+  display: grid;
+  place-items: center;
+  grid-auto-flow: row;
+  margin-top: 50px;
+}

@@ -24,9 +24,10 @@ import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import LogoutIcon from '@mui/icons-material/Logout';
 
-import { CART_URL, COMPARE_URL, HOME_URL, LOGIN_URL } from '../../constants/UrlConstants';
+import { CART_URL, COMPARE_URL, FAVORITES_URL, HOME_URL, LOGIN_URL } from '../../constants/UrlConstants';
 import StyledLink from "../styled/StyledLink";
 import CustomSwipeableDrawer from './CustomSwipeableDrawer';
+import CustomBadge from "../utils/CustomBadge";
 
 import { useNavigate } from "react-router-dom";
 
@@ -76,6 +77,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function NavigationBar() {
   const { isAuthenticated, role } = useSelector(state => state.authentication);
+  const { products: comparedProducts } = useSelector(state => state.productCompare);
+  const { products: favoriteProducts } = useSelector(state => state.favorites);
+  const { productsCount: cartProductsCount } = useSelector(state => state.cart);
   const isAdmin = role === "ROLE_ADMIN";
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -93,6 +97,10 @@ export default function NavigationBar() {
 
   const navigateToCompare = () => {
     navigate(COMPARE_URL);
+  }
+
+  const navigateToFavorites = () => {
+    navigate(FAVORITES_URL);
   }
 
   const handleProfileMenuOpen = (event) => {
@@ -204,20 +212,27 @@ export default function NavigationBar() {
               color="inherit"
               onClick={navigateToCompare}
             >
-              <CompareArrowsIcon />
+              <CustomBadge badgeContent={comparedProducts.length}>
+                <CompareArrowsIcon />
+              </CustomBadge>
             </IconButton>
             <IconButton
               size="large"
               color="inherit"
+              onClick={navigateToFavorites}
             >
-              <FavoriteIcon />
+              <CustomBadge badgeContent={favoriteProducts.length}>
+                <FavoriteIcon />
+              </CustomBadge>
             </IconButton>
             <IconButton
               size="large"
               color="inherit"
               onClick={navigateToCart}
             >
-              <ShoppingCartIcon />
+              <CustomBadge badgeContent={cartProductsCount}>
+                <ShoppingCartIcon />              
+              </CustomBadge>
             </IconButton>
             {
               isAuthenticated 

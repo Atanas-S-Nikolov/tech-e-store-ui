@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  activeStep: 0
+  activeStep: 0,
+  productsCount: 0
 }
 
 export const cartSlice = createSlice({
@@ -16,9 +17,12 @@ export const cartSlice = createSlice({
         },
         resetStepReducer: (state) => {
           state.activeStep = 0;
+        },
+        updateProductsCountReducer: (state, action) => {
+          state.productsCount = action.payload;
         }
     }
 });
 
-export const { backStepReducer, nextStepReducer, resetStepReducer } = cartSlice.actions;
+export const { backStepReducer, nextStepReducer, resetStepReducer, updateProductsCountReducer } = cartSlice.actions;
 export default cartSlice.reducer;
