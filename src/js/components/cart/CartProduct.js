@@ -22,12 +22,16 @@ import { addProductToCart, removeProductFromCart } from "../../api/backend";
 import CartDto from "../../model/cart/CartDto";
 import ProductToBuyDto from "../../model/product/ProductToBuyDto";
 
+import SnackbarMessage from "../utils/SnackbarMessage";
+
 export default function CartProduct({ productWrapper, onUpdate }) {
   const { name, price, imageUrls } = productWrapper.product;
   const initialQuantityValue = productWrapper.quantity;
   const quantity = useRef(initialQuantityValue);
   const productDisplayImage = imageUrls ? imageUrls[0] : "";
   const [stateQuantity, setStateQuantity] = useState(quantity.current);
+  const [hasError, setHasError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(false);
   const { username } = useSelector(state => state.authentication);
 
   const increaseQuantity = () => {
@@ -39,9 +43,6 @@ export default function CartProduct({ productWrapper, onUpdate }) {
   }
 
   useEffect(() => {
-    if (stateQuantity <= 0) {
-      setStateQuantity(1);
-    }
     quantity.current = stateQuantity;
     const products = ProductToBuyDto.buildProductsToBuy(name, stateQuantity);
     const cartDto = new CartDto(username, ProductToBuyDto.convertToProductsToBuy(products));
@@ -49,7 +50,18 @@ export default function CartProduct({ productWrapper, onUpdate }) {
       .then(response => {
         onUpdate(response.data);
       })
-      .catch(error => console.log(error));
+      .catch(error => {
+        const response = error.response;
+          if (response.status === 400) {
+            setErrorMessage(response.data.messages[0]);
+            setHasError(true);
+            if (stateQuantity <= 0) {
+              setStateQuantity(1);
+              return;
+            }
+            decreaseQuantity();
+          }
+      });
   }, [stateQuantity])
 
   const handleRemoveProduct = (event) => {
@@ -62,6 +74,10 @@ export default function CartProduct({ productWrapper, onUpdate }) {
       .catch(error => console.log(error));
   }
 
+  function handleHasErrorFalse() {
+    setHasError(false);
+  }
+  
   return (
     <div className="cart-product">
       <TableContainer>
@@ -90,14 +106,19 @@ export default function CartProduct({ productWrapper, onUpdate }) {
                   <IconButton onClick={increaseQuantity}>
                     <AddIcon/> 
                   </IconButton>
-                  <CustomPriceTypography price={stateQuantity * price}/>
+                  <CustomPriceTypography price={(stateQuantity * price).toFixed(2)}/>
                 </div>
-                <Typography variant="subtitle1" sx={{ mt: 1 }}>Price for one: {price} lv</Typography>
+                <Typography variant="subtitle1" sx={{ mt: 1 }}>Price for one: {price.toFixed(2)} lv</Typography>
               </TableCell>
             </TableRow>
           </TableBody>
         </Table>
       </TableContainer>
+      {
+        hasError 
+          ? <SnackbarMessage severity="error" message={errorMessage} afterErrorCallback={handleHasErrorFalse}/> 
+          : null
+      }
     </div>
   );
 }

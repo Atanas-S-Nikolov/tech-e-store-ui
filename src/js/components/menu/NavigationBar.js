@@ -31,9 +31,12 @@ import CustomBadge from "../utils/CustomBadge";
 
 import { useNavigate } from "react-router-dom";
 
+import { useSelector, useDispatch } from "react-redux";
 import { logoutReducer } from "../../redux/authenticationSlice";
 import { resetCompareStateReducer } from "../../redux/productCompareSlice";
-import { useSelector, useDispatch } from "react-redux";
+import { resetCartReducer } from "../../redux/cartSlice";
+import { clearCart } from "../../api/backend";
+import UsernameDto from "../../model/auth/UsernameDto";
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -76,10 +79,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function NavigationBar() {
-  const { isAuthenticated, role } = useSelector(state => state.authentication);
+  const { isAuthenticated, username, role } = useSelector(state => state.authentication);
   const { products: comparedProducts } = useSelector(state => state.productCompare);
   const { products: favoriteProducts } = useSelector(state => state.favorites);
-  const { productsCount: cartProductsCount } = useSelector(state => state.cart);
+  const { products: cartProducts } = useSelector(state => state.cart);
   const isAdmin = role === "ROLE_ADMIN";
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -119,10 +122,15 @@ export default function NavigationBar() {
     setIsDrawerOpen(false);
   }
 
-  const handleLogout = () => {
+  async function handleLogout() {
+    // order matters
     handleMenuClose();
-    dispatch(logoutReducer());
     dispatch(resetCompareStateReducer());
+    if (isAuthenticated) {
+      await clearCart(new UsernameDto(username));
+    }
+    dispatch(resetCartReducer());
+    dispatch(logoutReducer());
     navigate(HOME_URL);
   }
 
@@ -230,7 +238,7 @@ export default function NavigationBar() {
               color="inherit"
               onClick={navigateToCart}
             >
-              <CustomBadge badgeContent={cartProductsCount}>
+              <CustomBadge badgeContent={cartProducts.length}>
                 <ShoppingCartIcon />              
               </CustomBadge>
             </IconButton>

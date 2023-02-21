@@ -11,7 +11,7 @@ function SlideTransition(props) {
   return <Slide {...props} direction="up" />;
 }
 
-export default function CustomizedSnackbars({ severity, message, afterErrorCallback, afterCloseCallback }) {
+export default function SnackbarMessage({ severity, message, afterErrorCallback, afterCloseCallback }) {
   const [open, setOpen] = useState(true);
 
   const handleClose = (event, reason) => {

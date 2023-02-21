@@ -92,6 +92,10 @@ export function removeProductFromCart(cartDto) {
   return request.put("/cart/remove", JSON.stringify(cartDto), buildAccessTokenConfig());
 }
 
+export function cartPurchase(usernameDto) {
+  return request.put("/cart/purchase", JSON.stringify(usernameDto), buildAccessTokenConfig())
+}
+
 export function clearCart(usernameDto) {
   return request.put("/cart/clear", JSON.stringify(usernameDto), buildAccessTokenConfig());
 }

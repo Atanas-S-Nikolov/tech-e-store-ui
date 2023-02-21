@@ -13,6 +13,7 @@ import UsernameDto from "../../model/auth/UsernameDto";
 export default function CartItemsSection({ cart, onUpdateCart }) {
   const { products, totalPrice } = cart;
   const { username } = useSelector(state => state.authentication);
+  const sortedProducts = [...products].sort((p1, p2) => p1.product.price > p2.product.price);
   
   const handleRemoveAllProducts = (event) => {
     event.preventDefault();
@@ -35,7 +36,7 @@ export default function CartItemsSection({ cart, onUpdateCart }) {
           mt: 2
         }}
       >
-        Total price: <CustomPriceTypography price={totalPrice}/>
+        Total price: <CustomPriceTypography price={totalPrice.toFixed(2)}/>
       </Typography>
       <Button
         onClick={handleRemoveAllProducts}
@@ -45,10 +46,10 @@ export default function CartItemsSection({ cart, onUpdateCart }) {
         Remove all
       </Button>
       <div className="products-container">
-        {products.map((product, index) => (
+        {sortedProducts.map((productWrapper, index) => (
           <CartProduct
             key={index}
-            productWrapper={product}
+            productWrapper={productWrapper}
             onUpdate={onUpdateCart}
           />))}
       </div>

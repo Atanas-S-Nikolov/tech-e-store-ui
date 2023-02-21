@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import ProductCompareError from '../../errors/ProductCompareError';
 import { useState } from 'react';
 
-import SnackbarMessage from "../../utils/SnackbarMessage";
+import SnackbarMessage from "./SnackbarMessage";
 
 export default function FavoriteButton(props) {
   const { product } = props;
@@ -51,8 +51,7 @@ export default function FavoriteButton(props) {
       {
         isProductAdded 
           ? <SnackbarMessage
-            severity="success"
-            message={"Product is added!"}
+            message="Product is added!"
             afterCloseCallback={handleIsProductAddedFalse}
           /> 
           : null

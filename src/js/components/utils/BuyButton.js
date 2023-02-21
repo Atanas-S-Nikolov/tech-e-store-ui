@@ -1,18 +1,24 @@
+import { useState } from 'react';
+
 import Button from '@mui/material/Button';
 
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 import { useSelector, useDispatch } from 'react-redux';
 
-import { updateProductsCountReducer } from '../../redux/cartSlice';
+import { updateProductsReducer } from '../../redux/cartSlice';
 import { addProductToCart } from '../../api/backend';
 import CartDto from '../../model/cart/CartDto';
 import ProductToBuyDto from '../../model/product/ProductToBuyDto';
+import SnackbarMessage from './SnackbarMessage';
 
 export default function BuyButton(props) {
   const { product } = props;
   const {product: _, ...propsForButton} = props
   const { username, isAuthenticated } = useSelector(state => state.authentication);
+  const [isProductAddedToCart, setIsProductAddedToCart] = useState(false);
+  const [hasError, setHasError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(false);
   const dispatch = useDispatch();
 
   const handleClick = () => {
@@ -20,10 +26,26 @@ export default function BuyButton(props) {
       const products = ProductToBuyDto.buildProductToBuy(product.name);
       addProductToCart(new CartDto(username, ProductToBuyDto.convertToProductsToBuy(products)))
         .then(response => {
-          dispatch(updateProductsCountReducer(response.data.products.length));
+          dispatch(updateProductsReducer(response.data.products));
+        setIsProductAddedToCart(true);
         })
-        .catch(error => console.log(error));
+        .catch(error => {
+          const response = error.response;
+          if (response.status === 400) {
+            setIsProductAddedToCart(false);
+            setErrorMessage(response.data.messages[0]);
+            setHasError(true);
+          }
+        });
     }
+  }
+
+  function handleProductIsNotAddedToCart() {
+    setIsProductAddedToCart(false);
+  }
+
+  function handleHasErrorFalse() {
+    setHasError(false);
   }
 
   return (
@@ -36,6 +58,16 @@ export default function BuyButton(props) {
       >
         Buy
       </Button>
+      {
+        isProductAddedToCart
+          ? <SnackbarMessage message="Product is added to Cart!" afterCloseCallback={handleProductIsNotAddedToCart}/>
+          : null
+      }
+      {
+        hasError 
+          ? <SnackbarMessage severity="error" message={errorMessage} afterErrorCallback={handleHasErrorFalse}/> 
+          : null
+      }
     </>
   );
 }

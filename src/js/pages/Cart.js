@@ -8,7 +8,7 @@ import AppFooter from "../components/footer/AppFooter";
 import StyledHeader from "../components/styled/StyledHeader";
 import StyledStepper from "../components/styled/StyledStepper";
 import { HOME_URL } from "../constants/UrlConstants";
-import { getCart, clearCart } from "../api/backend";
+import { getCart, cartPurchase } from "../api/backend";
 import UsernameDto from "../model/auth/UsernameDto.js";
 
 import Button from "@mui/material/Button";
@@ -20,8 +20,8 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import { useNavigate } from "react-router-dom";
 
 import { useSelector, useDispatch } from "react-redux";
-import { backStepReducer, nextStepReducer, resetStepReducer } from "../redux/cartSlice";
-import { updateProductsCountReducer } from "../redux/cartSlice";
+import { backStepReducer, nextStepReducer, resetCartReducer } from "../redux/cartSlice";
+import { updateProductsReducer } from "../redux/cartSlice";
 
 export default function Cart() {
   const { username } = useSelector(state => state.authentication);
@@ -45,7 +45,7 @@ export default function Cart() {
   }, []);
 
   const handleUpdateCart = (cartResponse) => {
-    dispatch(updateProductsCountReducer(cartResponse.products.length));
+    dispatch(updateProductsReducer(cartResponse.products));
     setCart(cartResponse);
     setLoading(true);
   }
@@ -68,8 +68,8 @@ export default function Cart() {
   async function handleNextStep(event) {
     event.preventDefault();
     if (isFinalStep) {
-      await clearCart(new UsernameDto(username));
-      dispatch(resetStepReducer());
+      await cartPurchase(new UsernameDto(username));
+      dispatch(resetCartReducer());
       navigate(HOME_URL);
       return;
     }
