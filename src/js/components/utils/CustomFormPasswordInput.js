@@ -8,7 +8,9 @@ import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
-export default function CustomFormPasswordInput({ id, label, sx, onChange }) {
+import StyledFormErrorText from "../styled/StyledFormErrorText";
+
+export default function CustomFormPasswordInput({ id, label, sx, error, errorMessage, onChange }) {
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -19,6 +21,8 @@ export default function CustomFormPasswordInput({ id, label, sx, onChange }) {
         id={id}
         label={label}
         type={showPassword ? 'text' : 'password'}
+        required
+        error={error}
         onChange={onChange}
         endAdornment={
           <IconButton
@@ -30,6 +34,7 @@ export default function CustomFormPasswordInput({ id, label, sx, onChange }) {
           </IconButton>
         }
       />
+      <StyledFormErrorText id="input-password-error-text">{errorMessage}</StyledFormErrorText>
     </FormControl>
   );
 }
