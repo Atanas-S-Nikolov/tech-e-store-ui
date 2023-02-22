@@ -1,5 +1,3 @@
-
-
 import { useState } from "react";
 
 import { Link } from 'react-router-dom';
@@ -21,7 +19,7 @@ import jwt_decode from "jwt-decode";
 
 import { useNavigate } from "react-router-dom";
 
-import { loginReducer } from "../redux/authenticationSlice";
+import { loginReducer, logoutReducer } from "../redux/authenticationSlice";
 import { useDispatch } from "react-redux";
 
 function extractUsername(str) {
@@ -51,7 +49,10 @@ export default function Login() {
       }));
       navigate(HOME_URL);
     })
-    .catch(error => console.log(error));
+    .catch(error => {
+      dispatch(logoutReducer());
+      console.log(error);
+    });
   }
 
   return (
@@ -66,6 +67,7 @@ export default function Login() {
         <CustomFormTextInput
           id="username"
           label="Username"
+          required
           onChange={event => setUsername(event.target.value)}
           sx={{ mt: 10 }}
         />

@@ -1,5 +1,3 @@
-import "../../styles/pages/Login.css";
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -18,6 +16,7 @@ import CustomFormTextInput from "../components/utils/CustomFormTextInput";
 import CustomFormPasswordInput from "../components/utils/CustomFormPasswordInput";
 import StyledHeader from "../components/styled/StyledHeader";
 import { HOME_URL } from "../constants/UrlConstants";
+import { validatePassword } from "../utils/PasswordValidator";
 
 export default function Register() {
   const passwordId = "password";
@@ -31,15 +30,99 @@ export default function Register() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  // error state
+  const [hasPasswordError, setHasPasswordError] = useState(false);
+  const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
+  const [hasConfirmPasswordError, setHasConfirmPasswordError] = useState(false);
+  const [confirmPasswordErrorMessage, setConfirmPasswordErrorMessage] = useState("");
+  const [hasUsernameError, setHasUsernameError] = useState(false);
+  const [usernameErrorMessage, setUsernameErrorMessage] = useState("");
+  const [hasFirstNameError, setHasFirstNameError] = useState(false);
+  const [firstNameErrorMessage, setFirstNameErrorMessage] = useState("");
+  const [hasLastNameError, setHasLastNameError] = useState(false);
+  const [lastNameErrorMessage, setLastNameErrorMessage] = useState("");
+  const [hasEmailError, setHasEmailError] = useState(false);
+  const [emailErrorMessage, setEmailErrorMessage] = useState("");
+
+  const navigate = useNavigate();
+
   const registerUser = () => {
     register(new UserDto(firstName, lastName, email, phone, username, password, confirmPassword))
     .then(response => {
       navigate(HOME_URL);
     })
-    .catch(error => console.log(error));
+    .catch(error => {
+      const { response } = error;
+      if (response.status === 400) {
+        const { rejectedProperties } = response.data;
+        resetBackendErrorState();
+
+        rejectedProperties.forEach(rejected => {
+          const { property, message } = rejected;
+          setBackendErrorState(property, message);
+        });
+      }
+    });
   }
 
-  const navigate = useNavigate();
+  function resetBackendErrorState() {
+    setUsernameErrorMessage("");
+    setHasUsernameError(false);
+    setFirstNameErrorMessage("");
+    setHasFirstNameError(false);
+    setLastNameErrorMessage("");
+    setHasLastNameError(false);
+    setEmailErrorMessage("");
+    setHasEmailError(false);
+  }
+
+  function setBackendErrorState(property, message) {
+    switch(property) {
+      case "username":
+        setUsernameErrorMessage(message);
+        setHasUsernameError(true);
+        break;
+      case "firstName":
+        setFirstNameErrorMessage(message);
+        setHasFirstNameError(true);
+        break;
+      case "lasName":
+        setLastNameErrorMessage(message);
+        setHasLastNameError(true);
+        break;
+      case "email":
+        setEmailErrorMessage(message);
+        setHasEmailError(true);
+        break;
+      default:
+        console.log("No one property was recognized!");
+    }
+  }
+
+  const handlePasswordChange = (event) => {
+    const value = event.target.value;
+    setPassword(value);
+    const message = validatePassword(value);
+    if (message) {
+      setPasswordErrorMessage(message);
+      setHasPasswordError(true);
+      return;
+    }
+    setPasswordErrorMessage("");
+    setHasPasswordError(false);
+  }
+
+  const handleConfirmPasswordChange = (event) => {
+    const value = event.target.value;
+    if (password !== value && value.length !== 0) {
+      setConfirmPasswordErrorMessage("Confirmed password should be the same as password");
+      setHasConfirmPasswordError(true);
+      return;
+    }
+    setConfirmPasswordErrorMessage("");
+    setHasConfirmPasswordError(false);
+    setConfirmPassword(value);
+  }
 
   return (
     <>
@@ -53,6 +136,9 @@ export default function Register() {
         <CustomFormTextInput
           id="username"
           label="Username"
+          required
+          error={hasUsernameError}
+          errorMessage={usernameErrorMessage}
           onChange={event => setUsername(event.target.value)}
           sx={{ mt: 10, width: "82ch" }}
         />
@@ -60,12 +146,18 @@ export default function Register() {
           <CustomFormTextInput
             id="first-name"
             label="First name"
+            required
+            error={hasFirstNameError}
+            errorMessage={firstNameErrorMessage}
             onChange={event => setFirstName(event.target.value)}
             sx={{ mr: 1 }}
           />
           <CustomFormTextInput
             id="last-name"
             label="Last name"
+            required
+            error={hasLastNameError}
+            errorMessage={lastNameErrorMessage}
             onChange={event => setLastname(event.target.value)}
             sx={{ ml: 1 }}
           />
@@ -75,6 +167,9 @@ export default function Register() {
             id="email"
             label="Email"
             adornment={<AlternateEmailIcon/>}
+            required
+            error={hasEmailError}
+            errorMessage={emailErrorMessage}
             onChange={event => setEmail(event.target.value)}
             sx={{ mr: 1 }}
           />
@@ -90,13 +185,17 @@ export default function Register() {
           <CustomFormPasswordInput
             id={passwordId}
             label="Password"
-            onChange={event => setPassword(event.target.value)}
+            onChange={handlePasswordChange}
+            error={hasPasswordError}
+            errorMessage={passwordErrorMessage}
             sx={{ mr: 1 }}
           />
           <CustomFormPasswordInput
             id={confirmPasswordId}
             label="Confirm password"
-            onChange={event => setConfirmPassword(event.target.value)}
+            onChange={handleConfirmPasswordChange}
+            error={hasConfirmPasswordError}
+            errorMessage={confirmPasswordErrorMessage}
             sx={{ ml: 1 }}
           />
         </div>
