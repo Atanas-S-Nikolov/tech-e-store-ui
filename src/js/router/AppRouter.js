@@ -1,6 +1,6 @@
 import { createBrowserRouter, createRoutesFromElements, Route } from "react-router-dom";
 
-import { getProduct } from "../api/backend";
+import { getProduct } from "../api/service/ProductService";
 import { HOME_URL, LOGIN_URL, PRODUCT_URL, REGISTER_URL, CART_URL, COMPARE_URL, NAVIGATE_PRODUCTS_URL, FAVORITES_URL} from "../constants/UrlConstants";
 import Cart from "../pages/Cart";
 import Compare from "../pages/Compare";

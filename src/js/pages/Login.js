@@ -13,7 +13,7 @@ import AppFooter from '../components/footer/AppFooter';
 import CustomFormPasswordInput from "../components/utils/CustomFormPasswordInput";
 import StyledHeader from "../components/styled/StyledHeader";
 import AuthenticationDto from "../model/auth/AuthenticationDto";
-import { login } from "../api/backend";
+import { login } from "../api/service/AuthService";
 
 import jwt_decode from "jwt-decode";
 

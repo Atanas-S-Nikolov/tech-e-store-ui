@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import NavigationBar from '../components/menu/NavigationBar';
 import ProductGrid from '../components/products/ProductGrid';
 import AppFooter from '../components/footer/AppFooter';
-import { getProducts, getNotEarlyAccessProducts } from "../api/backend";
+import { getProducts, getNotEarlyAccessProducts } from "../api/service/ProductService";
 
 import { Typography } from "@mui/material";
 

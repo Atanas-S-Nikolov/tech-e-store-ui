@@ -14,7 +14,7 @@ import NavigationBar from "../components/menu/NavigationBar";
 import ProductGrid from "../components/products/ProductGrid";
 import StyledLink from "../components/styled/StyledLink";
 
-import { getNotEarlyAccessProducts, getProducts } from "../api/backend";
+import { getNotEarlyAccessProducts, getProducts } from "../api/service/ProductService";
 import ProductType from "../model/product/ProductType"
 import { HOME_URL } from "../constants/UrlConstants";
 import { categoriesItems } from "../utils/categories";

@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 
 import DeleteIcon from '@mui/icons-material/Delete';
 
-import { clearCart } from "../../api/backend";
+import { clearCart } from "../../api/service/CartService";
 import { useSelector } from "react-redux";
 import UsernameDto from "../../model/auth/UsernameDto";
 

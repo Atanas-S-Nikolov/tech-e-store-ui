@@ -7,7 +7,7 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { updateProductsReducer } from '../../redux/cartSlice';
-import { addProductToCart } from '../../api/backend';
+import { addProductToCart } from '../../api/service/CartService';
 import CartDto from '../../model/cart/CartDto';
 import ProductToBuyDto from '../../model/product/ProductToBuyDto';
 import SnackbarMessage from './SnackbarMessage';
