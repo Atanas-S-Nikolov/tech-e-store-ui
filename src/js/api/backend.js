@@ -71,7 +71,7 @@ export function getNotEarlyAccessProducts(category, type) {
 
 export function getProducts(category, type) {
   const categoryParamPart = category ? `?category=${category}` : "";
-  const typeParamPart = type ? `?type=${type}` : "";
+  const typeParamPart = type ? `&type=${type}` : "";
   return request.get(`/product${categoryParamPart}${typeParamPart}`, buildAccessTokenConfig());
 }
 
