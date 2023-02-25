@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { register } from "../api/backend";
+import { register } from "../api/service/AuthService";
 import UserDto from "../model/user/UserDto";
 
 import Box from '@mui/material/Box';

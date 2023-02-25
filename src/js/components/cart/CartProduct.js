@@ -18,7 +18,7 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CustomPriceTypography from "../products/CustomPriceTypography";
 
-import { addProductToCart, removeProductFromCart } from "../../api/backend";
+import { addProductToCart, removeProductFromCart } from "../../api/service/CartService";
 import CartDto from "../../model/cart/CartDto";
 import ProductToBuyDto from "../../model/product/ProductToBuyDto";
 

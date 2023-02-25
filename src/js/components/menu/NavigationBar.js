@@ -35,7 +35,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { logoutReducer } from "../../redux/authenticationSlice";
 import { resetCompareStateReducer } from "../../redux/productCompareSlice";
 import { resetCartReducer } from "../../redux/cartSlice";
-import { clearCart } from "../../api/backend";
+import { clearCart } from "../../api/service/CartService";
 import UsernameDto from "../../model/auth/UsernameDto";
 
 const Search = styled('div')(({ theme }) => ({

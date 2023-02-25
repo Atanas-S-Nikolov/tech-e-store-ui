@@ -8,7 +8,7 @@ import AppFooter from "../components/footer/AppFooter";
 import StyledHeader from "../components/styled/StyledHeader";
 import StyledStepper from "../components/styled/StyledStepper";
 import { HOME_URL } from "../constants/UrlConstants";
-import { getCart, cartPurchase } from "../api/backend";
+import { getCart, cartPurchase } from "../api/service/CartService";
 import UsernameDto from "../model/auth/UsernameDto.js";
 
 import Button from "@mui/material/Button";

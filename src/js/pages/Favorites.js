@@ -4,7 +4,7 @@ import { Typography } from "@mui/material";
 import AppFooter from "../components/footer/AppFooter";
 import StyledHeader from "../components/styled/StyledHeader";
 import { useEffect, useState } from "react";
-import { getFavorites } from "../api/backend";
+import { getFavorites } from "../api/service/FavoritesService";
 import UsernameDto from "../model/auth/UsernameDto";
 
 import { useSelector } from "react-redux";
