@@ -19,4 +19,12 @@ export default class ProductType {
   static getValues() {
     return Object.values(ProductType);
   }
+
+  static getPluralByName(valueName) {
+    for (const value of Object.values(ProductType)) {
+      if (value.name === valueName) {
+        return value.plural;
+      }
+    }
+  }
 }

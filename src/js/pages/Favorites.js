@@ -6,9 +6,10 @@ import StyledHeader from "../components/styled/StyledHeader";
 import { useEffect, useState } from "react";
 import { getFavorites } from "../api/service/FavoritesService";
 import UsernameDto from "../model/auth/UsernameDto";
+import ProductPreview from "../components/products/ProductPreview";
 
 import { useSelector } from "react-redux";
-import ProductGrid from "../components/products/ProductGrid";
+import StyledGridContainer from "../components/styled/StyledGridContainer";
 
 export default function Favorites() {
   const { username } = useSelector(state => state.authentication);
@@ -40,7 +41,13 @@ export default function Favorites() {
             ? <Typography variant="h5" color="text.secondary" sx={{ mt: 5, }}>You currently do not have any favorite products</Typography>
             : null
         }
-        {loading ? <ProductGrid items={products} sx={{ mt: 3 }}/> : null}
+        {
+          loading 
+            ? <StyledGridContainer gridTemplateColumns='repeat(5, 1fr)' gap={10}> 
+                {products.map(product => <ProductPreview product={product}/>)}
+              </StyledGridContainer> 
+            : null
+        }
       </div>
       <AppFooter/>
     </>

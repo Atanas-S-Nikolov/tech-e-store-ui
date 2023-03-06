@@ -16,6 +16,7 @@ import TableCell from "@mui/material/TableCell";
 import { Link } from "react-router-dom";
 
 import { HOME_URL } from "../constants/UrlConstants";
+import { buildProductUrl } from "../api/builder/URLBuilder";
 
 import { useSelector, useDispatch } from "react-redux";
 import { removeProductReducer, resetCompareStateReducer } from "../redux/productCompareSlice";
@@ -78,7 +79,11 @@ export default function Compare() {
               <div key={crypto.randomUUID()} align="center" style={{ width: "300px" }}>
                 <StyledCloseIconButton onClick={() => handleRemoveProduct(index)}/>
                 <img src={productDisplayImage} alt={name}/>
-                <Typography>{name}</Typography>
+                <Typography>
+                  <Link className="link-default-color" to={`../${buildProductUrl(name)}`}>
+                    {name}
+                  </Link>
+                </Typography>
                 <TableContainer component={Paper}>
                   <Table>
                     <TableBody>
