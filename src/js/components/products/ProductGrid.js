@@ -1,19 +1,74 @@
+import { useState, useEffect, useCallback } from "react";
+
+import { useSelector } from "react-redux";
+
+import Pagination from "@mui/material/Pagination";
+import Typography from "@mui/material/Typography";
+
 import ProductPreview from "./ProductPreview";
+import StyledGridContainer from "../styled/StyledGridContainer";
+import { getProducts, getNotEarlyAccessProducts } from "../../api/service/ProductService";
+import PageSelectTabs from "./PageSelectTabs";
 
-import { styled } from "@mui/system";
+export default function ProductGrid({ category, type }) {
+  const { isAuthenticated } = useSelector(state => state.authentication);
+  const [paging, setPaging] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [size, setSize] = useState(4);
+  const { totalItems, totalPages, items } = paging;
+  const areProductsFiltered = category || type;
 
-export default function ProductGrid({ items }) {
-  const GridContainer = styled('div')(({ theme }) => ({
-    border: "none",
-    padding: theme.spacing(1),
-    display: 'grid',
-    gridTemplateColumns: 'repeat(5, 1fr)',
-    gap: 10
-  }));
+  const handlePageChange = (event, value) => {
+    event.preventDefault();
+    setPage(value);
+  }
 
-  return(
-    <GridContainer>
-        {items.map(item => <ProductPreview product={item} key={crypto.randomUUID()}/>)}
-    </GridContainer>
+  const handleSizeChange = (value) => {
+    setSize(value);
+  }
+
+  const loadProducts = useCallback(() => {
+    const pageToUpdate = page - 1;
+    if (isAuthenticated) {
+      return areProductsFiltered 
+        ? getProducts(pageToUpdate, size, category, type) 
+        : getProducts(pageToUpdate, size);
+    }
+    return areProductsFiltered 
+      ? getNotEarlyAccessProducts(pageToUpdate, size, category, type) 
+      : getNotEarlyAccessProducts(pageToUpdate, size);
+  }, [isAuthenticated, page, size, areProductsFiltered, category, type])
+    
+  useEffect(() => {
+    loadProducts()
+    .then(response => {
+      setPaging(response.data);
+      setLoading(true);
+    })
+    .catch(error => console.log(error));
+  }, [loadProducts]);
+
+  return (
+    <>
+      {
+        loading
+          ? <>
+              <div className="centered-column-container">
+                <Typography variant="h6" color="text.secondary">
+                  Found: <span style={{ color: "green" }}>{totalItems}</span>
+                </Typography>
+                <PageSelectTabs onChangeCallback={handleSizeChange}/>
+              </div>
+              <div className="centered-container">
+                <StyledGridContainer gridTemplateColumns='repeat(5, 1fr)' gap={10}>
+                  {items.map(item => <ProductPreview product={item} key={crypto.randomUUID()}/>)}
+                </StyledGridContainer>
+                <Pagination page={page} count={totalPages} onChange={handlePageChange} color="primary"/>
+              </div>
+            </>
+          : null
+      }
+    </>
   )
 }

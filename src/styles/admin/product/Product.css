@@ -1,0 +1,9 @@
+.admin-product {
+  width: 50%;
+  margin-bottom: 1%;
+}
+
+.admin-product img {
+  width: 200px;
+  aspect-ratio: 1 / 1;
+}

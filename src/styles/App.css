@@ -1,14 +1,31 @@
-.app-content {
+.centered-container {
   display: grid;
   place-items: center;
   text-align: center;
+}
+
+.centered-column-container {
+  display: grid;
+  place-items: center;
+  grid-auto-flow: column;
+}
+
+.centered-row-container {
+  display: grid;
+  place-items: center;
+  grid-auto-flow: row;
+}
+
+.link-default-color {
+  color: rgb(71, 71, 71)
 }
 
 .link {
   color: green;
 }
 
-.link:hover {
+.link:hover, .link-default-color:hover {
+  color: green;
   text-decoration: underline;
   cursor: pointer;
 }
