@@ -4,7 +4,9 @@ import { PRODUCTS_URL } from "../../constants/UrlConstants";
 
 function buildFormData(productDto, images) {
   const formData = new FormData();
-  formData.append(PRODUCTS_URL, productDto);
+  formData.append("product",  new Blob([JSON.stringify(productDto)], {
+    type: "application/json"
+  }));
   images?.forEach(image => formData.append("images", image));
   return formData;
 }
@@ -28,8 +30,7 @@ export function getNotEarlyAccessProducts(page, size, category, type) {
 
 export function getProducts(page, size, category, type) {
   const config = buildAccessTokenConfig();
-  const params = buildProductParams(page, size, category, type);
-  config.params = params;
+  config.params = buildProductParams(page, size, category, type);
   return request.get(PRODUCTS_URL, config);
 }
 

@@ -6,9 +6,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
-import ProductCategory from '../../model/product/ProductCategory';
-import ProductType from '../../model/product/ProductType';
-
 function createRow({ label, value }, index, ) {
   const bgColor = index % 2 === 0 ? "#f9f9f9" : "none";
   return (
@@ -24,8 +21,8 @@ export default function ProductDetails({ product }) {
   const detailsArr = [
     { label: "Brand", value: brand },
     { label: "Model", value: model },
-    { label: "Category", value: ProductCategory[category].name },
-    { label: "Type", value: ProductType[type].name },
+    { label: "Category", value:  category },
+    { label: "Type", value: type },
   ];
 
   return (

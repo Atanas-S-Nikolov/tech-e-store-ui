@@ -9,7 +9,7 @@ import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 
 import AppFooter from "../components/footer/AppFooter";
 import NavigationBar from "../components/menu/NavigationBar";
-import ProductGrid from "../components/products/ProductGrid";
+import PaginationProductContainer from "../components/products/PaginationProductContainer";
 import StyledLink from "../components/styled/StyledLink";
 
 import ProductType from "../model/product/ProductType"
@@ -66,7 +66,7 @@ export default function Products() {
           }
         </Breadcrumbs>
         <Divider sx={{ mt: 1 }}/>
-        <ProductGrid category={category} type={type}/>
+        <PaginationProductContainer category={category} type={type} columnsCount={5}/>
       </div>
       <AppFooter/>
     </>

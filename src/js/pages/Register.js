@@ -126,8 +126,8 @@ export default function Register() {
 
   return (
     <>
+      <StyledHeader />
       <Box className="centered-container">
-        <StyledHeader />
         <CustomFormTextInput
           id="username"
           label="Username"

@@ -34,7 +34,7 @@ export default function CartProduct({ productWrapper, onUpdate }) {
   const productDisplayImage = imageUrls ? imageUrls[0] : "";
   const [stateQuantity, setStateQuantity] = useState(quantity.current);
   const [hasError, setHasError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const { username } = useSelector(state => state.authentication);
 
   const increaseQuantity = () => {

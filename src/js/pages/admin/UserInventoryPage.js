@@ -3,13 +3,13 @@ import { useState } from "react";
 import AddIcon from '@mui/icons-material/Add';
 
 import AdminNavigationBar from "../../components/admin/header/AdminNavigationBar";
-import ProductContainer from "../../components/admin/products/ProductContainer";
-import ProductFullScreenDialog from "../../components/utils/ProductFullScreenDialog";
+import UserContainer from "../../components/admin/users/UserContainer";
+import UserFullScreenDialog from "../../components/utils/UserFullScreenDialog";
 
-import StyledBottomFab from "../../components/styled/StyledBottomFab";
 import Action from "../../model/Action";
+import StyledBottomFab from "../../components/styled/StyledBottomFab";
 
-export default function ProductInventoryPage() {
+export default function UserInventoryPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const handleOpenDialog = () => {
@@ -23,15 +23,15 @@ export default function ProductInventoryPage() {
   return (
     <>
       <AdminNavigationBar/>
-      <ProductContainer/>
+      <UserContainer/>
       <StyledBottomFab onClick={handleOpenDialog}>
         <AddIcon/>
       </StyledBottomFab>
-      {
-        isDialogOpen
-          ? <ProductFullScreenDialog action={Action.CREATE} open={isDialogOpen} handleClose={handleCloseDialog}/>
-          : null
-      }
+      <UserFullScreenDialog
+        open={isDialogOpen}
+        handleClose={handleCloseDialog}
+        action={Action.CREATE}
+      />
     </>
   );
 }

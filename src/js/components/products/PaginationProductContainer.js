@@ -8,9 +8,9 @@ import Typography from "@mui/material/Typography";
 import ProductPreview from "./ProductPreview";
 import StyledGridContainer from "../styled/StyledGridContainer";
 import { getProducts, getNotEarlyAccessProducts } from "../../api/service/ProductService";
-import PageSelectTabs from "./PageSelectTabs";
+import PageSelectTabs from "../utils/PageSelectTabs";
 
-export default function ProductGrid({ category, type }) {
+export default function PaginationProductContainer({ category, type, columnsCount }) {
   const { isAuthenticated } = useSelector(state => state.authentication);
   const [paging, setPaging] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -61,7 +61,7 @@ export default function ProductGrid({ category, type }) {
                 <PageSelectTabs onChangeCallback={handleSizeChange}/>
               </div>
               <div className="centered-container">
-                <StyledGridContainer gridTemplateColumns='repeat(5, 1fr)' gap={10}>
+                <StyledGridContainer gridTemplateColumns={`repeat(${columnsCount}, 1fr)`} gap={10}>
                   {items.map(item => <ProductPreview product={item} key={crypto.randomUUID()}/>)}
                 </StyledGridContainer>
                 <Pagination page={page} count={totalPages} onChange={handlePageChange} color="primary"/>

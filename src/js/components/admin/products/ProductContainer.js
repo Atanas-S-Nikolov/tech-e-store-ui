@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import Typography from "@mui/material/Typography"
 import Pagination from "@mui/material/Pagination"
 
-import PageSelectTabs from "../../products/PageSelectTabs";
+import PageSelectTabs from "../../utils/PageSelectTabs";
 import { getProducts } from "../../../api/service/ProductService";
 import Product from "./Product";
 

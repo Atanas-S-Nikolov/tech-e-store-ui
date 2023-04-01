@@ -23,3 +23,14 @@ export function buildProductParams(page, size, category, type, earlyAccess = tru
    }
    return params;
 }
+
+export function buildUserParams(page, size) {
+  const params = {};
+  if (page) {
+    params.page = page;
+  }
+  if (size) {
+    params.size = size;
+  }
+  return params;
+}

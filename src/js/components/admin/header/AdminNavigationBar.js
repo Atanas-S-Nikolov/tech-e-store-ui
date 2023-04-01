@@ -74,7 +74,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function AdminNavigationBar() {
   const { isAuthenticated, username, role } = useSelector(state => state.authentication);
-  const isAdmin = role === "ROLE_ADMIN";
+  const isAdmin = role === process.env.REACT_APP_ADMIN_ROLE;
 
   const [anchorEl, setAnchorEl] = useState(null);
 

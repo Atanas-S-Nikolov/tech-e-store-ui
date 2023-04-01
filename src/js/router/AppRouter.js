@@ -11,10 +11,12 @@ import {
   NAVIGATE_PRODUCTS_URL,
   FAVORITES_URL,
   ADMIN_URL,
-  PRODUCT_INVENTORY_URL
+  PRODUCT_INVENTORY_URL,
+  USER_INVENTORY_URL
 } from "../constants/UrlConstants";
 import AdminPage from "../pages/admin/AdminPage";
 import ProductInventoryPage from "../pages/admin/ProductInventoryPage";
+import UserInventoryPage from "../pages/admin/UserInventoryPage";
 import Cart from "../pages/Cart";
 import Compare from "../pages/Compare";
 import Favorites from "../pages/Favorites";
@@ -39,6 +41,7 @@ export const appRouter = createBrowserRouter(
       <Route path={FAVORITES_URL} element={<Favorites />}/>
       <Route path={ADMIN_URL} element={<AdminPage />}/>
       <Route path={PRODUCT_INVENTORY_URL} element={<ProductInventoryPage />}/>
+      <Route path={USER_INVENTORY_URL} element={<UserInventoryPage />}/>\
     </>
   )
 );

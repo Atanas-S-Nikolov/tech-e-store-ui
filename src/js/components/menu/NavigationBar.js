@@ -83,7 +83,7 @@ export default function NavigationBar() {
   const { products: comparedProducts } = useSelector(state => state.productCompare);
   const { products: favoriteProducts } = useSelector(state => state.favorites);
   const { products: cartProducts } = useSelector(state => state.cart);
-  const isAdmin = role === "ROLE_ADMIN";
+  const isAdmin = role === process.env.REACT_APP_ADMIN_ROLE;
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
