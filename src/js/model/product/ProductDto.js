@@ -1,5 +1,5 @@
 export default class ProductDto{
-  constructor(name, price, stocks, category, brand, model, type, description, earlyAccess) {
+  constructor(name, price, stocks, category, type, brand, model, description, earlyAccess) {
     this.name = name;
     this.price = price;
     this.stocks = stocks;

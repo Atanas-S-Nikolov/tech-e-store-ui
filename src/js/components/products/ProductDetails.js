@@ -21,7 +21,7 @@ export default function ProductDetails({ product }) {
   const detailsArr = [
     { label: "Brand", value: brand },
     { label: "Model", value: model },
-    { label: "Category", value: category },
+    { label: "Category", value:  category },
     { label: "Type", value: type },
   ];
 

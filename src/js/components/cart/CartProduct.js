@@ -4,6 +4,8 @@ import { useEffect, useState, useRef } from "react";
 
 import { useSelector } from "react-redux";
 
+import { Link } from "react-router-dom";
+
 import Typography from "@mui/material/Typography";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -23,6 +25,7 @@ import CartDto from "../../model/cart/CartDto";
 import ProductToBuyDto from "../../model/product/ProductToBuyDto";
 
 import SnackbarMessage from "../utils/SnackbarMessage";
+import { buildProductUrl } from "../../api/builder/URLBuilder";
 
 export default function CartProduct({ productWrapper, onUpdate }) {
   const { name, price, imageUrls } = productWrapper.product;
@@ -31,7 +34,7 @@ export default function CartProduct({ productWrapper, onUpdate }) {
   const productDisplayImage = imageUrls ? imageUrls[0] : "";
   const [stateQuantity, setStateQuantity] = useState(quantity.current);
   const [hasError, setHasError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const { username } = useSelector(state => state.authentication);
 
   const increaseQuantity = () => {
@@ -88,7 +91,11 @@ export default function CartProduct({ productWrapper, onUpdate }) {
                 <img src={productDisplayImage} alt={name}/>
               </TableCell>
               <TableCell>
-                <Typography variant="h5">{name}</Typography>
+                <Typography variant="h5">
+                  <Link className="link-default-color" to={`../${buildProductUrl(name)}`}>
+                    {name}
+                  </Link>
+                </Typography>
               </TableCell>
               <TableCell align="right">
                 <Button

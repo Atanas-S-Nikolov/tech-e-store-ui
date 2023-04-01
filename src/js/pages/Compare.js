@@ -16,9 +16,12 @@ import TableCell from "@mui/material/TableCell";
 import { Link } from "react-router-dom";
 
 import { HOME_URL } from "../constants/UrlConstants";
+import { buildProductUrl } from "../api/builder/URLBuilder";
 
 import { useSelector, useDispatch } from "react-redux";
 import { removeProductReducer, resetCompareStateReducer } from "../redux/productCompareSlice";
+import ProductCategory from "../model/product/ProductCategory";
+import ProductType from "../model/product/ProductType";
 
 function createRow({ value }, index, ) {
   const bgColor = index % 2 === 0 ? "#f9f9f9" : "none";
@@ -35,11 +38,13 @@ export default function Compare() {
 
   const dispatch = useDispatch()
 
-  const handleRemoveProduct = (index) => {
+  const handleRemoveProduct = (event, index) => {
+    event.preventDefault();
     dispatch(removeProductReducer(index));
   }
 
-  const handleResetState = () => {
+  const handleResetState = (event) => {
+    event.preventDefault();
     dispatch(resetCompareStateReducer());
   }
 
@@ -71,14 +76,18 @@ export default function Compare() {
               { value: `${price} lv` },
               { value: brand },
               { value: model },
-              { value: category },
-              { value: type },
+              { value: ProductCategory[category].name },
+              { value: ProductType[type].name },
             ];
             return (
               <div key={crypto.randomUUID()} align="center" style={{ width: "300px" }}>
-                <StyledCloseIconButton onClick={() => handleRemoveProduct(index)}/>
+                <StyledCloseIconButton onClick={(event) => handleRemoveProduct(event, index)}/>
                 <img src={productDisplayImage} alt={name}/>
-                <Typography>{name}</Typography>
+                <Typography>
+                  <Link className="link-default-color" to={`../${buildProductUrl(name)}`}>
+                    {name}
+                  </Link>
+                </Typography>
                 <TableContainer component={Paper}>
                   <Table>
                     <TableBody>

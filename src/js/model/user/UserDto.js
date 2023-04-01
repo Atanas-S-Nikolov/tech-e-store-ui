@@ -1,5 +1,5 @@
 export default class UserDto{
-  constructor(firstName, lastName, email, phone, username, password, newPassword) {
+  constructor(firstName, lastName, email, phone, username, password, newPassword, role) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.email = email;
@@ -7,5 +7,6 @@ export default class UserDto{
     this.username = username;
     this.password = password;
     this.newPassword = newPassword;
+    this.role = role;
   }
 }

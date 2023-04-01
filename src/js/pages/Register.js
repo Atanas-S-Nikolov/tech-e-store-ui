@@ -126,13 +126,8 @@ export default function Register() {
 
   return (
     <>
-      <Box sx={{
-        display: "grid",
-        placeItems: "center",
-        textAlign: "center",
-        }}
-      >
-        <StyledHeader />
+      <StyledHeader />
+      <Box className="centered-container">
         <CustomFormTextInput
           id="username"
           label="Username"

@@ -57,12 +57,7 @@ export default function Login() {
 
   return (
     <>
-      <Box sx={{
-        display: "grid",
-        placeItems: "center",
-        textAlign: "center"
-        }}
-      >
+      <Box className="centered-container">
         <StyledHeader />
         <CustomFormTextInput
           id="username"

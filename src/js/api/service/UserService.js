@@ -1,28 +1,21 @@
+import { USERS_URL } from "../../constants/UrlConstants";
 import { request, buildAccessTokenConfig } from "../backend";
+import { buildUserParams } from "../builder/URLBuilder";
 
-const ROLE_ADMIN = "ROLE_ADMIN";
-const ROLE_CUSTOMER = "ROLE_CUSTOMER";
-
-export function createAdmin(userDto) {
-  return createUserWithRole(userDto, ROLE_ADMIN);
+export async function createUser(userDto) {
+  return await request.post(USERS_URL, JSON.stringify(userDto), buildAccessTokenConfig());
 }
 
-export function createCustomer(userDto) {
-  return createUserWithRole(userDto, ROLE_CUSTOMER);
+export async function updateUser(userDto) {
+  return await request.put(USERS_URL, JSON.stringify(userDto), buildAccessTokenConfig());
 }
 
-function createUserWithRole(userDto, role) {
-  return request.post(`/user/role/${role}`, JSON.stringify(userDto), buildAccessTokenConfig());
-}
-
-export function updateUser(userDto) {
-  return request.put("/user", JSON.stringify(userDto), buildAccessTokenConfig());
-}
-
-export function getAllUsers() {
-  return request.get("/user", buildAccessTokenConfig());
+export function getAllUsers(page, size) {
+  const config = buildAccessTokenConfig();
+  config.params = buildUserParams(page, size)
+  return request.get(USERS_URL, config);
 }
 
 export function deleteUser(authenticationDto) {
-  return request.delete("/user", JSON.stringify(authenticationDto), buildAccessTokenConfig());
+  return request.delete(USERS_URL, JSON.stringify(authenticationDto), buildAccessTokenConfig());
 }

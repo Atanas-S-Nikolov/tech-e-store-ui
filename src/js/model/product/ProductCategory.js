@@ -11,4 +11,12 @@ export default class ProductCategory {
   static getValues() {
     return Object.values(ProductCategory);
   }
+
+  static getKeyByValue(value) {
+    for (const val of this.getValues()) {
+      if (val.name === value) {
+        return val;
+      }
+    }
+  }
 }

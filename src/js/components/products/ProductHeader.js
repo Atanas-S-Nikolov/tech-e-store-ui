@@ -15,9 +15,14 @@ import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import Chip from "@mui/material/Chip";
 
+import { useSelector } from "react-redux";
+import { formatDate } from "../../utils/DateUtils";
+
 export default function ProductHeader({ product }) {
-  const { name, price, stocks, earlyAccess, imageUrls } = product;
+  const { name, price, stocks, earlyAccess, imageUrls, dateOfCreation, dateOfModification } = product;
   const productDisplayImage = imageUrls ? imageUrls[0] : "";
+  const { role } = useSelector(state => state.authentication);
+  const isAdmin = role === process.env.REACT_APP_ADMIN_ROLE;
 
   const BorderlessTableCell = styled(TableCell)(() => ({
     borderBottom: "none"
@@ -25,7 +30,7 @@ export default function ProductHeader({ product }) {
 
   const renderStocksLabel = () => {
     return stocks > 0
-      ? <Typography variant="h6" color="success.main">In stock</Typography>
+      ? <Typography variant="h6" color="success.main">In stock {isAdmin ? `(${stocks})` : null}</Typography>
       : <Typography variant="h6" color="warning.main">Out of stock</Typography>
   }
 
@@ -54,7 +59,15 @@ export default function ProductHeader({ product }) {
             }
             <TableRow>
               <BorderlessTableCell>
-                <Typography variant="h6">
+                <Typography
+                  variant="h6"
+                  sx={{ 
+                    display: "flex",
+                    alignItems: "center",
+                    flexWrap: "wrap",
+                    gap: 1
+                  }}
+                >
                   Price: <CustomPriceTypography price={price}/>
                 </Typography>
               </BorderlessTableCell>
@@ -66,6 +79,18 @@ export default function ProductHeader({ product }) {
               <CompareButton product={product}/>
               <FavoriteButton productName={name}/>
             </TableRow>
+            {
+              isAdmin
+                ? <TableRow>
+                    <BorderlessTableCell>
+                      <Typography>Created on: {formatDate(dateOfCreation, "en-uk")}</Typography>
+                    </BorderlessTableCell>
+                    <BorderlessTableCell>
+                      <Typography>Modified on: {formatDate(dateOfModification, "en-uk")}</Typography>
+                    </BorderlessTableCell>  
+                  </TableRow>
+                : null
+            }
           </TableBody>
         </Table>
       </TableContainer>

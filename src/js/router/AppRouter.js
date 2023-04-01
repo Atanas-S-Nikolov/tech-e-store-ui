@@ -1,7 +1,22 @@
 import { createBrowserRouter, createRoutesFromElements, Route } from "react-router-dom";
 
 import { getProduct } from "../api/service/ProductService";
-import { HOME_URL, LOGIN_URL, PRODUCT_URL, REGISTER_URL, CART_URL, COMPARE_URL, NAVIGATE_PRODUCTS_URL, FAVORITES_URL} from "../constants/UrlConstants";
+import {
+  HOME_URL,
+  LOGIN_URL,
+  PRODUCT_URL,
+  REGISTER_URL,
+  CART_URL,
+  COMPARE_URL,
+  NAVIGATE_PRODUCTS_URL,
+  FAVORITES_URL,
+  ADMIN_URL,
+  PRODUCT_INVENTORY_URL,
+  USER_INVENTORY_URL
+} from "../constants/UrlConstants";
+import AdminPage from "../pages/admin/AdminPage";
+import ProductInventoryPage from "../pages/admin/ProductInventoryPage";
+import UserInventoryPage from "../pages/admin/UserInventoryPage";
 import Cart from "../pages/Cart";
 import Compare from "../pages/Compare";
 import Favorites from "../pages/Favorites";
@@ -24,6 +39,9 @@ export const appRouter = createBrowserRouter(
       <Route path={CART_URL} element={<Cart/>}/>
       <Route path={COMPARE_URL} element={<Compare />}/>
       <Route path={FAVORITES_URL} element={<Favorites />}/>
+      <Route path={ADMIN_URL} element={<AdminPage />}/>
+      <Route path={PRODUCT_INVENTORY_URL} element={<ProductInventoryPage />}/>
+      <Route path={USER_INVENTORY_URL} element={<UserInventoryPage />}/>\
     </>
   )
 );
