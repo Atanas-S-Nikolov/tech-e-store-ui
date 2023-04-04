@@ -76,8 +76,8 @@ export default function Compare() {
               { value: `${price} lv` },
               { value: brand },
               { value: model },
-              { value: ProductCategory[category].name },
-              { value: ProductType[type].name },
+              { value: category },
+              { value: type },
             ];
             return (
               <div key={crypto.randomUUID()} align="center" style={{ width: "300px" }}>

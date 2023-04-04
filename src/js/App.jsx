@@ -11,11 +11,13 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'reduxjs-toolkit-persist/integration/react';
 import { persistStore } from 'reduxjs-toolkit-persist';
 
+import Loader from './components/utils/Loader';
+
 function App() {
   return (
     <div className="app">
       <Provider store={store}>
-        <PersistGate loading={null} persistor={persistStore(store)}>
+        <PersistGate loading={<Loader open/>} persistor={persistStore(store)}>
           <ThemeProvider theme={appTheme}>
             <RouterProvider router={appRouter}/>
           </ThemeProvider>

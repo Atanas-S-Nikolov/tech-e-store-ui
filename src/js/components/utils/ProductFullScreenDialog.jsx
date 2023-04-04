@@ -65,6 +65,8 @@ export default function ProductFullScreenDialog({ open, handleClose, action, pro
   const [priceErrorMessage, setPriceErrorMessage] = useState("");
   const [hasStocksError, setHasStocksError] = useState(false);
   const [stocksErrorMessage, setStocksErrorMessage] = useState("");
+  const [hasError, setHasError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleSwitchOnChange = () => {
     setEarlyAccess(prevState => !prevState);
@@ -72,6 +74,10 @@ export default function ProductFullScreenDialog({ open, handleClose, action, pro
 
   const handleIsSavedFailed = () => {
     setIsSavedSuccessfully(false);
+  }
+
+  function handleHasErrorFalse() {
+    setHasError(false);
   }
 
   function resetBackendErrorState() {
@@ -87,6 +93,7 @@ export default function ProductFullScreenDialog({ open, handleClose, action, pro
     setHasPriceError(false);
     setStocksErrorMessage("");
     setHasStocksError(false);
+    handleHasErrorFalse();
   }
 
   function setBackendErrorState(property, message) {
@@ -138,7 +145,8 @@ export default function ProductFullScreenDialog({ open, handleClose, action, pro
       setIsSavedSuccessfully(true);
     } catch(error) {
       const response = error.response;
-      if (response.status === 400) {
+      const status = response.status;
+      if (status === 400) {
         const { rejectedProperties } = response.data;
         resetBackendErrorState();
 
@@ -146,6 +154,9 @@ export default function ProductFullScreenDialog({ open, handleClose, action, pro
           const { property, message } = rejected;
           setBackendErrorState(property, message);
         });
+      } else if (status === 409) {
+        setErrorMessage(response.data.messages[0]);
+        setHasError(true);
       }
     }
   }
@@ -356,6 +367,11 @@ export default function ProductFullScreenDialog({ open, handleClose, action, pro
       {
         isSavedSuccessfully 
           ? <SnackbarMessage message="Product is saved!" afterCloseCallback={handleIsSavedFailed}/>
+          : null
+      }
+      {
+        hasError
+          ? <SnackbarMessage severity="error" message={errorMessage} afterErrorCallback={handleHasErrorFalse}/>
           : null
       }
     </Dialog>
