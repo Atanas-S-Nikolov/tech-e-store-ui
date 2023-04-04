@@ -151,7 +151,7 @@ export default function UserFullScreenDialog({ open, handleClose, action, user =
           const { property, message } = rejected;
           setBackendErrorState(property, message);
         });
-      } else if (status === 404) {
+      } else if (status === 404 | 409) {
         setErrorMessage(response.data.messages[0]);
         setHasError(true);
       }
