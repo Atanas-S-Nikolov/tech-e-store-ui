@@ -34,7 +34,7 @@ const Transition = forwardRef(function Transition(props, ref) {
 });
 
 export default function UserFullScreenDialog({ open, handleClose, action, user = {} }) {
-  const roles = [process.env.REACT_APP_ADMIN_ROLE, process.env.REACT_APP_CUSTOMER_ROLE];
+  const roles = [import.meta.env.VITE_ADMIN_ROLE, import.meta.env.VITE_CUSTOMER_ROLE];
   const isActionCreate = Action.CREATE === action;
   const isActionUpdate = Action.UPDATE === action;
   const usernameTextFieldStyle = isActionCreate ? { mr: 1 } : { mr: 1, width: "82ch" };
