@@ -22,7 +22,7 @@ export default function ProductHeader({ product }) {
   const { name, price, stocks, earlyAccess, imageUrls, dateOfCreation, dateOfModification } = product;
   const productDisplayImage = imageUrls ? imageUrls[0] : "";
   const { role } = useSelector(state => state.authentication);
-  const isAdmin = role === process.env.REACT_APP_ADMIN_ROLE;
+  const isAdmin = role === import.meta.env.VITE_ADMIN_ROLE;
 
   const BorderlessTableCell = styled(TableCell)(() => ({
     borderBottom: "none"

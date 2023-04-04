@@ -1,4 +1,4 @@
-import "../../../../styles/menu/NavigationBar.css";
+import "../../../styles/menu/NavigationBar.css";
 
 import { useState } from 'react';
 
@@ -14,23 +14,29 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 
-import HomeIcon from '@mui/icons-material/Home';
+import MenuIcon from '@mui/icons-material/Menu';
+import ShopIcon from '@mui/icons-material/Shop';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import LogoutIcon from '@mui/icons-material/Logout';
 
-import { ADMIN_URL, HOME_URL } from '../../../constants/UrlConstants';
-import StyledLink from "../../../components/styled/StyledLink";
+import { ADMIN_URL, CART_URL, COMPARE_URL, FAVORITES_URL, HOME_URL, LOGIN_URL } from '../../constants/UrlConstants';
+import StyledLink from "../styled/StyledLink";
+import CustomSwipeableDrawer from './CustomSwipeableDrawer';
+import CustomBadge from "../utils/CustomBadge";
 
 import { useNavigate } from "react-router-dom";
 
 import { useSelector, useDispatch } from "react-redux";
-import { logoutReducer } from "../../../redux/authenticationSlice";
-import { resetCompareStateReducer } from "../../../redux/productCompareSlice";
-import { resetCartReducer } from "../../../redux/cartSlice";
-import { clearCart } from "../../../api/service/CartService";
-import UsernameDto from "../../../model/auth/UsernameDto";
+import { logoutReducer } from "../../redux/authenticationSlice";
+import { resetCompareStateReducer } from "../../redux/productCompareSlice";
+import { resetCartReducer } from "../../redux/cartSlice";
+import { clearCart } from "../../api/service/CartService";
+import UsernameDto from "../../model/auth/UsernameDto";
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -72,11 +78,15 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function AdminNavigationBar() {
+export default function NavigationBar() {
   const { isAuthenticated, username, role } = useSelector(state => state.authentication);
-  const isAdmin = role === process.env.REACT_APP_ADMIN_ROLE;
+  const { products: comparedProducts } = useSelector(state => state.productCompare);
+  const { products: favoriteProducts } = useSelector(state => state.favorites);
+  const { products: cartProducts } = useSelector(state => state.cart);
+  const isAdmin = role === import.meta.env.VITE_ADMIN_ROLE;
 
   const [anchorEl, setAnchorEl] = useState(null);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const isMenuOpen = Boolean(anchorEl);
   
@@ -84,8 +94,21 @@ export default function AdminNavigationBar() {
 
   const navigate = useNavigate();
 
-  const navigateToHome = () => {
-    navigate(HOME_URL);
+  const navigateToCart = () => {
+    navigate(CART_URL);
+  }
+
+  const navigateToCompare = () => {
+    navigate(COMPARE_URL);
+  }
+
+  const navigateToFavorites = () => {
+    navigate(FAVORITES_URL);
+  }
+
+  const navigateToAdminPanel =() => {
+    handleMenuClose();
+    navigate(ADMIN_URL);
   }
 
   const handleProfileMenuOpen = (event) => {
@@ -96,6 +119,14 @@ export default function AdminNavigationBar() {
     setAnchorEl(null);
   };
 
+  const handleDrawerOpen = () => {
+    setIsDrawerOpen(true);
+  }
+
+  const handleDrawerClose = () => {
+    setIsDrawerOpen(false);
+  }
+
   async function handleLogout() {
     // order matters
     handleMenuClose();
@@ -105,7 +136,7 @@ export default function AdminNavigationBar() {
     }
     dispatch(resetCartReducer());
     dispatch(logoutReducer());
-    navigateToHome();
+    navigate(HOME_URL);
   }
 
   const menuId = 'primary-search-account-menu';
@@ -131,12 +162,17 @@ export default function AdminNavigationBar() {
         </ListItemIcon>
         My account
       </MenuItem>
-      <MenuItem onClick={navigateToHome}>
-        <ListItemIcon>
-          <HomeIcon/>
-        </ListItemIcon>
-        Home
-      </MenuItem>
+      {
+        isAdmin
+          ? <MenuItem onClick={navigateToAdminPanel}>
+              <ListItemIcon>
+                <AdminPanelSettingsIcon/>
+              </ListItemIcon>
+              Admin panel
+            </MenuItem>
+          : null
+      }
+      
       <MenuItem onClick={handleLogout}>
         <ListItemIcon>
           <LogoutIcon/>
@@ -148,10 +184,21 @@ export default function AdminNavigationBar() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
+      {isDrawerOpen ? <CustomSwipeableDrawer onClose={handleDrawerClose}/> : null}
       <AppBar position="static">
         <Toolbar>
-          <StyledLink to={ADMIN_URL}>
-            <AdminPanelSettingsIcon fontSize="small" sx={{ mr: 1 }}/>
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            sx={{ mr: 2 }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <StyledLink to={HOME_URL}>
+            <ShopIcon fontSize="small" sx={{ mr: 1 }}/>
             <Typography
               variant="h6"
               edge="start"
@@ -159,7 +206,7 @@ export default function AdminNavigationBar() {
               component="div"
               sx={{ display: { xs: 'none', sm: 'block' } }}
             >
-              Tech E-Store Admin Panel
+              Tech E-Store
             </Typography>
           </StyledLink>
           <Search>
@@ -175,15 +222,52 @@ export default function AdminNavigationBar() {
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <IconButton
               size="large"
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
               color="inherit"
+              onClick={navigateToCompare}
             >
-              <AccountCircle />
+              <CustomBadge badgeContent={comparedProducts.length}>
+                <CompareArrowsIcon />
+              </CustomBadge>
             </IconButton>
+            <IconButton
+              size="large"
+              color="inherit"
+              onClick={navigateToFavorites}
+            >
+              <CustomBadge badgeContent={favoriteProducts.length}>
+                <FavoriteIcon />
+              </CustomBadge>
+            </IconButton>
+            <IconButton
+              size="large"
+              color="inherit"
+              onClick={navigateToCart}
+            >
+              <CustomBadge badgeContent={cartProducts.length}>
+                <ShoppingCartIcon />              
+              </CustomBadge>
+            </IconButton>
+            {
+              isAuthenticated 
+                ? (
+                    <IconButton
+                      size="large"
+                      edge="end"
+                      aria-label="account of current user"
+                      aria-controls={menuId}
+                      aria-haspopup="true"
+                      onClick={handleProfileMenuOpen}
+                      color="inherit"
+                    >
+                      <AccountCircle />
+                    </IconButton>
+                  ) 
+                : (
+                    <StyledLink to={LOGIN_URL}>
+                      <Typography component="div">LOGIN</Typography>
+                    </StyledLink>
+                  )
+            }
           </Box>
         </Toolbar>
       </AppBar>
