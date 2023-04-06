@@ -3,8 +3,8 @@ import { useState, useEffect } from "react";
 import Typography from "@mui/material/Typography"
 import Pagination from "@mui/material/Pagination"
 
-import PageSelectTabs from "../../utils/PageSelectTabs";
-import { getProducts } from "../../../api/service/ProductService";
+import PageSelectTabs from "@/js/components/utils/PageSelectTabs";
+import { getProducts } from "@/js/api/service/ProductService";
 import Product from "./Product";
 
 export default function ProductContainer() {

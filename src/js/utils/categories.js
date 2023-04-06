@@ -1,4 +1,4 @@
-import ProductCategory from "../model/product/ProductCategory";
+import ProductCategory from "@/js/model/product/ProductCategory";
 import { select } from "./ProductTypeSelector";
 
 const {COMPUTERS_AND_LAPTOPS, TV_AND_MONITORS, MICE_AND_KEYBOARDS, AUDIO} = ProductCategory;

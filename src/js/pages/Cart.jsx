@@ -1,15 +1,15 @@
-import "../../styles/pages/Cart.css";
+import "@/styles/pages/Cart.css";
 
 import { useLayoutEffect, useState } from "react";
 
-import CartItemsSection from "../components/cart/CartItemsSection";
-import CartCheckoutSection from "../components/cart/CartCheckoutSection";
-import AppFooter from "../components/footer/AppFooter";
-import StyledHeader from "../components/styled/StyledHeader";
-import StyledStepper from "../components/styled/StyledStepper";
-import { HOME_URL } from "../constants/UrlConstants";
-import { getCart, cartPurchase } from "../api/service/CartService";
-import UsernameDto from "../model/auth/UsernameDto.js";
+import CartItemsSection from "@/js/components/cart/CartItemsSection";
+import CartCheckoutSection from "@/js/components/cart/CartCheckoutSection";
+import AppFooter from "@/js/components/footer/AppFooter";
+import StyledHeader from "@/js/components/styled/StyledHeader";
+import StyledStepper from "@/js/components/styled/StyledStepper";
+import { HOME_URL } from "@/js/constants/UrlConstants";
+import { getCart, cartPurchase } from "@/js/api/service/CartService";
+import UsernameDto from "@/js/model/auth/UsernameDto.js";
 
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";

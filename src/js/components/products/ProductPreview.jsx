@@ -1,8 +1,8 @@
-import "../../../styles/products/ProductPreview.css";
+import "@/styles/products/ProductPreview.css";
 
-import CompareButton from "../utils/CompareButton";
-import FavoriteButton from "../utils/FavoriteButton";
-import BuyButton from "../utils/BuyButton";
+import CompareButton from "@/js/components/utils/CompareButton";
+import FavoriteButton from "@/js/components/utils/FavoriteButton";
+import BuyButton from "@/js/components/utils/BuyButton";
 
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -11,7 +11,7 @@ import Typography from '@mui/material/Typography';
 import Chip from '@mui/material/Chip';
 
 import { useNavigate } from "react-router-dom";
-import { buildProductUrl } from "../../api/builder/URLBuilder";
+import { buildProductUrl } from "@/js/api/builder/URLBuilder";
 
 export default function ProductPreview({ product }) {
   const { name, price, earlyAccess, imageUrls } = product;

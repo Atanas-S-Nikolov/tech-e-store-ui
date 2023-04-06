@@ -2,10 +2,10 @@ import Button from '@mui/material/Button';
 
 import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
 
-import { addProductReducer } from '../../redux/productCompareSlice';
+import { addProductReducer } from '@/js/redux/productCompareSlice';
 
 import { useDispatch } from "react-redux";
-import ProductCompareError from '../../errors/ProductCompareError';
+import ProductCompareError from '@/js/errors/ProductCompareError';
 import { useState } from 'react';
 
 import SnackbarMessage from "./SnackbarMessage";

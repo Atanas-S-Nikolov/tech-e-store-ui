@@ -1,4 +1,4 @@
-import "../../../styles/cart/CartProduct.css";
+import "@/styles/cart/CartProduct.css";
 
 import Typography from "@mui/material/Typography";
 import Table from '@mui/material/Table';
@@ -7,7 +7,7 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 
-import CustomPriceTypography from "../products/CustomPriceTypography";
+import CustomPriceTypography from "@/js/components/products/CustomPriceTypography";
 
 export default function CartCheckoutProduct({ productWrapper, quantity }) {
   const { name, price, imageUrls } = productWrapper.product;

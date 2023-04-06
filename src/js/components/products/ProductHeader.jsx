@@ -1,9 +1,9 @@
-import "../../../styles/products/ProductHeader.css";
+import "@/styles/products/ProductHeader.css";
 
 import CustomPriceTypography from "./CustomPriceTypography";
-import FavoriteButton from "../utils/FavoriteButton";
-import CompareButton from "../utils/CompareButton";
-import BuyButton from "../utils/BuyButton";
+import FavoriteButton from "@/js/components/utils/FavoriteButton";
+import CompareButton from "@/js/components/utils/CompareButton";
+import BuyButton from "@/js/components/utils/BuyButton";
 
 import { styled } from "@mui/system";
 
@@ -16,7 +16,7 @@ import TableRow from '@mui/material/TableRow';
 import Chip from "@mui/material/Chip";
 
 import { useSelector } from "react-redux";
-import { formatDate } from "../../utils/DateUtils";
+import { formatDate } from "@/js/utils/DateUtils";
 
 export default function ProductHeader({ product }) {
   const { name, price, stocks, earlyAccess, imageUrls, dateOfCreation, dateOfModification } = product;

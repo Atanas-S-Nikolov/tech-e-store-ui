@@ -1,4 +1,4 @@
-import "../../../styles/utils/ProductFullScreenDialog.css";
+import "@/styles/utils/ProductFullScreenDialog.css";
 
 import { useState, useEffect, forwardRef } from 'react';
 
@@ -16,19 +16,19 @@ import TextField from '@mui/material/TextField';
 
 import CloseIcon from '@mui/icons-material/Close';
 import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
-import StyledCloseIconButton from "../styled/StyledCloseIconButton";
 
-import StyledGridContainer from "../styled/StyledGridContainer";
+import StyledCloseIconButton from "@/js/components/styled/StyledCloseIconButton";
+import StyledGridContainer from "@/js/components/styled/StyledGridContainer";
 
 import CustomFormTextInput from './CustomFormTextInput';
 import CustomFormSelect from './CustomFormSelect';
-import ProductCategory from '../../model/product/ProductCategory';
-import ProductDto from '../../model/product/ProductDto';
-import { select } from '../../utils/ProductTypeSelector';
+import ProductCategory from '@/js/model/product/ProductCategory';
+import ProductDto from '@/js/model/product/ProductDto';
+import { select } from '@/js/utils/ProductTypeSelector';
 import SnackbarMessage from './SnackbarMessage';
-import Action from '../../model/Action';
-import { createProduct, updateProduct } from '../../api/service/ProductService';
-import { isValidUrl } from "../../utils/URLUtils";
+import Action from '@/js/model/Action';
+import { createProduct, updateProduct } from '@/js/api/service/ProductService';
+import { isValidUrl } from "@/js/utils/URLUtils";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;

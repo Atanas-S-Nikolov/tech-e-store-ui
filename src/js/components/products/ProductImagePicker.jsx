@@ -1,4 +1,4 @@
-import "../../../styles/products/ProductImagePicker.css";
+import "@/styles/products/ProductImagePicker.css";
 
 import IconButton from "@mui/material/IconButton";
 

@@ -1,8 +1,8 @@
-import "../../styles/pages/Compare.css";
+import "@/styles/pages/Compare.css";
 
-import AppFooter from "../components/footer/AppFooter";
-import StyledHeader from "../components/styled/StyledHeader";
-import StyledCloseIconButton from "../components/styled/StyledCloseIconButton";
+import AppFooter from "@/js/components/footer/AppFooter";
+import StyledHeader from "@/js/components/styled/StyledHeader";
+import StyledCloseIconButton from "@/js/components/styled/StyledCloseIconButton";
 
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
@@ -15,13 +15,13 @@ import TableCell from "@mui/material/TableCell";
 
 import { Link } from "react-router-dom";
 
-import { HOME_URL } from "../constants/UrlConstants";
-import { buildProductUrl } from "../api/builder/URLBuilder";
+import { HOME_URL } from "@/js/constants/UrlConstants";
+import { buildProductUrl } from "@/js/api/builder/URLBuilder";
 
 import { useSelector, useDispatch } from "react-redux";
-import { removeProductReducer, resetCompareStateReducer } from "../redux/productCompareSlice";
-import ProductCategory from "../model/product/ProductCategory";
-import ProductType from "../model/product/ProductType";
+import { removeProductReducer, resetCompareStateReducer } from "@/js/redux/productCompareSlice";
+import ProductCategory from "@/js/model/product/ProductCategory";
+import ProductType from "@/js/model/product/ProductType";
 
 function createRow({ value }, index, ) {
   const bgColor = index % 2 === 0 ? "#f9f9f9" : "none";

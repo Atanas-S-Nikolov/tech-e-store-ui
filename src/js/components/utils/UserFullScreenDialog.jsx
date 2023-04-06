@@ -16,9 +16,9 @@ import PhoneIcon from '@mui/icons-material/Phone';
 import CustomFormTextInput from './CustomFormTextInput';
 import CustomFormPasswordInput from './CustomFormPasswordInput';
 import SnackbarMessage from './SnackbarMessage';
-import Action from '../../model/Action';
-import { createUser, updateUser } from '../../api/service/UserService';
-import UserDto from '../../model/user/UserDto';
+import Action from '@/js/model/Action';
+import { createUser, updateUser } from '@/js/api/service/UserService';
+import UserDto from '@/js/model/user/UserDto';
 import CustomFormSelect from './CustomFormSelect';
 import {
   EMAIL_PROPERTY, 

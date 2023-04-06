@@ -3,8 +3,8 @@ import { useState, useEffect } from "react";
 import Typography from "@mui/material/Typography"
 import Pagination from "@mui/material/Pagination"
 
-import PageSelectTabs from "../../utils/PageSelectTabs";
-import { getAllUsers } from "../../../api/service/UserService";
+import PageSelectTabs from "@/js/components/utils/PageSelectTabs";
+import { getAllUsers } from "@/js/api/service/UserService";
 import UserPreview from "./UserPreview";
 
 export default function UserContainer() {

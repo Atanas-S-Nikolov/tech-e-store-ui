@@ -1,5 +1,5 @@
 import PasswordValidator from 'password-validator';
-import InvalidPasswordError from '../errors/InvalidPasswordError';
+import InvalidPasswordError from '@/js/errors/InvalidPasswordError';
 
 const PASSWORD_LENGTH_MESSAGE = "Password should be between 8-30 characters";
 const PASSWORD_UPPERCASE_MESSAGE = "Password should contains atleast 1 uppercase english letter";

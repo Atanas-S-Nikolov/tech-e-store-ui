@@ -1,4 +1,4 @@
-import "../../styles/pages/NotFound.css";
+import "@/styles/pages/NotFound.css";
 
 import { useState } from 'react';
 
@@ -8,7 +8,7 @@ import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 
 import { IconButton, Typography } from '@mui/material';
-import { HOME_URL } from "../constants/UrlConstants";
+import { HOME_URL } from "@/js/constants/UrlConstants";
 
 export default function NotFound() {
   const [isHover, setIsHover] = useState(false);

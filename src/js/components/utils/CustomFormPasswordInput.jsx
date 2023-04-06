@@ -8,7 +8,7 @@ import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
-import StyledFormErrorText from "../styled/StyledFormErrorText";
+import StyledFormErrorText from "@/js/components/styled/StyledFormErrorText";
 
 export default function CustomFormPasswordInput({ id, label, sx, error, errorMessage, onChange }) {
   const [showPassword, setShowPassword] = useState(false);

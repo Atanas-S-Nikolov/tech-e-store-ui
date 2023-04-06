@@ -1,15 +1,16 @@
-import "../../styles/pages/Favorites.css";
+import "@/styles/pages/Favorites.css";
+
+import { useEffect, useState } from "react";
 
 import { Typography } from "@mui/material";
-import AppFooter from "../components/footer/AppFooter";
-import StyledHeader from "../components/styled/StyledHeader";
-import { useEffect, useState } from "react";
-import { getFavorites } from "../api/service/FavoritesService";
-import UsernameDto from "../model/auth/UsernameDto";
-import ProductPreview from "../components/products/ProductPreview";
+import AppFooter from "@/js/components/footer/AppFooter";
+import StyledHeader from "@/js/components/styled/StyledHeader";
+import { getFavorites } from "@/js/api/service/FavoritesService";
+import UsernameDto from "@/js/model/auth/UsernameDto";
+import ProductPreview from "@/js/components/products/ProductPreview";
 
 import { useSelector } from "react-redux";
-import StyledGridContainer from "../components/styled/StyledGridContainer";
+import StyledGridContainer from "@/js/components/styled/StyledGridContainer";
 
 export default function Favorites() {
   const { username } = useSelector(state => state.authentication);

@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["/*"],
+      "@/api/*": ["/js/api/*"],
+      "@/components/*": ["/js/components/*"],
+      "@/constants/*": ["/js/constants/*"],
+      "@/errors/*": ["/js/errors/*"],
+      "@/model/*": ["/js/model/*"],
+      "@/pages/*": ["/js/pages/*"],
+      "@/redux/*": ["/js/redux/*"],
+      "@/router/*": ["/js/router/*"],
+      "@/utils/*": ["/js/utils/*"],
+      "@/styles/*": ["/styles/*"],
+      "@/tests/*": ["/tests/*"],
+    }
+  },
+  "include": ["src"]
+}

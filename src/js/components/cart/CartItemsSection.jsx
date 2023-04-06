@@ -1,14 +1,14 @@
 import CartProduct from "./CartProduct";
-import CustomPriceTypography from "../products/CustomPriceTypography";
+import CustomPriceTypography from "@/js/components/products/CustomPriceTypography";
 
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 
 import DeleteIcon from '@mui/icons-material/Delete';
 
-import { clearCart } from "../../api/service/CartService";
+import { clearCart } from "@/js/api/service/CartService";
 import { useSelector } from "react-redux";
-import UsernameDto from "../../model/auth/UsernameDto";
+import UsernameDto from "@/js/model/auth/UsernameDto";
 
 export default function CartItemsSection({ cart, onUpdateCart }) {
   const { products, totalPrice } = cart;

@@ -5,21 +5,21 @@ import { Link } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
-import { HOME_URL, REGISTER_URL } from '../constants/UrlConstants';
-import StyledFormControl from '../components/styled/StyledFormControl';
-import StyledFormButton from "../components/styled/StyledFormButton";
-import CustomFormTextInput from "../components/utils/CustomFormTextInput";
-import AppFooter from '../components/footer/AppFooter';
-import CustomFormPasswordInput from "../components/utils/CustomFormPasswordInput";
-import StyledHeader from "../components/styled/StyledHeader";
-import AuthenticationDto from "../model/auth/AuthenticationDto";
-import { login } from "../api/service/AuthService";
+import { HOME_URL, REGISTER_URL } from '@/js/constants/UrlConstants';
+import StyledFormControl from '@/js/components/styled/StyledFormControl';
+import StyledFormButton from "@/js/components/styled/StyledFormButton";
+import CustomFormTextInput from "@/js/components/utils/CustomFormTextInput";
+import AppFooter from '@/js/components/footer/AppFooter';
+import CustomFormPasswordInput from "@/js/components/utils/CustomFormPasswordInput";
+import StyledHeader from "@/js/components/styled/StyledHeader";
+import AuthenticationDto from "@/js/model/auth/AuthenticationDto";
+import { login } from "@/js/api/service/AuthService";
 
 import jwt_decode from "jwt-decode";
 
 import { useNavigate } from "react-router-dom";
 
-import { loginReducer, logoutReducer } from "../redux/authenticationSlice";
+import { loginReducer, logoutReducer } from "@/js/redux/authenticationSlice";
 import { useDispatch } from "react-redux";
 
 function extractUsername(str) {

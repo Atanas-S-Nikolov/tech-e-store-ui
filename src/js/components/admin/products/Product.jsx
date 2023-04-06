@@ -1,4 +1,4 @@
-import "../../../../styles/admin/products/Product.css";
+import "@/styles/admin/products/Product.css";
 
 import { useState } from "react";
 
@@ -15,11 +15,11 @@ import DialogTitle from "@mui/material/DialogTitle";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-import ProductFullScreenDialog from "../../utils/ProductFullScreenDialog";
-import SnackbarMessage from "../../utils/SnackbarMessage";
-import { buildProductUrl } from "../../../api/builder/URLBuilder";
-import { deleteProduct } from "../../../api/service/ProductService";
-import Action from "../../../model/Action";
+import ProductFullScreenDialog from "@/js/components/utils/ProductFullScreenDialog";
+import SnackbarMessage from "@/js/components/utils/SnackbarMessage";
+import { buildProductUrl } from "@/js/api/builder/URLBuilder";
+import { deleteProduct } from "@/js/api/service/ProductService";
+import Action from "@/js/model/Action";
 
 export default function Product({ product }) {
   const { name, imageUrls } = product;

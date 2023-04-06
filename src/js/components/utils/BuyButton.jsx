@@ -6,10 +6,10 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 import { useSelector, useDispatch } from 'react-redux';
 
-import { updateProductsReducer } from '../../redux/cartSlice';
-import { addProductToCart } from '../../api/service/CartService';
-import CartDto from '../../model/cart/CartDto';
-import ProductToBuyDto from '../../model/product/ProductToBuyDto';
+import { updateProductsReducer } from '@/js/redux/cartSlice';
+import { addProductToCart } from '@/js/api/service/CartService';
+import CartDto from '@/js/model/cart/CartDto';
+import ProductToBuyDto from '@/js/model/product/ProductToBuyDto';
 import SnackbarMessage from './SnackbarMessage';
 
 export default function BuyButton(props) {

@@ -4,10 +4,10 @@ import Icon from "@mui/material/Icon";
 
 import styled from "@emotion/styled";
 
-import AdminNavigationBar from "../../components/admin/header/AdminNavigationBar";
-import StyledGridContainer from "../../components/styled/StyledGridContainer";
-import StyledCardText from "../../components/styled/StyledCardText";
-import { PRODUCT_INVENTORY_URL, USER_INVENTORY_URL } from "../../constants/UrlConstants";
+import AdminNavigationBar from "@/js/components/admin/header/AdminNavigationBar";
+import StyledGridContainer from "@/js/components/styled/StyledGridContainer";
+import StyledCardText from "@/js/components/styled/StyledCardText";
+import { PRODUCT_INVENTORY_URL, USER_INVENTORY_URL } from "@/js/constants/UrlConstants";
 
 import { useNavigate } from "react-router-dom";
 
