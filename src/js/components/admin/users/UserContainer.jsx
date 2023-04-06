@@ -45,7 +45,7 @@ export default function UserContainer() {
                 <PageSelectTabs onChangeCallback={handleSizeChange}/>
               </div>
               <div className="centered-row-container">
-                {items.map(item => <UserPreview user={item}/>)}
+                {items.map(item => <UserPreview key={crypto.randomUUID()} user={item}/>)}
                 <Pagination page={page} count={totalPages} onChange={handlePageChange} color="primary"/>
               </div>
             </>

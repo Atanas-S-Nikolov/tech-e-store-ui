@@ -45,7 +45,7 @@ export default function ProductContainer() {
                 <PageSelectTabs onChangeCallback={handleSizeChange}/>
               </div>
               <div className="centered-row-container">
-                {items.map(item => <Product product={item}/>)}
+                {items.map(item => <Product key={crypto.randomUUID()} product={item}/>)}
                 <Pagination page={page} count={totalPages} onChange={handlePageChange} color="primary"/>
               </div>
             </>

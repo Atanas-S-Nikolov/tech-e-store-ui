@@ -20,8 +20,6 @@ import { buildProductUrl } from "@/js/api/builder/URLBuilder";
 
 import { useSelector, useDispatch } from "react-redux";
 import { removeProductReducer, resetCompareStateReducer } from "@/js/redux/productCompareSlice";
-import ProductCategory from "@/js/model/product/ProductCategory";
-import ProductType from "@/js/model/product/ProductType";
 
 function createRow({ value }, index, ) {
   const bgColor = index % 2 === 0 ? "#f9f9f9" : "none";
