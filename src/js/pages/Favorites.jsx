@@ -45,7 +45,7 @@ export default function Favorites() {
         {
           loading 
             ? <StyledGridContainer gridTemplateColumns='repeat(5, 1fr)' gap={10}> 
-                {products.map(product => <ProductPreview product={product}/>)}
+                {products.map(product => <ProductPreview key={crypto.randomUUID()} product={product}/>)}
               </StyledGridContainer> 
             : null
         }

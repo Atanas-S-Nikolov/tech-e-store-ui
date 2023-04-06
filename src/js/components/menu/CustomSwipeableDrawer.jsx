@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, Fragment } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
@@ -24,7 +24,6 @@ export default function CustomSwipeableDrawer({ onClose }) {
   const [subMenuOpen, setSubMenuOpen] = useState({});
 
   const toggleDrawer = (event) => {
-    event.preventDefault();
     if (
       event &&
       event.type === 'keydown' &&
@@ -33,6 +32,7 @@ export default function CustomSwipeableDrawer({ onClose }) {
       return;
     }
 
+    event.preventDefault();
     if (isOpen) {
       onClose();
     }
@@ -70,7 +70,7 @@ export default function CustomSwipeableDrawer({ onClose }) {
     >
       <List>
         {categoriesItems.map(({ id, icon, text, productTypes }, index) => (
-          <>
+          <Fragment key={crypto.randomUUID()}>
             <ListItem key={crypto.randomUUID()} disablePadding>
               <ListItemButton onClick={(event, id) => navigateToProductsByCategory(event, id, text)}>
                 <ListItemIcon>
@@ -94,7 +94,7 @@ export default function CustomSwipeableDrawer({ onClose }) {
                 />
               : null
             }
-          </>
+          </Fragment>
         ))}
       </List>
     </Box>
