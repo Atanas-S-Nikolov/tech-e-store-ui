@@ -19,3 +19,5 @@ You may also see any lint errors in the console.
 Creates a production build
 
 This project is scanned with [DeepScan](https://deepscan.io/)
+
+[![DeepScan grade](https://deepscan.io/api/teams/20913/projects/24360/branches/748900/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=20913&pid=24360&bid=748900)

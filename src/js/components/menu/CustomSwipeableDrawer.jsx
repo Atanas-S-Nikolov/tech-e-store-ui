@@ -32,7 +32,7 @@ export default function CustomSwipeableDrawer({ onClose }) {
       return;
     }
 
-    event.preventDefault();
+    event?.preventDefault();
     if (isOpen) {
       onClose();
     }
