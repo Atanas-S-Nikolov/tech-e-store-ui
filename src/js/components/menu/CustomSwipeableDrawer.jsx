@@ -16,8 +16,8 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
 import ProductTypeMenu from './ProductTypeMenu';
-import { categoriesItems } from '../../utils/categories';
-import { buildProductsNavigationUrlByCategory, buildProductsNavigationUrlByCategoryAndType } from '../../utils/NavigationUtils';
+import { categoriesItems } from '@/js/utils/categories';
+import { buildProductsNavigationUrlByCategory, buildProductsNavigationUrlByCategoryAndType } from '@/js/utils/NavigationUtils';
 
 export default function CustomSwipeableDrawer({ onClose }) {
   const [isOpen, setIsOpen] = useState(true);

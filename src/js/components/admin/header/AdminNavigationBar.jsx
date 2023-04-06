@@ -1,4 +1,4 @@
-import "../../../../styles/menu/NavigationBar.css";
+import "@/styles/menu/NavigationBar.css";
 
 import { useState } from 'react';
 
@@ -20,17 +20,17 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import LogoutIcon from '@mui/icons-material/Logout';
 
-import { ADMIN_URL, HOME_URL } from '../../../constants/UrlConstants';
-import StyledLink from "../../styled/StyledLink";
+import { ADMIN_URL, HOME_URL } from '@/js/constants/UrlConstants';
+import StyledLink from "@/js/components/styled/StyledLink";
 
 import { useNavigate } from "react-router-dom";
 
 import { useSelector, useDispatch } from "react-redux";
-import { logoutReducer } from "../../../redux/authenticationSlice";
-import { resetCompareStateReducer } from "../../../redux/productCompareSlice";
-import { resetCartReducer } from "../../../redux/cartSlice";
-import { clearCart } from "../../../api/service/CartService";
-import UsernameDto from "../../../model/auth/UsernameDto";
+import { logoutReducer } from "@/js/redux/authenticationSlice";
+import { resetCompareStateReducer } from "@/js/redux/productCompareSlice";
+import { resetCartReducer } from "@/js/redux/cartSlice";
+import { clearCart } from "@/js/api/service/CartService";
+import UsernameDto from "@/js/model/auth/UsernameDto";
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',

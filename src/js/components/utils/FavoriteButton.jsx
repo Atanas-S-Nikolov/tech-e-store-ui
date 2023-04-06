@@ -5,9 +5,9 @@ import Button from '@mui/material/Button';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
-import FavoritesDto from '../../model/favorites/FavoritesDto';
-import { addFavorite, removeFavorite } from '../../api/service/FavoritesService';
-import { addFavoriteProductReducer, removeFavoriteProductReducer } from '../../redux/favoritesSlice';
+import FavoritesDto from '@/js/model/favorites/FavoritesDto';
+import { addFavorite, removeFavorite } from '@/js/api/service/FavoritesService';
+import { addFavoriteProductReducer, removeFavoriteProductReducer } from '@/js/redux/favoritesSlice';
 
 import { useSelector, useDispatch } from "react-redux";
 

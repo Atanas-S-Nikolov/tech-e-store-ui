@@ -4,7 +4,7 @@ import { styled } from "@mui/system";
 
 import StyledLink from "./StyledLink";
 
-import { HOME_URL } from "../../constants/UrlConstants";
+import { HOME_URL } from "@/js/constants/UrlConstants";
 
 export default function StyledHeader(props) {
   const StyledDiv = styled('div')(({ theme }) => ({

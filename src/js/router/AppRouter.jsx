@@ -1,6 +1,6 @@
 import { createBrowserRouter, createRoutesFromElements, Route } from "react-router-dom";
 
-import { getProduct } from "../api/service/ProductService";
+import { getProduct } from "@/js/api/service/ProductService";
 import {
   HOME_URL,
   LOGIN_URL,
@@ -13,20 +13,20 @@ import {
   ADMIN_URL,
   PRODUCT_INVENTORY_URL,
   USER_INVENTORY_URL
-} from "../constants/UrlConstants";
-import AdminPage from "../pages/admin/AdminPage";
-import ProductInventoryPage from "../pages/admin/ProductInventoryPage";
-import UserInventoryPage from "../pages/admin/UserInventoryPage";
-import Cart from "../pages/Cart";
-import Compare from "../pages/Compare";
-import Favorites from "../pages/Favorites";
+} from "@/js/constants/UrlConstants";
 
-import Home from "../pages/Home";
-import Login from "../pages/Login";
-import NotFound from "../pages/NotFound";
-import ProductPage from "../pages/ProductPage";
-import Products from "../pages/Products";
-import Register from "../pages/Register";
+import AdminPage from "@/js/pages/admin/AdminPage";
+import ProductInventoryPage from "@/js/pages/admin/ProductInventoryPage";
+import UserInventoryPage from "@/js/pages/admin/UserInventoryPage";
+import Cart from "@/js/pages/Cart";
+import Compare from "@/js/pages/Compare";
+import Favorites from "@/js/pages/Favorites";
+import Home from "@/js/pages/Home";
+import Login from "@/js/pages/Login";
+import NotFound from "@/js/pages/NotFound";
+import ProductPage from "@/js/pages/ProductPage";
+import Products from "@/js/pages/Products";
+import Register from "@/js/pages/Register";
 
 export const appRouter = createBrowserRouter(
   createRoutesFromElements(

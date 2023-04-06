@@ -6,9 +6,9 @@ import Pagination from "@mui/material/Pagination";
 import Typography from "@mui/material/Typography";
 
 import ProductPreview from "./ProductPreview";
-import StyledGridContainer from "../styled/StyledGridContainer";
-import { getProducts, getNotEarlyAccessProducts } from "../../api/service/ProductService";
-import PageSelectTabs from "../utils/PageSelectTabs";
+import StyledGridContainer from "@/js/components/styled/StyledGridContainer";
+import { getProducts, getNotEarlyAccessProducts } from "@/js/api/service/ProductService";
+import PageSelectTabs from "@/js/components/utils/PageSelectTabs";
 
 export default function PaginationProductContainer({ category, type, columnsCount }) {
   const { isAuthenticated } = useSelector(state => state.authentication);

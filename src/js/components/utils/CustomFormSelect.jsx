@@ -4,7 +4,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Typography from '@mui/material/Typography';
-import StyledFormErrorText from '../styled/StyledFormErrorText';
+import StyledFormErrorText from '@/js/components/styled/StyledFormErrorText';
 
 export default function CustomFormSelect({ id, label, labelId, value, values, onChange, sx, required = false, error, errorMessage }) {
   return (

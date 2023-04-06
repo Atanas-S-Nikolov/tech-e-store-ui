@@ -11,9 +11,9 @@ import EditIcon from '@mui/icons-material/Edit';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import StopCircleOutlinedIcon from '@mui/icons-material/StopCircleOutlined';
 
-import SnackbarMessage from '../../utils/SnackbarMessage';
-import UserFullScreenDialog from '../../utils/UserFullScreenDialog';
-import Action from '../../../model/Action';
+import SnackbarMessage from '@/js/components/utils/SnackbarMessage';
+import UserFullScreenDialog from '@/js/components/utils/UserFullScreenDialog';
+import Action from '@/js/model/Action';
 
 export default function UserPreview({ user }) {
   const { username } = user;

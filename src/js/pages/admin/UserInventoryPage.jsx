@@ -2,12 +2,12 @@ import { useState } from "react";
 
 import AddIcon from '@mui/icons-material/Add';
 
-import AdminNavigationBar from "../../components/admin/header/AdminNavigationBar";
-import UserContainer from "../../components/admin/users/UserContainer";
-import UserFullScreenDialog from "../../components/utils/UserFullScreenDialog";
+import AdminNavigationBar from "@/js/components/admin/header/AdminNavigationBar";
+import UserContainer from "@/js/components/admin/users/UserContainer";
+import UserFullScreenDialog from "@/js/components/utils/UserFullScreenDialog";
 
-import Action from "../../model/Action";
-import StyledBottomFab from "../../components/styled/StyledBottomFab";
+import Action from "@/js/model/Action";
+import StyledBottomFab from "@/js/components/styled/StyledBottomFab";
 
 export default function UserInventoryPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);

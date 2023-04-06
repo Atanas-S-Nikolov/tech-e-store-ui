@@ -1,22 +1,22 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { register } from "../api/service/AuthService";
-import UserDto from "../model/user/UserDto";
+import { register } from "@/js/api/service/AuthService";
+import UserDto from "@/js/model/user/UserDto";
 
 import Box from '@mui/material/Box';
 
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
 import PhoneIcon from '@mui/icons-material/Phone';
 
-import StyledFormControl from '../components/styled/StyledFormControl';
-import AppFooter from '../components/footer/AppFooter';
-import StyledFormButton from "../components/styled/StyledFormButton";
-import CustomFormTextInput from "../components/utils/CustomFormTextInput";
-import CustomFormPasswordInput from "../components/utils/CustomFormPasswordInput";
-import StyledHeader from "../components/styled/StyledHeader";
-import { HOME_URL } from "../constants/UrlConstants";
-import { validatePassword } from "../utils/PasswordValidator";
+import StyledFormControl from '@/js/components/styled/StyledFormControl';
+import AppFooter from '@/js/components/footer/AppFooter';
+import StyledFormButton from "@/js/components/styled/StyledFormButton";
+import CustomFormTextInput from "@/js/components/utils/CustomFormTextInput";
+import CustomFormPasswordInput from "@/js/components/utils/CustomFormPasswordInput";
+import StyledHeader from "@/js/components/styled/StyledHeader";
+import { HOME_URL } from "@/js/constants/UrlConstants";
+import { validatePassword } from "@/js/utils/PasswordValidator";
 
 export default function Register() {
   const passwordId = "password";

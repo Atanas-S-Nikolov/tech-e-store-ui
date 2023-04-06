@@ -1,5 +1,5 @@
 import Typography from "@mui/material/Typography";
-import CustomPriceTypography from "../products/CustomPriceTypography";
+import CustomPriceTypography from "@/js/components/products/CustomPriceTypography";
 
 import CartCheckoutProduct from "./CartCheckoutProduct";
 

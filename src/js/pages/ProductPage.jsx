@@ -1,9 +1,9 @@
-import ProductHeader from "../components/products/ProductHeader";
+import ProductHeader from "@/js/components/products/ProductHeader";
 
-import NavigationBar from "../components/menu/NavigationBar";
-import AppFooter from "../components/footer/AppFooter";
-import ProductDetails from "../components/products/ProductDetails";
-import ProductImagePicker from "../components/products/ProductImagePicker";
+import NavigationBar from "@/js/components/menu/NavigationBar";
+import AppFooter from "@/js/components/footer/AppFooter";
+import ProductDetails from "@/js/components/products/ProductDetails";
+import ProductImagePicker from "@/js/components/products/ProductImagePicker";
 import { useLoaderData } from "react-router-dom";
 
 export default function ProductPage() {

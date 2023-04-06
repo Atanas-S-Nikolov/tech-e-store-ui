@@ -3,7 +3,7 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import InputAdornment from "@mui/material/InputAdornment";
 import FormControl from '@mui/material/FormControl';
 
-import StyledFormErrorText from "../styled/StyledFormErrorText";
+import StyledFormErrorText from "@/js/components/styled/StyledFormErrorText";
 
 export default function CustomFormTextInput({ id, label, value, adornment, sx, required = false, error, errorMessage, onChange}) {
   return (

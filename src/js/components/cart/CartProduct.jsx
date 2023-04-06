@@ -1,4 +1,4 @@
-import "../../../styles/cart/CartProduct.css";
+import "@/styles/cart/CartProduct.css";
 
 import { useEffect, useState, useRef } from "react";
 
@@ -20,12 +20,12 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CustomPriceTypography from "../products/CustomPriceTypography";
 
-import { addProductToCart, removeProductFromCart } from "../../api/service/CartService";
-import CartDto from "../../model/cart/CartDto";
-import ProductToBuyDto from "../../model/product/ProductToBuyDto";
+import { addProductToCart, removeProductFromCart } from "@/js/api/service/CartService";
+import CartDto from "@/js/model/cart/CartDto";
+import ProductToBuyDto from "@/js/model/product/ProductToBuyDto";
 
-import SnackbarMessage from "../utils/SnackbarMessage";
-import { buildProductUrl } from "../../api/builder/URLBuilder";
+import SnackbarMessage from "@/js/components/utils/SnackbarMessage";
+import { buildProductUrl } from "@/js/api/builder/URLBuilder";
 
 export default function CartProduct({ productWrapper, onUpdate }) {
   const { name, price, imageUrls } = productWrapper.product;

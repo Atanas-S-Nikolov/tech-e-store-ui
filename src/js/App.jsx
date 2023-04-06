@@ -1,4 +1,4 @@
-import '../styles/App.css';
+import '@/styles/App.css';
 
 import { ThemeProvider } from '@mui/material';
 import { appTheme } from './utils/Themes';
@@ -17,7 +17,7 @@ function App() {
   return (
     <div className="app">
       <Provider store={store}>
-        <PersistGate loading={<Loader open/>} persistor={persistStore(store)}>
+        <PersistGate loading={<Loader/>} persistor={persistStore(store)}>
           <ThemeProvider theme={appTheme}>
             <RouterProvider router={appRouter}/>
           </ThemeProvider>

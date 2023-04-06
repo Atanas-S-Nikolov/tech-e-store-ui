@@ -7,14 +7,14 @@ import Icon from '@mui/material/Icon';
 import HomeIcon from '@mui/icons-material/Home';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 
-import AppFooter from "../components/footer/AppFooter";
-import NavigationBar from "../components/menu/NavigationBar";
-import PaginationProductContainer from "../components/products/PaginationProductContainer";
-import StyledLink from "../components/styled/StyledLink";
+import AppFooter from "@/js/components/footer/AppFooter";
+import NavigationBar from "@/js/components/menu/NavigationBar";
+import PaginationProductContainer from "@/js/components/products/PaginationProductContainer";
+import StyledLink from "@/js/components/styled/StyledLink";
 
-import ProductType from "../model/product/ProductType"
-import { HOME_URL } from "../constants/UrlConstants";
-import { categoriesItems } from "../utils/categories";
+import ProductType from "@/js/model/product/ProductType"
+import { HOME_URL } from "@/js/constants/UrlConstants";
+import { categoriesItems } from "@/js/utils/categories";
 import { buildProductsNavigationUrlByCategory, buildProductsNavigationUrlByCategoryAndType } from "../utils/NavigationUtils";
 
 function getIconByCategory(category) {

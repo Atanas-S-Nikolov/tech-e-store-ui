@@ -1,5 +1,5 @@
-import ProductCategory from "../model/product/ProductCategory";
-import ProductType from "../model/product/ProductType";
+import ProductCategory from "@/js/model/product/ProductCategory";
+import ProductType from "@/js/model/product/ProductType";
 
 const { COMPUTERS_AND_LAPTOPS, TV_AND_MONITORS, MICE_AND_KEYBOARDS, AUDIO } = ProductCategory;
 const { HEADSET, EARPHONES, TWS, DESKTOP_PC, LAPTOP, MOUSE, KEYBOARD, TV, MONITOR } = ProductType;

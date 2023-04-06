@@ -1,6 +1,6 @@
-import NavigationBar from '../components/menu/NavigationBar';
-import PaginationProductContainer from '../components/products/PaginationProductContainer';
-import AppFooter from '../components/footer/AppFooter';
+import NavigationBar from '@/js/components/menu/NavigationBar';
+import PaginationProductContainer from '@/js/components/products/PaginationProductContainer';
+import AppFooter from '@/js/components/footer/AppFooter';
 
 import Typography from "@mui/material/Typography";
 
