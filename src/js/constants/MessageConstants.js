@@ -1,0 +1,1 @@
+export const UNAUTHENTICATED_MESSAGE = "You should have an account to use this feature";

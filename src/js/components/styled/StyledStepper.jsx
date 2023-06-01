@@ -3,7 +3,7 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import { styled } from '@mui/system';
 
-export default function StyledStepper({ activeStep }) {
+export default function StyledStepper({ steps, activeStep }) {
   const CustomStepper = styled(Stepper)(() => ({
     width: '25%',
   }));
@@ -18,11 +18,6 @@ export default function StyledStepper({ activeStep }) {
       marginRight: 5,
     },
   }));
-
-  const steps = [
-    'Cart items',
-    'Checkout'
-  ];
 
   return (
     <CustomStepper activeStep={activeStep} alternativeLabel>

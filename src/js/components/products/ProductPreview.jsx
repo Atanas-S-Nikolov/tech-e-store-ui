@@ -39,7 +39,7 @@ export default function ProductPreview({ product }) {
             {name}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            Price: <b style={{ color: "green" }}>{price} lv</b>
+            Price: <b style={{ color: "green" }}>{parseFloat(price).toFixed(2)} lv</b>
           </Typography>
           {
             earlyAccess 

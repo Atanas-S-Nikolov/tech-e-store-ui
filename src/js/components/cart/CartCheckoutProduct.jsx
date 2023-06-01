@@ -12,6 +12,7 @@ import CustomPriceTypography from "@/js/components/products/CustomPriceTypograph
 export default function CartCheckoutProduct({ productWrapper, quantity }) {
   const { name, price, imageUrls } = productWrapper.product;
   const productDisplayImage = imageUrls ? imageUrls[0] : "";
+  const formatedPrice = (quantity * price).toFixed(2);
 
   return (
     <div className="cart-product">
@@ -26,7 +27,7 @@ export default function CartCheckoutProduct({ productWrapper, quantity }) {
                 <Typography variant="h5">{name}</Typography>
               </TableCell>
               <TableCell align="right">
-                <CustomPriceTypography price={quantity * price}/>
+                <CustomPriceTypography price={formatedPrice}/>
               </TableCell>
             </TableRow>
           </TableBody>

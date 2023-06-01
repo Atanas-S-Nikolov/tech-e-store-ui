@@ -8,6 +8,7 @@ import Box from '@mui/material/Box';
 
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
 import PhoneIcon from '@mui/icons-material/Phone';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 
 import StyledFormControl from '@/js/components/styled/StyledFormControl';
 import AppFooter from '@/js/components/footer/AppFooter';
@@ -26,6 +27,7 @@ export default function Register() {
   const [lastName, setLastname] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -43,11 +45,15 @@ export default function Register() {
   const [lastNameErrorMessage, setLastNameErrorMessage] = useState("");
   const [hasEmailError, setHasEmailError] = useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
+  const [hasPhoneError, setHasPhoneError] = useState(false);
+  const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
+  const [hasAddressError, setHasAddressError] = useState(false);
+  const [addressErrorMessage, setAddressErrorMessage] = useState("");
 
   const navigate = useNavigate();
 
   const registerUser = () => {
-    register(new UserDto(firstName, lastName, email, phone, username, password, confirmPassword))
+    register(new UserDto(firstName, lastName, email, phone, address, username, password, confirmPassword))
     .then(response => {
       navigate(HOME_URL);
     })
@@ -74,6 +80,10 @@ export default function Register() {
     setHasLastNameError(false);
     setEmailErrorMessage("");
     setHasEmailError(false);
+    setPhoneErrorMessage("");
+    setHasPhoneError(false);
+    setAddressErrorMessage("");
+    setHasAddressError(false);
   }
 
   function setBackendErrorState(property, message) {
@@ -93,6 +103,14 @@ export default function Register() {
       case "email":
         setEmailErrorMessage(message);
         setHasEmailError(true);
+        break;
+      case "address":
+        setAddressErrorMessage(message);
+        setHasAddressError(true);
+        break;
+      case "phone":
+        setPhoneErrorMessage(message);
+        setHasPhoneError(true);
         break;
       default:
         console.log("No one property was recognized!");
@@ -128,15 +146,6 @@ export default function Register() {
     <>
       <StyledHeader />
       <Box className="centered-container">
-        <CustomFormTextInput
-          id="username"
-          label="Username"
-          required
-          error={hasUsernameError}
-          errorMessage={usernameErrorMessage}
-          onChange={event => setUsername(event.target.value)}
-          sx={{ mt: 10, width: "82ch" }}
-        />
         <div>
           <CustomFormTextInput
             id="first-name"
@@ -172,7 +181,30 @@ export default function Register() {
             id="phone"
             label="Phone"
             adornment={<PhoneIcon/>}
+            error={hasPhoneError}
+            errorMessage={phoneErrorMessage}
             onChange={event => setPhone(event.target.value)}
+            sx={{ ml: 1 }}
+          />
+        </div>
+        <div>
+          <CustomFormTextInput
+            id="address"
+            label="Address"
+            adornment={<LocalShippingIcon/>}
+            required
+            error={hasAddressError}
+            errorMessage={addressErrorMessage}
+            onChange={event => setAddress(event.target.value)}
+            sx={{ mr: 1 }}
+          />
+          <CustomFormTextInput
+            id="username"
+            label="Username"
+            required
+            error={hasUsernameError}
+            errorMessage={usernameErrorMessage}
+            onChange={event => setUsername(event.target.value)}
             sx={{ ml: 1 }}
           />
         </div>

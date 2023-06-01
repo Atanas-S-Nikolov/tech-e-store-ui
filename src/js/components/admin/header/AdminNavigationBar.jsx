@@ -29,8 +29,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { logoutReducer } from "@/js/redux/authenticationSlice";
 import { resetCompareStateReducer } from "@/js/redux/productCompareSlice";
 import { resetCartReducer } from "@/js/redux/cartSlice";
-import { clearCart } from "@/js/api/service/CartService";
-import UsernameDto from "@/js/model/auth/UsernameDto";
+import { deleteCart } from "@/js/api/service/CartService";
+import { isNotBlank } from "@/js/utils/StringUtils";
+import { Divider } from "@mui/material";
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -73,38 +74,12 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function AdminNavigationBar() {
-  const { isAuthenticated, username } = useSelector(state => state.authentication);
+  const { cartResponse } = useSelector(state => state.cart);
+  const { key } = cartResponse;
   const [anchorEl, setAnchorEl] = useState(null);
-
   const isMenuOpen = Boolean(anchorEl);
-  
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
-
-  const navigateToHome = () => {
-    navigate(HOME_URL);
-  }
-
-  const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-  };
-
-  async function handleLogout() {
-    // order matters
-    handleMenuClose();
-    dispatch(resetCompareStateReducer());
-    if (isAuthenticated) {
-      await clearCart(new UsernameDto(username));
-    }
-    dispatch(resetCartReducer());
-    dispatch(logoutReducer());
-    navigateToHome();
-  }
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -124,11 +99,9 @@ export default function AdminNavigationBar() {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>
-        <ListItemIcon>
-          <AccountCircle/>
-        </ListItemIcon>
-        My account
+        My orders
       </MenuItem>
+      <Divider/>
       <MenuItem onClick={navigateToHome}>
         <ListItemIcon>
           <HomeIcon/>
@@ -188,4 +161,28 @@ export default function AdminNavigationBar() {
       {renderMenu}
     </Box>
   );
+
+  function navigateToHome() {
+    navigate(HOME_URL);
+  }
+
+  function handleProfileMenuOpen(event) {
+    setAnchorEl(event.currentTarget);
+  };
+
+  function handleMenuClose() {
+    setAnchorEl(null);
+  };
+
+  async function handleLogout() {
+    // order matters
+    handleMenuClose();
+    dispatch(resetCompareStateReducer());
+    if (isNotBlank(key)) {
+      await deleteCart(key);
+    }
+    dispatch(resetCartReducer());
+    dispatch(logoutReducer());
+    navigateToHome();
+  }
 }
