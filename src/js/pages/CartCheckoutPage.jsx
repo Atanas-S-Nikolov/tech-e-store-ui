@@ -14,7 +14,7 @@ import AppFooter from "@/js/components/footer/AppFooter";
 import OrderDto from "@/js/model/order/OrderDto";
 import getSteps, { CART_CHECKOUT_STEP } from "@/js/utils/CartSteps";
 import { useCart } from "@/js/hooks/useCart";
-import { cartPurchase, deleteCart } from "@/js/api/service/CartService";
+import { cartPurchase } from "@/js/api/service/CartService";
 import { createOrder } from "@/js/api/service/OrderService";
 import { resetCartReducer } from "@/js/redux/cartSlice";
 import { resetQuickOrderReducer } from "@/js/redux/quickOrderSlice";

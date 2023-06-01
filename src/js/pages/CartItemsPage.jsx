@@ -31,7 +31,7 @@ export default function CartItemsPage() {
   const { key, products = [], totalPrice = 0 } = cartResponse;
   const sortedProducts = [...products].sort((p1, p2) => p1.product.price > p2.product.price);
   const loading = useCart();
-  const isCartEmpty = !loading || (products?.length === 0 && totalPrice === 0);
+  const isCartEmpty = !loading || (sortedProducts?.length === 0 && totalPrice === 0);
 
   return (
     <>

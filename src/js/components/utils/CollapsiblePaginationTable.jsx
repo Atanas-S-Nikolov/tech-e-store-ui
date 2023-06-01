@@ -48,7 +48,7 @@ export default function CollapsiblePaginationTable({ columns, request }) {
             </TableRow>
           </TableHead>
           <TableBody>
-          {items.map(item => <OrderRow columns={columns} row={item}/>)}
+          {items.map(item => <OrderRow key={crypto.randomUUID()} columns={columns} row={item}/>)}
           </TableBody>
         </Table>
       </TableContainer>

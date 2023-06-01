@@ -39,6 +39,7 @@ import { resetCompareStateReducer } from "@/js/redux/productCompareSlice";
 import { resetCartReducer } from "@/js/redux/cartSlice";
 import { deleteCart } from "@/js/api/service/CartService";
 import { Divider } from "@mui/material";
+import { isNotBlank } from "@/js/utils/StringUtils";
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -287,7 +288,7 @@ export default function NavigationBar() {
     // order matters
     handleMenuClose();
     dispatch(resetCompareStateReducer());
-    if (key && key !== "") {
+    if (isNotBlank(key)) {
       await deleteCart(key);
     }
     dispatch(resetCartReducer());
