@@ -4,4 +4,5 @@ export const FIRST_NAME_PROPERTY = "firstName";
 export const LAST_NAME_PROPERTY = "lastName";
 export const EMAIL_PROPERTY = "email";
 export const PHONE_PROPERTY = "phone";
+export const ADDRESS_PROPERTY = "address";
 export const ROLE_PROPERTY = "role";

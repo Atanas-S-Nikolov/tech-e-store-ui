@@ -21,7 +21,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import CustomPriceTypography from "../products/CustomPriceTypography";
 
 import { addProductToCart, removeProductFromCart } from "@/js/api/service/CartService";
-import CartDto from "@/js/model/cart/CartDto";
+import UpdateCartDto from "@/js/model/cart/UpdateCartDto";
 import ProductToBuyDto from "@/js/model/product/ProductToBuyDto";
 
 import SnackbarMessage from "@/js/components/utils/SnackbarMessage";
@@ -35,7 +35,8 @@ export default function CartProduct({ productWrapper, onUpdate }) {
   const [stateQuantity, setStateQuantity] = useState(quantity.current);
   const [hasError, setHasError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const { username } = useSelector(state => state.authentication);
+  const { cartResponse } = useSelector(state => state.cart);
+  const { key } = cartResponse;
 
   const increaseQuantity = () => {
     setStateQuantity(prevState => prevState += 1);
@@ -48,7 +49,7 @@ export default function CartProduct({ productWrapper, onUpdate }) {
   useEffect(() => {
     quantity.current = stateQuantity;
     const products = ProductToBuyDto.buildProductsToBuy(name, stateQuantity);
-    const cartDto = new CartDto(username, ProductToBuyDto.convertToProductsToBuy(products));
+    const cartDto = new UpdateCartDto(ProductToBuyDto.convertToProductsToBuy(products), key);
     addProductToCart(cartDto)
       .then(response => {
         onUpdate(response.data);
@@ -56,7 +57,8 @@ export default function CartProduct({ productWrapper, onUpdate }) {
       .catch(error => {
         const response = error.response;
           if (response.status === 400) {
-            setErrorMessage(response.data.messages[0]);
+            const { message } = response.data.rejectedProperties[0];
+            setErrorMessage(message);
             setHasError(true);
             if (stateQuantity <= 0) {
               setStateQuantity(1);
@@ -70,7 +72,7 @@ export default function CartProduct({ productWrapper, onUpdate }) {
   const handleRemoveProduct = (event) => {
     event.preventDefault();
     const products = ProductToBuyDto.buildProductToBuy(name);
-    removeProductFromCart(new CartDto(username, ProductToBuyDto.convertToProductsToBuy(products)))
+    removeProductFromCart(new UpdateCartDto(ProductToBuyDto.convertToProductsToBuy(products), key))
       .then(response => {
         onUpdate(response.data);
       })
@@ -113,7 +115,7 @@ export default function CartProduct({ productWrapper, onUpdate }) {
                   <IconButton onClick={increaseQuantity}>
                     <AddIcon/> 
                   </IconButton>
-                  <CustomPriceTypography price={(stateQuantity * price).toFixed(2)}/>
+                  <CustomPriceTypography price={stateQuantity * price}/>
                 </div>
                 <Typography variant="subtitle1" sx={{ mt: 1 }}>Price for one: {price.toFixed(2)} lv</Typography>
               </TableCell>

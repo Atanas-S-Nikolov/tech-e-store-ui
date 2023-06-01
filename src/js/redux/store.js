@@ -5,6 +5,7 @@ import authenticationReducer from "./authenticationSlice";
 import cartReducer from "./cartSlice";
 import productCompareReducer from "./productCompareSlice";
 import favoritesReducer from "./favoritesSlice";
+import quickOrderReducer from "./quickOrderSlice";
 
 const persistConfig = {
     key: 'root',
@@ -17,7 +18,8 @@ const persistedReducer = persistCombineReducers(
         authentication: authenticationReducer,
         cart: cartReducer,
         productCompare: productCompareReducer,
-        favorites: favoritesReducer
+        favorites: favoritesReducer,
+        quickOrder: quickOrderReducer
     }
 ); 
 

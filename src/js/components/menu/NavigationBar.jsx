@@ -24,10 +24,12 @@ import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import LogoutIcon from '@mui/icons-material/Logout';
 
-import { ADMIN_URL, CART_URL, COMPARE_URL, FAVORITES_URL, HOME_URL, LOGIN_URL } from '@/js/constants/UrlConstants';
+import { ADMIN_URL, CART_URL, COMPARE_URL, FAVORITES_URL, HOME_URL, LOGIN_URL, ORDERS_URL } from '@/js/constants/UrlConstants';
 import StyledLink from "@/js/components/styled/StyledLink";
 import CustomSwipeableDrawer from './CustomSwipeableDrawer';
 import CustomBadge from "@/js/components/utils/CustomBadge";
+import SnackbarMessage from "@/js/components/utils/SnackbarMessage";
+import { UNAUTHENTICATED_MESSAGE } from '@/js/constants/MessageConstants';
 
 import { useNavigate } from "react-router-dom";
 
@@ -35,8 +37,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { logoutReducer } from "@/js/redux/authenticationSlice";
 import { resetCompareStateReducer } from "@/js/redux/productCompareSlice";
 import { resetCartReducer } from "@/js/redux/cartSlice";
-import { clearCart } from "@/js/api/service/CartService";
-import UsernameDto from "@/js/model/auth/UsernameDto";
+import { deleteCart } from "@/js/api/service/CartService";
+import { Divider } from "@mui/material";
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -79,65 +81,20 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function NavigationBar() {
-  const { isAuthenticated, username, role } = useSelector(state => state.authentication);
+  const { isAuthenticated, role } = useSelector(state => state.authentication);
   const { products: comparedProducts } = useSelector(state => state.productCompare);
   const { products: favoriteProducts } = useSelector(state => state.favorites);
-  const { products: cartProducts } = useSelector(state => state.cart);
-  const isAdmin = role === import.meta.env.VITE_ADMIN_ROLE;
-
+  const { cartResponse } = useSelector(state => state.cart);
+  const { key, products: cartProducts } = cartResponse;
+  const [hasError, setHasError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const [anchorEl, setAnchorEl] = useState(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
   const isMenuOpen = Boolean(anchorEl);
-  
+  const isAdmin = role === import.meta.env.VITE_ADMIN_ROLE;
+
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
-
-  const navigateToCart = () => {
-    navigate(CART_URL);
-  }
-
-  const navigateToCompare = () => {
-    navigate(COMPARE_URL);
-  }
-
-  const navigateToFavorites = () => {
-    navigate(FAVORITES_URL);
-  }
-
-  const navigateToAdminPanel =() => {
-    handleMenuClose();
-    navigate(ADMIN_URL);
-  }
-
-  const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-  };
-
-  const handleDrawerOpen = () => {
-    setIsDrawerOpen(true);
-  }
-
-  const handleDrawerClose = () => {
-    setIsDrawerOpen(false);
-  }
-
-  async function handleLogout() {
-    // order matters
-    handleMenuClose();
-    dispatch(resetCompareStateReducer());
-    if (isAuthenticated) {
-      await clearCart(new UsernameDto(username));
-    }
-    dispatch(resetCartReducer());
-    dispatch(logoutReducer());
-    navigate(HOME_URL);
-  }
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -156,12 +113,10 @@ export default function NavigationBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>
-        <ListItemIcon>
-          <AccountCircle/>
-        </ListItemIcon>
-        My account
+      <MenuItem onClick={navigateToOrders}>
+        My orders
       </MenuItem>
+      <Divider/>
       {
         isAdmin
           ? <MenuItem onClick={navigateToAdminPanel}>
@@ -243,7 +198,7 @@ export default function NavigationBar() {
               color="inherit"
               onClick={navigateToCart}
             >
-              <CustomBadge badgeContent={cartProducts.length}>
+              <CustomBadge badgeContent={cartProducts?.length || 0}>
                 <ShoppingCartIcon />              
               </CustomBadge>
             </IconButton>
@@ -272,6 +227,71 @@ export default function NavigationBar() {
         </Toolbar>
       </AppBar>
       {renderMenu}
+      {
+        hasError 
+          ? <SnackbarMessage severity="error" message={errorMessage} afterErrorCallback={handleHasErrorFalse}/> 
+          : null
+      }
     </Box>
   );
+
+  function navigateToCart() {
+    navigate(CART_URL);
+  }
+
+  function navigateToCompare() {
+    navigate(COMPARE_URL);
+  }
+
+  function navigateToFavorites() {
+    if (!isAuthenticated) {
+      setErrorMessage(UNAUTHENTICATED_MESSAGE);
+      setHasError(true);
+      return;
+    }
+    navigate(FAVORITES_URL);
+  }
+
+  function navigateToAdminPanel() {
+    handleMenuClose();
+    navigate(ADMIN_URL);
+  }
+
+  function navigateToOrders() {
+    handleMenuClose();
+    navigate(ORDERS_URL);
+  }
+
+  function handleHasErrorFalse() {
+    setHasError(false);
+    setErrorMessage("");
+  }
+
+  function handleProfileMenuOpen(event) {
+    setAnchorEl(event.currentTarget);
+  };
+
+  function handleMenuClose() {
+    setAnchorEl(null);
+  };
+
+  function handleDrawerOpen() {
+    setIsDrawerOpen(true);
+  }
+
+  function handleDrawerClose() {
+    setIsDrawerOpen(false);
+  }
+
+  async function handleLogout() {
+    // order matters
+    handleMenuClose();
+    dispatch(resetCompareStateReducer());
+    if (key && key !== "") {
+      await deleteCart(key);
+    }
+    dispatch(resetCartReducer());
+    dispatch(logoutReducer());
+    navigate(HOME_URL);
+  }
 }

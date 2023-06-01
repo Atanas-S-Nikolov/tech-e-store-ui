@@ -1,6 +1,5 @@
-export default class CartDto{
-  constructor(username, productsToBuy) {
-    this.username = username;
+export default class CartDto {
+  constructor(productsToBuy) {
     this.productsToBuy = productsToBuy;
   }
 }

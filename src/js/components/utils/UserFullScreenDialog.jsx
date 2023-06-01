@@ -12,6 +12,7 @@ import Slide from '@mui/material/Slide';
 import CloseIcon from '@mui/icons-material/Close';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
 import PhoneIcon from '@mui/icons-material/Phone';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 
 import CustomFormTextInput from './CustomFormTextInput';
 import CustomFormPasswordInput from './CustomFormPasswordInput';
@@ -21,10 +22,12 @@ import { createUser, updateUser } from '@/js/api/service/UserService';
 import UserDto from '@/js/model/user/UserDto';
 import CustomFormSelect from './CustomFormSelect';
 import {
+  ADDRESS_PROPERTY,
   EMAIL_PROPERTY, 
   FIRST_NAME_PROPERTY, 
   LAST_NAME_PROPERTY, 
   PASSWORD_PROPERTY, 
+  PHONE_PROPERTY, 
   ROLE_PROPERTY, 
   USERNAME_PROPERTY
 } from '../../constants/PropertyConstants';
@@ -37,13 +40,14 @@ export default function UserFullScreenDialog({ open, handleClose, action, user =
   const roles = [import.meta.env.VITE_ADMIN_ROLE, import.meta.env.VITE_CUSTOMER_ROLE];
   const isActionCreate = Action.CREATE === action;
   const isActionUpdate = Action.UPDATE === action;
-  const usernameTextFieldStyle = isActionCreate ? { mr: 1 } : { mr: 1, width: "82ch" };
+  const addressTextFieldStyle = isActionCreate ? { mr: 1 } : null;
 
   const [title, setTitle] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
@@ -60,6 +64,10 @@ export default function UserFullScreenDialog({ open, handleClose, action, user =
   const [lastNameErrorMessage, setLastNameErrorMessage] = useState("");
   const [hasEmailError, setHasEmailError] = useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
+  const [hasPhoneError, setHasPhoneError] = useState(false);
+  const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
+  const [hasAddressError, setHasAddressError] = useState(false);
+  const [addressErrorMessage, setAddressErrorMessage] = useState("");
   const [hasRoleError, setHasRoleError] = useState(false);
   const [roleErrorMessage, setRoleErrorMessage] = useState("");
   const [hasError, setHasError] = useState(false);
@@ -82,6 +90,10 @@ export default function UserFullScreenDialog({ open, handleClose, action, user =
     setHasLastNameError(false);
     setEmailErrorMessage("");
     setHasEmailError(false);
+    setPhoneErrorMessage("");
+    setHasPhoneError(false);
+    setAddressErrorMessage("");
+    setHasAddressError(false);
     setRoleErrorMessage("");
     setHasRoleError(false);
     handleHasErrorFalse();
@@ -109,6 +121,14 @@ export default function UserFullScreenDialog({ open, handleClose, action, user =
         setEmailErrorMessage(message);
         setHasEmailError(true);
         break;
+      case PHONE_PROPERTY:
+        setPhoneErrorMessage(message);
+        setHasPhoneError(true);
+        break;
+      case ADDRESS_PROPERTY:
+        setAddressErrorMessage(message);
+        setHasAddressError(true);
+        break;
       case ROLE_PROPERTY:
         setRoleErrorMessage(message);
         setHasRoleError(true);
@@ -121,7 +141,7 @@ export default function UserFullScreenDialog({ open, handleClose, action, user =
   async function handleSave(event) {
     event.preventDefault();
     try {
-      const userDto = new UserDto(firstName, lastName, email, phone, username, password, null, role);
+      const userDto = new UserDto(firstName, lastName, email, phone, address, username, password, null, role);
       if (isActionCreate) {
         await createUser(userDto);
       } else if(isActionUpdate) {
@@ -168,6 +188,7 @@ export default function UserFullScreenDialog({ open, handleClose, action, user =
         setLastName(user.lastName);
         setEmail(user.email);
         setPhone(user.phone);
+        setAddress(user.address);
         setUsername(user.username);
         setPassword(user.password);
         setRole(user.role);
@@ -203,20 +224,20 @@ export default function UserFullScreenDialog({ open, handleClose, action, user =
         </Toolbar>
       </AppBar>
       <Box className="centered-container">
-        <div>
-          <CustomFormTextInput
-            id="username"
-            label="Username"
-            required
-            error={hasUsernameError}
-            errorMessage={usernameErrorMessage}
-            value={username}
-            onChange={event => setUsername(event.target.value)}
-            sx={usernameTextFieldStyle}
-          />
-          {
-            isActionCreate
-              ? <CustomFormPasswordInput
+        {
+          isActionCreate
+            ? 
+              <div>
+                <CustomFormTextInput
+                  id="username"
+                  label="Username"
+                  required
+                  error={hasUsernameError}
+                  errorMessage={usernameErrorMessage}
+                  onChange={event => setUsername(event.target.value)}
+                  sx={{ mr: 1 }}
+                />
+                <CustomFormPasswordInput
                   id="password"
                   label="Password"
                   error={hasPasswordError}
@@ -225,10 +246,9 @@ export default function UserFullScreenDialog({ open, handleClose, action, user =
                   onChange={event => setPassword(event.target.value)}
                   sx={{ ml: 1 }}
                 />
-              : null
-          }
-          
-        </div>
+              </div>
+          : null
+        }
         <div>
           <CustomFormTextInput
             id="first-name"
@@ -267,27 +287,42 @@ export default function UserFullScreenDialog({ open, handleClose, action, user =
             id="phone"
             label="Phone"
             adornment={<PhoneIcon/>}
+            error={hasPhoneError}
+            errorMessage={phoneErrorMessage}
             value={phone}
             onChange={event => setPhone(event.target.value)}
             sx={{ ml: 1 }}
           />
         </div>
-        {
-          isActionCreate
-            ? <CustomFormSelect
-                id="role"
-                label="Role"
-                lableId="role-label-id"
-                required
-                error={hasRoleError}
-                errorMessage={roleErrorMessage}
-                value={role}
-                values={roles}
-                onChange={(event) => setRole(event.target.value)}
-              />
-            : null
-        }
-        
+        <div>
+          <CustomFormTextInput
+            id="address"
+            label="Address"
+            adornment={<LocalShippingIcon/>}
+            value={address}
+            required
+            error={hasAddressError}
+            errorMessage={addressErrorMessage}
+            onChange={event => setAddress(event.target.value)}
+            sx={addressTextFieldStyle}
+          />
+          {
+            isActionCreate
+              ? <CustomFormSelect
+                  id="role"
+                  label="Role"
+                  lableId="role-label-id"
+                  required
+                  error={hasRoleError}
+                  errorMessage={roleErrorMessage}
+                  value={role}
+                  values={roles}
+                  onChange={(event) => setRole(event.target.value)}
+                  sx={{ ml: 1 }}
+                />
+              : null
+          }
+        </div>
       </Box>
       {
         isSavedSuccessfully 
