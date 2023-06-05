@@ -15,7 +15,8 @@ import {
   ADMIN_URL,
   PRODUCT_INVENTORY_URL,
   USER_INVENTORY_URL,
-  ORDERS_URL
+  ORDERS_URL,
+  ORDER_INVENTORY_URL
 } from "@/js/constants/UrlConstants";
 
 import AdminPage from "@/js/pages/admin/AdminPage";
@@ -33,6 +34,7 @@ import CartItemsPage from "@/js/pages/CartItemsPage";
 import CartOrderInformationPage from "@/js/pages/CartOrderInformationPage";
 import CartCheckoutPage from "@/js/pages/CartCheckoutPage";
 import Orders from "@/js/pages/Orders";
+import OrderInventoryPage from "@/js/pages/admin/OrderInventoryPage";
 
 export const appRouter = createBrowserRouter(
   createRoutesFromElements(
@@ -51,6 +53,7 @@ export const appRouter = createBrowserRouter(
       <Route path={PRODUCT_INVENTORY_URL} element={<ProductInventoryPage />}/>
       <Route path={USER_INVENTORY_URL} element={<UserInventoryPage />}/>
       <Route path={ORDERS_URL} element={<Orders />}/>
+      <Route path={ORDER_INVENTORY_URL} element={<OrderInventoryPage/>}/>
     </>
   )
 );

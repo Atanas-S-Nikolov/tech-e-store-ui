@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 
 export function usePaging(pagingRequest) {
-  const [totalItems, setTotalItems] = useState([]);
-  const [totalPages, setTotalPages] = useState([]);
+  const [totalItems, setTotalItems] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
   const [items, setItems] = useState([]);
 
   useEffect(() => {
@@ -15,7 +15,7 @@ export function usePaging(pagingRequest) {
     .catch(error => {
       console.log(error);
     });
-  }, []);
+  }, [pagingRequest]);
 
   return { totalItems, totalPages, items };
 }

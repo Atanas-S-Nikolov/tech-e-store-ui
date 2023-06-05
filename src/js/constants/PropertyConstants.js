@@ -1,3 +1,4 @@
+export const ID_PROPERTY = "id";
 export const USERNAME_PROPERTY = "username";
 export const PASSWORD_PROPERTY = "password";
 export const FIRST_NAME_PROPERTY = "firstName";

@@ -2,7 +2,8 @@ import {
   ORDER_URL, 
   GET_ORDER_URL, 
   GET_ALL_ORDERS_URL, 
-  DELIVER_ORDER_URL, 
+  DELIVER_ORDER_URL,
+  CANCEL_ORDER_URL,
   RETURN_ORDER_URL, 
   FINALIZE_ORDER_URL 
 } from "@/js/constants/UrlConstants";
@@ -31,6 +32,10 @@ export function getAllOrdersForUser(usernameDto, page, size, startDate, endDate)
 
 export function deliverOrder(orderDto) {
   return request.put(DELIVER_ORDER_URL, JSON.stringify(orderDto), buildAccessTokenConfig());
+}
+
+export function cancelOrder(orderDto) {
+  return request.put(CANCEL_ORDER_URL, JSON.stringify(orderDto), buildAccessTokenConfig());
 }
 
 export function returnOrder(orderDto) {

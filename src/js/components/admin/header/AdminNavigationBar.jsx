@@ -20,7 +20,7 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import LogoutIcon from '@mui/icons-material/Logout';
 
-import { ADMIN_URL, HOME_URL } from '@/js/constants/UrlConstants';
+import { ADMIN_URL, HOME_URL, ORDERS_URL } from '@/js/constants/UrlConstants';
 import StyledLink from "@/js/components/styled/StyledLink";
 
 import { useNavigate } from "react-router-dom";
@@ -98,7 +98,7 @@ export default function AdminNavigationBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>
+      <MenuItem onClick={navigateToOrders}>
         My orders
       </MenuItem>
       <Divider/>
@@ -164,6 +164,10 @@ export default function AdminNavigationBar() {
 
   function navigateToHome() {
     navigate(HOME_URL);
+  }
+
+  function navigateToOrders() {
+    navigate(ORDERS_URL);
   }
 
   function handleProfileMenuOpen(event) {
