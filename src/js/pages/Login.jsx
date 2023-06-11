@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
-import { HOME_URL, REGISTER_URL } from '@/js/constants/UrlConstants';
+import { HOME_URL, REGISTER_URL, FORGOT_PASSWORD_URL } from '@/js/constants/UrlConstants';
 import StyledFormControl from '@/js/components/styled/StyledFormControl';
 import StyledFormButton from "@/js/components/styled/StyledFormButton";
 import CustomFormTextInput from "@/js/components/utils/CustomFormTextInput";
@@ -32,28 +32,8 @@ function extractUsername(str) {
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const loginUser = () => {
-    login(new AuthenticationDto(username, password))
-    .then(response => {
-      const { accessToken, refreshToken } = response.data;
-      const decodedJwt = jwt_decode(accessToken);
-      dispatch(loginReducer({
-        username: extractUsername(decodedJwt.sub),
-        role: decodedJwt.roles[0],
-        accessToken: accessToken,
-        refreshToken: refreshToken
-      }));
-      navigate(HOME_URL);
-    })
-    .catch(error => {
-      dispatch(logoutReducer());
-      console.log(error);
-    });
-  }
 
   return (
     <>
@@ -71,6 +51,14 @@ export default function Login() {
           label="Password"
           onChange={event => setPassword(event.target.value)}
         />
+        <Typography>
+          <Link
+            className="link"
+            to={`../${FORGOT_PASSWORD_URL}`}
+          >
+            Forgot password?
+          </Link>
+        </Typography>
         <StyledFormControl onClick={loginUser}>
           <StyledFormButton>LOGIN</StyledFormButton>
         </StyledFormControl>
@@ -87,4 +75,23 @@ export default function Login() {
       <AppFooter/>
     </>
   );
+
+  function loginUser() {
+    login(new AuthenticationDto(username, password))
+    .then(response => {
+      const { accessToken, refreshToken } = response.data;
+      const decodedJwt = jwt_decode(accessToken);
+      dispatch(loginReducer({
+        username: extractUsername(decodedJwt.sub),
+        role: decodedJwt.roles[0],
+        accessToken: accessToken,
+        refreshToken: refreshToken
+      }));
+      navigate(HOME_URL);
+    })
+    .catch(error => {
+      dispatch(logoutReducer());
+      console.log(error);
+    });
+  }
 }

@@ -1,4 +1,4 @@
-import { USERS_URL, GET_USER_URL } from "../../constants/UrlConstants";
+import { USERS_URL, GET_USER_URL, FORGOT_PASSWORD_URL } from "../../constants/UrlConstants";
 import { request, buildAccessTokenConfig } from "../backend";
 import { buildUserParams } from "../builder/URLBuilder";
 
@@ -8,6 +8,10 @@ export async function createUser(userDto) {
 
 export function getUser(usernameDto) {
   return request.post(GET_USER_URL, JSON.stringify(usernameDto), buildAccessTokenConfig());
+}
+
+export function forgotPassword(emailDto) {
+  return request.post(FORGOT_PASSWORD_URL, JSON.stringify(emailDto));
 }
 
 export async function updateUser(userDto) {
