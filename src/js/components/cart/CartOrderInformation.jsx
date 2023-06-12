@@ -72,11 +72,11 @@ export default function CartOrderInformation() {
     const isPhonePresent = isNotBlank(phoneToRender);
   
     if (isEmailPresent && isPhonePresent) {
-      return "We will contact you for order confirmation.";
+      return "We will contact you.";
     } else if (isEmailPresent) {
-      return `You will receive an confirmation email on: ${emailToRender}.`;
+      return `You will receive an email about your order on: ${emailToRender}.`;
     } else if (isPhonePresent) {
-      return `You will receive a call on: ${phoneToRender} for confirmation.`;
+      return `You will receive a call on: ${phoneToRender} about your order.`;
     }
   }
 }
