@@ -18,7 +18,8 @@ import {
   ORDERS_URL,
   ORDER_INVENTORY_URL,
   RESET_PASSWORD_URL,
-  FORGOT_PASSWORD_URL
+  FORGOT_PASSWORD_URL,
+  CONTACTS_URL
 } from "@/js/constants/UrlConstants";
 
 import AdminPage from "@/js/pages/admin/AdminPage";
@@ -39,6 +40,7 @@ import Orders from "@/js/pages/Orders";
 import OrderInventoryPage from "@/js/pages/admin/OrderInventoryPage";
 import ResetPasswordPage from "@/js/pages/ResetPasswordPage";
 import ForgotPasswordPage from "@/js/pages/ForgotPasswordPage";
+import Contacts from "@/js/pages/Contacts";
 
 export const appRouter = createBrowserRouter(
   createRoutesFromElements(
@@ -60,6 +62,7 @@ export const appRouter = createBrowserRouter(
       <Route path={ORDER_INVENTORY_URL} element={<OrderInventoryPage/>}/>
       <Route path={RESET_PASSWORD_URL} element={<ResetPasswordPage/>}/>
       <Route path={FORGOT_PASSWORD_URL} element={<ForgotPasswordPage/>}/>
+      <Route path={CONTACTS_URL} element={<Contacts/>}/>
     </>
   )
 );
