@@ -34,3 +34,4 @@ export const USER_INVENTORY_URL = `${ADMIN_URL}/users`;
 export const ORDER_INVENTORY_URL = ADMIN_URL + ORDERS_URL;
 export const RESET_PASSWORD_URL = `${AUTH}/resetPassword`;
 export const FORGOT_PASSWORD_URL = `${USERS_URL}/forgotPassword`;
+export const CONTACTS_URL = "/contacts";
