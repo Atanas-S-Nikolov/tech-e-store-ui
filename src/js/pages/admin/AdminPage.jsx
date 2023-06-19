@@ -7,6 +7,8 @@ import styled from "@emotion/styled";
 import AdminNavigationBar from "@/js/components/admin/header/AdminNavigationBar";
 import StyledGridContainer from "@/js/components/styled/StyledGridContainer";
 import StyledCardText from "@/js/components/styled/StyledCardText";
+import AppFooter from "@/js/components/footer/AppFooter";
+
 import { PRODUCT_INVENTORY_URL, USER_INVENTORY_URL, ORDER_INVENTORY_URL } from "@/js/constants/UrlConstants";
 
 import { useNavigate } from "react-router-dom";
@@ -49,6 +51,7 @@ export default function AdminPage() {
           );
         })}
       </StyledGridContainer>
+      <AppFooter/>
     </>
   )
 

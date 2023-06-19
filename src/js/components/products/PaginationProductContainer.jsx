@@ -7,10 +7,16 @@ import Typography from "@mui/material/Typography";
 
 import ProductPreview from "./ProductPreview";
 import StyledGridContainer from "@/js/components/styled/StyledGridContainer";
-import { getProducts, getNotEarlyAccessProducts } from "@/js/api/service/ProductService";
 import PageSelectTabs from "@/js/components/utils/PageSelectTabs";
 
-export default function PaginationProductContainer({ category, type, columnsCount }) {
+import {
+  getProducts,
+  getNotEarlyAccessProducts,
+  searchQueryProducts,
+  searchQueryProductsWithoutEarlyAccess
+} from "@/js/api/service/ProductService";
+
+export default function PaginationProductContainer({ category, type, keyword, columnsCount }) {
   const { isAuthenticated } = useSelector(state => state.authentication);
   const [paging, setPaging] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -31,14 +37,23 @@ export default function PaginationProductContainer({ category, type, columnsCoun
   const loadProducts = useCallback(() => {
     const pageToUpdate = page - 1;
     if (isAuthenticated) {
+      if (keyword) {
+        return searchQueryProducts(pageToUpdate, size, keyword);
+      }
+
       return areProductsFiltered 
         ? getProducts(pageToUpdate, size, category, type) 
         : getProducts(pageToUpdate, size);
     }
+
+    if (keyword) {
+      return searchQueryProductsWithoutEarlyAccess(pageToUpdate, size, keyword);
+    }
+
     return areProductsFiltered 
       ? getNotEarlyAccessProducts(pageToUpdate, size, category, type) 
       : getNotEarlyAccessProducts(pageToUpdate, size);
-  }, [isAuthenticated, page, size, areProductsFiltered, category, type])
+  }, [isAuthenticated, page, size, areProductsFiltered, category, type, keyword])
     
   useEffect(() => {
     loadProducts()

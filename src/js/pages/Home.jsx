@@ -1,4 +1,4 @@
-import NavigationBar from '@/js/components/menu/NavigationBar';
+import NavigationBar from '@/js/components/header/NavigationBar';
 import PaginationProductContainer from '@/js/components/products/PaginationProductContainer';
 import AppFooter from '@/js/components/footer/AppFooter';
 

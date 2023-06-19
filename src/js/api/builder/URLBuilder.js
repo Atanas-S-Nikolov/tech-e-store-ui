@@ -18,7 +18,7 @@ export function buildCartPurchaseUrl(cartKey) {
 
 export function buildProductParams(page, size, category, type, earlyAccess = true) {
   const params = {};
-  if (page) {
+  if (page || page >= 0) {
     params.page = page;
   }
   if (size) {
@@ -38,7 +38,7 @@ export function buildProductParams(page, size, category, type, earlyAccess = tru
 
 export function buildUserParams(page, size) {
   const params = {};
-  if (page) {
+  if (page || page >= 0) {
     params.page = page;
   }
   if (size) {
@@ -49,7 +49,7 @@ export function buildUserParams(page, size) {
 
 export function buildOrderParams(page, size, startDate, endDate) {
   const params = {};
-  if (page) {
+  if (page || page >= 0) {
     params.page = page;
   }
   if (size) {
@@ -62,4 +62,32 @@ export function buildOrderParams(page, size, startDate, endDate) {
     params.endDate = endDate;
   }
   return params;
+}
+
+export function buildSearchParams(keyword, earlyAccess = true) {
+  const params = {};
+  if (!earlyAccess) {
+    params.earlyAccess = false;
+  }
+  if (keyword) {
+    params.keyword = keyword; 
+   }
+   return params;
+}
+
+export function buildSearchQueryParams(page, size, keyword, earlyAccess = true) {
+  const params = {};
+  if (page || page >= 0) {
+    params.page = page;
+  }
+  if (size) {
+    params.size = size;
+  }
+  if (!earlyAccess) {
+    params.earlyAccess = false;
+  }
+  if (keyword) {
+    params.keyword = keyword; 
+   }
+   return params;
 }

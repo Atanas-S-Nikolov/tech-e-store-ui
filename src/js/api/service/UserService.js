@@ -24,6 +24,6 @@ export function getAllUsers(page, size) {
   return request.get(USERS_URL, config);
 }
 
-export function deleteUser(authenticationDto) {
-  return request.delete(USERS_URL, JSON.stringify(authenticationDto), buildAccessTokenConfig());
+export function deleteUser(usernameDto) {
+  return request.delete(USERS_URL, JSON.stringify(usernameDto), buildAccessTokenConfig());
 }

@@ -8,6 +8,7 @@ import UserFullScreenDialog from "@/js/components/utils/UserFullScreenDialog";
 
 import Action from "@/js/model/Action";
 import StyledBottomFab from "@/js/components/styled/StyledBottomFab";
+import AppFooter from "@/js/components/footer/AppFooter";
 
 export default function UserInventoryPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -32,6 +33,7 @@ export default function UserInventoryPage() {
         handleClose={handleCloseDialog}
         action={Action.CREATE}
       />
+      <AppFooter/>
     </>
   );
 }

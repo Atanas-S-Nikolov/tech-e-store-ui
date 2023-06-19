@@ -1,6 +1,6 @@
 import { request, formDataRequest, buildAccessTokenConfig } from "../backend";
-import { buildProductUrl, buildProductParams } from "../builder/URLBuilder";
-import { PRODUCTS_URL } from "../../constants/UrlConstants";
+import { buildProductUrl, buildProductParams, buildSearchParams, buildSearchQueryParams } from "../builder/URLBuilder";
+import { PRODUCTS_URL, PRODUCTS_SEARCH_URL, PRODUCTS_SEARCH_QUERY_URL } from "../../constants/UrlConstants";
 
 function buildFormData(productDto, images) {
   const formData = new FormData();
@@ -32,6 +32,28 @@ export function getProducts(page, size, category, type) {
   const config = buildAccessTokenConfig();
   config.params = buildProductParams(page, size, category, type);
   return request.get(PRODUCTS_URL, config);
+}
+
+export function searchProductsWithoutEarlyAccess(keyword) {
+  const params = buildSearchParams(keyword, false);
+  return request.get(PRODUCTS_SEARCH_URL, { params: params });
+}
+
+export function searchProducts(keyword) {
+  const config = buildAccessTokenConfig();
+  config.params = buildSearchParams(keyword);
+  return request.get(PRODUCTS_SEARCH_URL, config);
+}
+
+export function searchQueryProductsWithoutEarlyAccess(page, size, keyword) {
+  const params = buildSearchQueryParams(page, size, keyword, false);
+  return request.get(PRODUCTS_SEARCH_QUERY_URL, { params: params });
+}
+
+export function searchQueryProducts(page, size, keyword) {
+  const config = buildAccessTokenConfig();
+  config.params = buildSearchQueryParams(page, size, keyword);
+  return request.get(PRODUCTS_SEARCH_QUERY_URL, config);
 }
 
 export function deleteProduct(productName) {
