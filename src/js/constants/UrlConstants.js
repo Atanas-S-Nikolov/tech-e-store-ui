@@ -5,6 +5,8 @@ const DELIVER = "/deliver";
 const CANCEL = "/cancel";
 const RETURN = "/return";
 const FINALIZE = "/finalize";
+const SEARCH = "/search";
+const QUERY = "/query";
 
 export const HOME_URL = "/";
 export const LOGIN_URL = `${AUTH}/login`;
@@ -35,3 +37,5 @@ export const ORDER_INVENTORY_URL = ADMIN_URL + ORDERS_URL;
 export const RESET_PASSWORD_URL = `${AUTH}/resetPassword`;
 export const FORGOT_PASSWORD_URL = `${USERS_URL}/forgotPassword`;
 export const CONTACTS_URL = "/contacts";
+export const PRODUCTS_SEARCH_URL = PRODUCTS_URL + SEARCH;
+export const PRODUCTS_SEARCH_QUERY_URL = PRODUCTS_URL + SEARCH + QUERY;

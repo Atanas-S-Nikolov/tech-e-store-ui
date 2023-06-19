@@ -1,7 +1,7 @@
 import Typography from '@mui/material/Typography';
 
 import AppFooter from "@/js/components/footer/AppFooter";
-import NavigationBar from "@/js/components/menu/NavigationBar";
+import NavigationBar from "@/js/components/header/NavigationBar";
 import OrderPaginationTable from "@/js/components/orders/OrderPaginationTable";
 
 import UsernameDto from "@/js/model/auth/UsernameDto";

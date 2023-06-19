@@ -1,6 +1,6 @@
 import ProductHeader from "@/js/components/products/ProductHeader";
 
-import NavigationBar from "@/js/components/menu/NavigationBar";
+import NavigationBar from "@/js/components/header/NavigationBar";
 import AppFooter from "@/js/components/footer/AppFooter";
 import ProductDetails from "@/js/components/products/ProductDetails";
 import ProductImagePicker from "@/js/components/products/ProductImagePicker";

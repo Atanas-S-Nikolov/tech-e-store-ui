@@ -8,7 +8,7 @@ import Typography from "@mui/material/Typography";
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 
 import AppFooter from "@/js/components/footer/AppFooter";
-import NavigationBar from "@/js/components/menu/NavigationBar";
+import NavigationBar from "@/js/components/header/NavigationBar";
 import StyledLink from "@/js/components/styled/StyledLink";
 
 export default function Contacts() {

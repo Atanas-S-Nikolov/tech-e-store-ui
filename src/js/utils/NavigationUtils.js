@@ -1,14 +1,19 @@
 import { store } from "@/js/redux/store";
 
-const state = store.getState();
-const { isAuthenticated } = state.authentication;
+const { isAuthenticated } = store.getState().authentication;
 
 export function buildProductsNavigationUrlByCategory(category) {
-  return isAuthenticated ? `/product?category=${category}` : `/product?early_access=false&category=${category}`;
+  return isAuthenticated ? `/product?category=${category}` : `/product?earlyAccess=false&category=${category}`;
 }
 
 export function buildProductsNavigationUrlByCategoryAndType(category, type) {
   return isAuthenticated 
     ? `/product?category=${category}&type=${type}`
-    : `/product?early_access=false&category=${category}&type=${type}`;
+    : `/product?earlyAccess=false&category=${category}&type=${type}`;
+}
+
+export function buildProductsSearchQueryUrl(keyword) {
+  return isAuthenticated
+    ? `/product/search/query?keyword=${keyword}`
+    : `/product/search/query?earlyAccess=false&keyword=${keyword}`;
 }

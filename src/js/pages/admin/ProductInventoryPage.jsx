@@ -5,8 +5,9 @@ import AddIcon from '@mui/icons-material/Add';
 import AdminNavigationBar from "@/js/components/admin/header/AdminNavigationBar";
 import ProductContainer from "@/js/components/admin/products/ProductContainer";
 import ProductFullScreenDialog from "@/js/components/utils/ProductFullScreenDialog";
-
+import AppFooter from "@/js/components/footer/AppFooter";
 import StyledBottomFab from "@/js/components/styled/StyledBottomFab";
+
 import Action from "@/js/model/Action";
 
 export default function ProductInventoryPage() {
@@ -32,6 +33,7 @@ export default function ProductInventoryPage() {
           ? <ProductFullScreenDialog action={Action.CREATE} open={isDialogOpen} handleClose={handleCloseDialog}/>
           : null
       }
+      <AppFooter/>
     </>
   );
 }
