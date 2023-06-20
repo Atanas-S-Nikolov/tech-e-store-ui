@@ -24,6 +24,7 @@ import CustomFormTextInput from './CustomFormTextInput';
 import CustomFormSelect from './CustomFormSelect';
 import ProductCategory from '@/js/model/product/ProductCategory';
 import ProductDto from '@/js/model/product/ProductDto';
+import DeleteImagesDto from "@/js/model/product/DeleteImagesDto";
 import { select } from '@/js/utils/ProductTypeSelector';
 import SnackbarMessage from './SnackbarMessage';
 import Action from '@/js/model/Action';
@@ -47,6 +48,7 @@ export default function ProductFullScreenDialog({ open, handleClose, action, pro
 
   const [images, setImages] = useState([]);
   const [imageUrls, setImageUrls] = useState([]);
+  const [imageUrlsToDelete, setImageUrlsToDelete] = useState([]);
   const [productImageUrls, setProductImageUrls] = useState(product?.imageUrls);
   const [imageIsRemoved, setImageIsRemoved] = useState(false);
   const [shouldCombineImages, setShouldCombineImages] = useState(false);
@@ -136,7 +138,7 @@ export default function ProductFullScreenDialog({ open, handleClose, action, pro
           await createProduct(productDto, images);
           break;
         case Action.UPDATE:
-          await updateProduct(productDto, images);
+          await updateProduct(productDto, images, new DeleteImagesDto(imageUrlsToDelete));
           break;
         default:
           console.log("Action did not match!");
@@ -201,7 +203,7 @@ export default function ProductFullScreenDialog({ open, handleClose, action, pro
   }, [images, imageIsRemoved, shouldCombineImages, productImageUrls])
 
   
-  function handleRemoveImage(event, index) {
+  function handleRemoveImage(event, index, url) {
     event.preventDefault();
     switch(action) {
       case Action.CREATE:
@@ -214,7 +216,12 @@ export default function ProductFullScreenDialog({ open, handleClose, action, pro
         productImageUrlsCopy.splice(index, 1);
         setImageUrls(productImageUrlsCopy);
         setProductImageUrls(productImageUrlsCopy);
+        if (url.startsWith("https://firebasestorage.googleapis.com/")) {
+          const urlsToDelete = [url, ...imageUrlsToDelete];
+          setImageUrlsToDelete(urlsToDelete);
+        }
         setImageIsRemoved(true);
+        
         break;
       default:
         console.log("Action did not match!");
@@ -226,10 +233,10 @@ export default function ProductFullScreenDialog({ open, handleClose, action, pro
     setShouldCombineImages(false);
     setImageIsRemoved(false);
     let allImages = [...event.target.files];
-    if (!shouldCombineImages) {
+    if (!shouldCombineImages && action === Action.CREATE) {
       allImages = [...allImages, ...imageUrls]
     }
-    if (productImageUrls) {
+    if (productImageUrls && action === Action.UPDATE) {
       allImages = [...allImages, ...productImageUrls];
       setShouldCombineImages(true);
     }
@@ -355,7 +362,7 @@ export default function ProductFullScreenDialog({ open, handleClose, action, pro
               {imageUrls.map((url, index) => {
                 return (
                   <Box key={crypto.randomUUID()}>
-                    <StyledCloseIconButton onClick={(event) => handleRemoveImage(event, index)}/>
+                    <StyledCloseIconButton onClick={(event) => handleRemoveImage(event, index, url)}/>
                     <img className="upl-img" src={url} alt={url}/>
                   </Box>
                 );

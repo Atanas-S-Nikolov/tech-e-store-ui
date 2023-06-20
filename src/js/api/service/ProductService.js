@@ -2,12 +2,15 @@ import { request, formDataRequest, buildAccessTokenConfig } from "../backend";
 import { buildProductUrl, buildProductParams, buildSearchParams, buildSearchQueryParams } from "../builder/URLBuilder";
 import { PRODUCTS_URL, PRODUCTS_SEARCH_URL, PRODUCTS_SEARCH_QUERY_URL } from "../../constants/UrlConstants";
 
-function buildFormData(productDto, images) {
+function buildFormData(productDto, images = [], deleteImagesDto) {
   const formData = new FormData();
   formData.append("product",  new Blob([JSON.stringify(productDto)], {
     type: "application/json"
   }));
-  images?.forEach(image => formData.append("images", image));
+  images.forEach(image => formData.append("images", image));
+  formData.append("deleteImages",  new Blob([JSON.stringify(deleteImagesDto)], {
+    type: "application/json"
+  }));
   return formData;
 }
 
@@ -15,8 +18,8 @@ export function createProduct(productDto, images) {
   return formDataRequest.post(PRODUCTS_URL, buildFormData(productDto, images), buildAccessTokenConfig());
 }
 
-export function updateProduct(productDto, images) {
-  return formDataRequest.put(PRODUCTS_URL, buildFormData(productDto, images), buildAccessTokenConfig());
+export function updateProduct(productDto, images, deleteImages) {
+  return formDataRequest.put(PRODUCTS_URL, buildFormData(productDto, images, deleteImages), buildAccessTokenConfig());
 }
 
 export async function getProduct(productName) {
