@@ -19,8 +19,8 @@ import { useSelector } from "react-redux";
 import { formatDate } from "@/js/utils/DateUtils";
 
 export default function ProductHeader({ product }) {
-  const { name, price, stocks, earlyAccess, imageUrls, dateOfCreation, dateOfModification } = product;
-  const productDisplayImage = imageUrls ? imageUrls[0] : "";
+  const { name, price, stocks, earlyAccess, images, dateOfCreation, dateOfModification } = product;
+  const mainImageUrl = images.find(image => image.main).url;
   const { role } = useSelector(state => state.authentication);
   const isAdmin = role === import.meta.env.VITE_ADMIN_ROLE;
 
@@ -36,7 +36,7 @@ export default function ProductHeader({ product }) {
 
   return (
     <div className='product-header-section'>
-      <img className='main-image' src={productDisplayImage} alt={name}/>
+      <img className='main-image' src={mainImageUrl} alt={name}/>
       <TableContainer>
         <Table>
           <TableBody>

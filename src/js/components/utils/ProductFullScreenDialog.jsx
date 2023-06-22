@@ -13,12 +13,16 @@ import Slide from '@mui/material/Slide';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import TextField from '@mui/material/TextField';
+import ImageList from '@mui/material/ImageList';
+import ImageListItem from '@mui/material/ImageListItem';
+import ImageListItemBar from '@mui/material/ImageListItemBar';
 
 import CloseIcon from '@mui/icons-material/Close';
 import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 import StyledCloseIconButton from "@/js/components/styled/StyledCloseIconButton";
-import StyledGridContainer from "@/js/components/styled/StyledGridContainer";
+import StyledRadioButton from "@/js/components/styled/StyledRadioButton";
 
 import CustomFormTextInput from './CustomFormTextInput';
 import CustomFormSelect from './CustomFormSelect';
@@ -49,10 +53,11 @@ export default function ProductFullScreenDialog({ open, handleClose, action, pro
   const [images, setImages] = useState([]);
   const [imageUrls, setImageUrls] = useState([]);
   const [imageUrlsToDelete, setImageUrlsToDelete] = useState([]);
-  const [productImageUrls, setProductImageUrls] = useState(product?.imageUrls);
+  const [productImageUrls, setProductImageUrls] = useState(product?.images.map(image => image.url));
   const [imageIsRemoved, setImageIsRemoved] = useState(false);
   const [shouldCombineImages, setShouldCombineImages] = useState(false);
   const [isSavedSuccessfully, setIsSavedSuccessfully] = useState(false);
+  const [radioButtonValue, setRadioButtonValue] = useState(0);
   
   // error state
   const [hasBrandError, setHasBrandError] = useState(false);
@@ -133,12 +138,14 @@ export default function ProductFullScreenDialog({ open, handleClose, action, pro
     event.preventDefault();
     try {
       const productDto = new ProductDto(`${brand} ${model}`, price, stocks, category, type, brand, model, description, earlyAccess);
+      const mainImage = images[radioButtonValue];
+      images.splice(radioButtonValue, 1);
       switch(action) {
         case Action.CREATE:
-          await createProduct(productDto, images);
+          await createProduct(productDto, images, mainImage);
           break;
         case Action.UPDATE:
-          await updateProduct(productDto, images, new DeleteImagesDto(imageUrlsToDelete));
+          await updateProduct(productDto, images, mainImage, new DeleteImagesDto(imageUrlsToDelete));
           break;
         default:
           console.log("Action did not match!");
@@ -179,7 +186,9 @@ export default function ProductFullScreenDialog({ open, handleClose, action, pro
           setStocks(product.stocks);
           setEarlyAccess(product.earlyAccess);
           setDescription(product.description);
-          setImageUrls(product.imageUrls);
+          const productImgs = product.images;
+          setImageUrls(productImgs.map(image => image.url));
+          setRadioButtonValue(productImgs.findIndex(img => img.main));
         }
         break;
       default:
@@ -358,16 +367,36 @@ export default function ProductFullScreenDialog({ open, handleClose, action, pro
               <InsertPhotoIcon/>
             </IconButton>
             <br/>
-            <StyledGridContainer gridTemplateColumns="repeat(3, 1fr)">
+            <ImageList cols={4}>
               {imageUrls.map((url, index) => {
                 return (
-                  <Box key={crypto.randomUUID()}>
-                    <StyledCloseIconButton onClick={(event) => handleRemoveImage(event, index, url)}/>
+                  <ImageListItem key={crypto.randomUUID()}>
+                    <StyledCloseIconButton
+                      onClick={(event) => handleRemoveImage(event, index, url)}
+                      sx={{ position: 'absolute', zIndex: 1, color: 'white', width: 'fit-content', right: 0 }}
+                    />
                     <img className="upl-img" src={url} alt={url}/>
-                  </Box>
+                  <ImageListItemBar
+                    sx={{
+                      background:
+                        'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, ' +
+                        'rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
+                    }}
+                    position="top"
+                    actionIcon={
+                      <StyledRadioButton
+                        checked={radioButtonValue === index}
+                        checkedIcon={<CheckCircleIcon/>}
+                        onChange={() => handleRadioButtonChange(index)}
+                        value={index}
+                      />
+                    }
+                    actionPosition="left"
+                  />
+                  </ImageListItem>
                 );
               })}
-            </StyledGridContainer>
+            </ImageList>
           </>
         </div>
       </Box>
@@ -383,4 +412,8 @@ export default function ProductFullScreenDialog({ open, handleClose, action, pro
       }
     </Dialog>
   );
+
+  function handleRadioButtonChange(index) {
+    setRadioButtonValue(index);
+  }
 }

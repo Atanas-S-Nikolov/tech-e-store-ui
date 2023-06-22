@@ -9,8 +9,9 @@ export default function ProductImagePicker({ images }) {
   return (
     <div className="image-picker">
       <IconButton><KeyboardArrowLeftIcon /></IconButton>
-      {images?.map(imageSrc => {
-        return <a href={imageSrc} key={crypto.randomUUID()}><img className="image" src={imageSrc} alt={imageSrc} /></a>
+      {images?.map(image => {
+        const imageUrl = image.url;
+        return <a href={imageUrl} key={crypto.randomUUID()}><img className="image" src={imageUrl} alt={imageUrl} /></a>
       })}
       <IconButton><KeyboardArrowRightIcon /></IconButton>
     </div>

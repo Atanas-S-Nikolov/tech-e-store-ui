@@ -14,8 +14,8 @@ import { useNavigate } from "react-router-dom";
 import { buildProductUrl } from "@/js/api/builder/URLBuilder";
 
 export default function ProductPreview({ product }) {
-  const { name, price, earlyAccess, imageUrls } = product;
-  const imageUrl = imageUrls[0];
+  const { name, price, earlyAccess, images } = product;
+  const mainImageUrl = images.find(image => image.main).url;
   
   const navigate = useNavigate();
 
@@ -29,10 +29,10 @@ export default function ProductPreview({ product }) {
       <div onClick={handleOnClick}>
         <CardMedia
           component="img"
-          src={imageUrl}
+          src={mainImageUrl}
           alt={name}
           title={name}
-          sx={{ height: 180 }}
+          sx={{ height: 280 }}
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">

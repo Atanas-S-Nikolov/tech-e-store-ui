@@ -22,8 +22,8 @@ import { deleteProduct } from "@/js/api/service/ProductService";
 import Action from "@/js/model/Action";
 
 export default function Product({ product }) {
-  const { name, imageUrls } = product;
-  const productDisplayImage = imageUrls ? imageUrls[0] : "";
+  const { name, images } = product;
+  const mainImageUrl = images.find(image => image.main).url;
   const [isUpdateDialogOpen, setIsUpdateDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isProductDeleted, setIsProductDeleted] = useState(false);
@@ -90,7 +90,7 @@ export default function Product({ product }) {
 
   return (
     <div className="admin-product centered-column-container">
-      <img src={productDisplayImage} alt={name}/>
+      <img src={mainImageUrl} alt={name}/>
       <Typography variant="h5">
         <Link className="link-default-color" to={`../${buildProductUrl(name)}`}>
           {name}
