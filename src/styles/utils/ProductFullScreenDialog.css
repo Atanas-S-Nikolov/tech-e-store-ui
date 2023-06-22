@@ -1,4 +1,4 @@
 img.upl-img {
-  width: 250px;
-  aspect-ratio: 1 / 1;
+  width: 250px !important;
+  aspect-ratio: 1 / 1 !important;
 }

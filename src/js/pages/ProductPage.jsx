@@ -12,7 +12,7 @@ export default function ProductPage() {
     <>
       <NavigationBar />
       <ProductHeader product={product} />
-      <ProductImagePicker images={product.imageUrls}/>
+      <ProductImagePicker images={product.images}/>
       <ProductDetails product={product} />
       <AppFooter />
     </>

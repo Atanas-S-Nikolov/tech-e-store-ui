@@ -68,8 +68,8 @@ export default function Compare() {
             </Table>
           </TableContainer>
           {products.map((product, index) => {
-            const { name, price, brand, model, category, type, imageUrls } = product;
-            const productDisplayImage = imageUrls ? imageUrls[0] : "";
+            const { name, price, brand, model, category, type, images } = product;
+            const mainImageUrl = images.find(image => image.main).url;
             const compareArr = [
               { value: `${price} lv` },
               { value: brand },
@@ -80,7 +80,7 @@ export default function Compare() {
             return (
               <div key={crypto.randomUUID()} align="center" style={{ width: "300px" }}>
                 <StyledCloseIconButton onClick={(event) => handleRemoveProduct(event, index)}/>
-                <img src={productDisplayImage} alt={name}/>
+                <img src={mainImageUrl} alt={name}/>
                 <Typography>
                   <Link className="link-default-color" to={`../${buildProductUrl(name)}`}>
                     {name}
