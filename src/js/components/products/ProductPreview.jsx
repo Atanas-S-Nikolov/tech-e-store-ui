@@ -1,7 +1,5 @@
 import "@/styles/products/ProductPreview.css";
 
-import { useState } from "react";
-
 import CompareButton from "@/js/components/utils/CompareButton";
 import FavoriteButton from "@/js/components/utils/FavoriteButton";
 import BuyButton from "@/js/components/utils/BuyButton";

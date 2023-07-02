@@ -55,17 +55,13 @@ export default function CartItemsPage() {
                 >
                   Total price: <CustomPriceTypography price={totalPrice}/>
                 </Typography>
-                {
-                  !isCartEmpty
-                    ? <Button
-                        onClick={handleRemoveAllProducts}
-                        startIcon={<DeleteIcon/>}
-                        sx={{ mb: 1 }}
-                      >
-                        Remove all
-                      </Button>
-                    : null
-                }
+                <Button
+                  onClick={handleRemoveAllProducts}
+                  startIcon={<DeleteIcon/>}
+                  sx={{ mb: 1 }}
+                >
+                  Remove all
+                </Button>
                 <div className="products-container">
                   {sortedProducts.map((productWrapper, index) => (
                     <CartProduct
