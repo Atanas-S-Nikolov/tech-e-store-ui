@@ -10,8 +10,8 @@ import TableRow from '@mui/material/TableRow';
 import CustomPriceTypography from "@/js/components/products/CustomPriceTypography";
 
 export default function CartCheckoutProduct({ productWrapper, quantity }) {
-  const { name, price, imageUrls } = productWrapper.product;
-  const productDisplayImage = imageUrls ? imageUrls[0] : "";
+  const { name, price, images } = productWrapper.product;
+  const productMainImageUrl = images.find(image => image.main).url;
   const formatedPrice = (quantity * price).toFixed(2);
 
   return (
@@ -21,7 +21,7 @@ export default function CartCheckoutProduct({ productWrapper, quantity }) {
           <TableBody>
             <TableRow>
               <TableCell>
-                <img src={productDisplayImage} alt={name}/>
+                <img src={productMainImageUrl} alt={name}/>
               </TableCell>
               <TableCell>
                 <Typography variant="h5">{name}</Typography>

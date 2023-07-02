@@ -41,7 +41,7 @@ export default function CartItemsPage() {
         <CartTitle text={CART_ITEMS_STEP}/>
         {isCartEmpty ? <Typography variant="h5" color="text.secondary" sx={{ mt: 2 }}>There are no products in the cart yet!</Typography> : null}
         {
-          loading
+          loading && !isCartEmpty
             ? <>
                 <Typography
                   variant="h6"

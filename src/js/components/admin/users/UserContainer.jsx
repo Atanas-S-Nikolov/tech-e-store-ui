@@ -8,10 +8,11 @@ import { getAllUsers } from "@/js/api/service/UserService";
 import UserPreview from "./UserPreview";
 
 export default function UserContainer() {
+  const SIZE_INITAL_VALUE = 4;
   const [paging, setPaging] = useState([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
-  const [size, setSize] = useState(4);
+  const [size, setSize] = useState(SIZE_INITAL_VALUE);
   const { totalItems, totalPages, items } = paging;
 
   const handlePageChange = (event, value) => {
@@ -42,7 +43,7 @@ export default function UserContainer() {
                 <Typography variant="h6" color="text.secondary">
                   Found: <span style={{ color: "green" }}>{totalItems}</span>
                 </Typography>
-                <PageSelectTabs onChangeCallback={handleSizeChange}/>
+                <PageSelectTabs tabValue={SIZE_INITAL_VALUE} onChangeCallback={handleSizeChange}/>
               </div>
               <div className="centered-row-container">
                 {items.map(item => <UserPreview key={crypto.randomUUID()} user={item}/>)}

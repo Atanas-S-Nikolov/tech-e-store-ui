@@ -28,10 +28,10 @@ import SnackbarMessage from "@/js/components/utils/SnackbarMessage";
 import { buildProductUrl } from "@/js/api/builder/URLBuilder";
 
 export default function CartProduct({ productWrapper, onUpdate }) {
-  const { name, price, imageUrls } = productWrapper.product;
+  const { name, price, images } = productWrapper.product;
   const initialQuantityValue = productWrapper.quantity;
   const quantity = useRef(initialQuantityValue);
-  const productDisplayImage = imageUrls ? imageUrls[0] : "";
+  const productDisplayImage = images.find(image => image.main).url;
   const [stateQuantity, setStateQuantity] = useState(quantity.current);
   const [hasError, setHasError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -48,7 +48,7 @@ export default function CartProduct({ productWrapper, onUpdate }) {
 
   useEffect(() => {
     quantity.current = stateQuantity;
-    const products = ProductToBuyDto.buildProductsToBuy(name, stateQuantity);
+    const products = ProductToBuyDto.buildProductToBuy(name, stateQuantity);
     const cartDto = new UpdateCartDto(ProductToBuyDto.convertToProductsToBuy(products), key);
     addProductToCart(cartDto)
       .then(response => {

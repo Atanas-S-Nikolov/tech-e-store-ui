@@ -1,4 +1,4 @@
-export function formatDate(dateStr, locale, ...options) {
+export function formatDate(dateStr, locale) {
   const date = new Date(dateStr);
-  return new Intl.DateTimeFormat(locale, {...options}).format(date);
+  return new Intl.DateTimeFormat(locale, { dateStyle: "medium", timeStyle: "medium" }).format(date);
 }

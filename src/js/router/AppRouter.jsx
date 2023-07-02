@@ -41,6 +41,7 @@ import OrderInventoryPage from "@/js/pages/admin/OrderInventoryPage";
 import ResetPasswordPage from "@/js/pages/ResetPasswordPage";
 import ForgotPasswordPage from "@/js/pages/ForgotPasswordPage";
 import Contacts from "@/js/pages/Contacts";
+import ErrorBoundary from "@/js/components/utils/ErrorBoundary";
 
 export const appRouter = createBrowserRouter(
   createRoutesFromElements(
@@ -48,7 +49,12 @@ export const appRouter = createBrowserRouter(
       <Route path={HOME_URL} element={<Home/>} errorElement={<NotFound/>}/>
       <Route path={LOGIN_URL} element={<Login />}/>
       <Route path={REGISTER_URL} element={<Register />}/>
-      <Route path={PRODUCT_URL} element={<ProductPage />} loader={({ params }) => getProduct(params.name)}/>
+      <Route 
+        path={PRODUCT_URL}
+        loader={({ params }) => getProduct(params.name)}
+        element={<ProductPage />}
+        errorElement={<ErrorBoundary/>}
+      />
       <Route path={NAVIGATE_PRODUCTS_URL} element={<Products/>}/>
       <Route path={CART_URL} element={<CartItemsPage/>}/>
       <Route path={CART_ORDER_URL} element={<CartOrderInformationPage/>}/>

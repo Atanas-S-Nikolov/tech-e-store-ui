@@ -16,6 +16,14 @@ export function buildCartPurchaseUrl(cartKey) {
   return`${CART_URL}/purchase/${cartKey}`;
 }
 
+export function buildProductNameParam(name) {
+  const params = {};
+   if (name) {
+     params.name = name; 
+   }
+   return params;
+}
+
 export function buildProductParams(page, size, category, type, earlyAccess = true) {
   const params = {};
   if (page || page >= 0) {
