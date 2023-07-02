@@ -79,7 +79,7 @@ export default function Products() {
         }
         
         <Divider sx={{ mt: 1 }}/>
-        <PaginationProductContainer category={category} type={type} keyword={keyword} columnsCount={5}/>
+        <PaginationProductContainer category={category} type={type} keyword={keyword} columnsCount={5} pageSize={5}/>
       </div>
       <AppFooter/>
     </>

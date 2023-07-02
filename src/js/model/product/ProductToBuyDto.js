@@ -15,14 +15,10 @@ export default class ProductToBuyDto{
     return productsToBuy;
   }
 
-  static buildProductsToBuy(name, quantity) {
+  static buildProductToBuy(name, quantity = 1) {
     return [{
       "product": { name: name },
       "quantity": quantity
     }];
-  }
-
-  static buildProductToBuy(name) {
-    return this.buildProductsToBuy(name, 1);
   }
 }

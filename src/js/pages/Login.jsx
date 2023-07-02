@@ -90,6 +90,10 @@ export default function Login() {
       navigate(HOME_URL);
     })
     .catch(error => {
+      const { status, data } = error.response;
+      if (status === 401) {
+        console.log(data);
+      } 
       dispatch(logoutReducer());
       console.log(error);
     });

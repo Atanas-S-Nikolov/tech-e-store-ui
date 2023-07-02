@@ -16,14 +16,15 @@ import {
   searchQueryProductsWithoutEarlyAccess
 } from "@/js/api/service/ProductService";
 
-export default function PaginationProductContainer({ category, type, keyword, columnsCount }) {
+export default function PaginationProductContainer({ category, type, keyword, columnsCount, pageSize }) {
   const { isAuthenticated } = useSelector(state => state.authentication);
   const [paging, setPaging] = useState([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
-  const [size, setSize] = useState(4);
+  const [size, setSize] = useState(pageSize);
   const { totalItems, totalPages, items } = paging;
   const areProductsFiltered = category || type;
+  const isPageEmpty = totalItems === 0;
 
   const handlePageChange = (event, value) => {
     event.preventDefault();
@@ -73,17 +74,31 @@ export default function PaginationProductContainer({ category, type, keyword, co
                 <Typography variant="h6" color="text.secondary">
                   Found: <span style={{ color: "green" }}>{totalItems}</span>
                 </Typography>
-                <PageSelectTabs onChangeCallback={handleSizeChange}/>
+                <PageSelectTabs tabValue={columnsCount} onChangeCallback={handleSizeChange}/>
               </div>
-              <div className="centered-container">
-                <StyledGridContainer gridTemplateColumns={`repeat(${columnsCount}, 1fr)`} gap={10}>
-                  {items.map(item => <ProductPreview product={item} key={crypto.randomUUID()}/>)}
-                </StyledGridContainer>
-                <Pagination page={page} count={totalPages} onChange={handlePageChange} color="primary"/>
-              </div>
+              {renderGridContainer()}
             </>
           : null
       }
     </>
   )
+
+  function renderGridContainer() {
+    const paginationGrid = (
+      <div className="centered-container">
+        <StyledGridContainer gridTemplateColumns={`repeat(${columnsCount}, 1fr)`} gap={10}>
+          {items.map(item => <ProductPreview product={item} key={crypto.randomUUID()}/>)}
+        </StyledGridContainer>
+        <Pagination page={page} count={totalPages} onChange={handlePageChange} color="primary"/>
+      </div>
+    );
+    return (
+      <div className="centered-container">
+        {isPageEmpty
+          ? <Typography variant="h5" color="text.secondary">The page is empty</Typography>
+          : paginationGrid
+        }
+      </div>
+    );
+  }
 }

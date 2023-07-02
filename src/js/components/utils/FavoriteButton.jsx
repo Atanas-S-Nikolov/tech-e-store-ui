@@ -14,11 +14,10 @@ import { UNAUTHENTICATED_MESSAGE } from '@/js/constants/MessageConstants';
 import { useSelector, useDispatch } from "react-redux";
 
 export default function FavoriteButton(props) {
-  const productNameFromProps = props.productName;
-  const {productName: _, ...propsForButton} = props;
+  const {productName, ...propsForButton} = props;
   const { isAuthenticated, username } = useSelector(state => state.authentication);
   const { products } = useSelector(state => state.favorites);
-  const [isFavorite, setIsFavorite] = useState(products.includes(productNameFromProps));
+  const [isFavorite, setIsFavorite] = useState(products.includes(productName));
   const [hasError, setHasError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const dispatch = useDispatch();
@@ -33,14 +32,14 @@ export default function FavoriteButton(props) {
     } 
 
     setIsFavorite(prevState => !prevState);
-    const favoritesDto = new FavoritesDto(username, [productNameFromProps]);
+    const favoritesDto = new FavoritesDto(username, [productName]);
     if (isFavorite) {
       removeFavorite(favoritesDto)
-        .then(() => dispatch(removeFavoriteProductReducer(productNameFromProps)));
+        .then(() => dispatch(removeFavoriteProductReducer(productName)));
       return;
     }
     addFavorite(favoritesDto)
-      .then(() => dispatch(addFavoriteProductReducer(productNameFromProps)));
+      .then(() => dispatch(addFavoriteProductReducer(productName)));
   }
 
   const handleHasErrorFalse = () => {

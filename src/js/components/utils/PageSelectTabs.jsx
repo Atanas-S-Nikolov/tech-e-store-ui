@@ -4,9 +4,7 @@ import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 
 export default function PageSelectTabs(props) {
-  const { onChangeCallback } = props;
-  const {onChangeCallback: _, ...propsForBox} = props; 
-  const tabValue = 4;
+  const {onChangeCallback, tabValue, ...propsForBox} = props; 
   const [value, setValue] = useState(tabValue);
 
   const handleChange = (event, newValue) => {

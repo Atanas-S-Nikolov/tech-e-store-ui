@@ -15,60 +15,14 @@ import SnackbarMessage from './SnackbarMessage';
 import { isBlank } from 'underscore.string';
 
 export default function BuyButton(props) {
-  const { product } = props;
-  const {product: _, ...propsForButton} = props
+  const {product, ...propsForButton} = props
   const { cartResponse } = useSelector(state => state.cart)
   const [isProductAddedToCart, setIsProductAddedToCart] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
-  const { key } = cartResponse;
+  const { key, products } = cartResponse;
   const isCartEmpty = isBlank(key);
   const dispatch = useDispatch();
-
-  const handleCreateCart = (products) => {
-    createCart(new CartDto(ProductToBuyDto.convertToProductsToBuy(products)))
-    .then(response => {
-      dispatch(updateCartReducer(response.data));
-    setIsProductAddedToCart(true);
-    })
-    .catch(error => {
-      const response = error.response;
-      if (response.status === 400) {
-        setIsProductAddedToCart(false);
-        setErrorMessage(response.data.messages[0]);
-        setHasError(true);
-      }
-    });
-  }
-
-  const handleAddProductToCart = (products) => {
-    addProductToCart(new UpdateCartDto(ProductToBuyDto.convertToProductsToBuy(products), key))
-    .then(response => {
-      dispatch(updateCartReducer(response.data));
-    setIsProductAddedToCart(true);
-    })
-    .catch(error => {
-      const response = error.response;
-      if (response.status === 400) {
-        setIsProductAddedToCart(false);
-        setErrorMessage(response.data.messages[0]);
-        setHasError(true);
-      }
-    });
-  }
-
-  const handleClick = () => {
-    const products = ProductToBuyDto.buildProductToBuy(product.name);
-    isCartEmpty ? handleCreateCart(products) : handleAddProductToCart(products);
-  }
-
-  function handleProductIsNotAddedToCart() {
-    setIsProductAddedToCart(false);
-  }
-
-  function handleHasErrorFalse() {
-    setHasError(false);
-  }
 
   return (
     <>
@@ -92,4 +46,54 @@ export default function BuyButton(props) {
       }
     </>
   );
+
+  function handleCreateCart(products) {
+    createCart(new CartDto(ProductToBuyDto.convertToProductsToBuy(products)))
+    .then(response => {
+      dispatch(updateCartReducer(response.data));
+    setIsProductAddedToCart(true);
+    })
+    .catch(error => {
+      const response = error.response;
+      if (response.status === 400) {
+        setIsProductAddedToCart(false);
+        setErrorMessage(response.data.messages[0]);
+        setHasError(true);
+      }
+    });
+  }
+
+  function handleAddProductToCart(products) {
+    addProductToCart(new UpdateCartDto(ProductToBuyDto.convertToProductsToBuy(products), key))
+    .then(response => {
+      dispatch(updateCartReducer(response.data));
+    setIsProductAddedToCart(true);
+    })
+    .catch(error => {
+      const response = error.response;
+      if (response.status === 400) {
+        setIsProductAddedToCart(false);
+        setErrorMessage(response.data.messages[0]);
+        setHasError(true);
+      }
+    });
+  }
+
+  function handleClick() {
+    const productName = product.name
+    const existingProduct = products?.find(p => p.product.name === productName);
+    const productsToBuy = existingProduct
+      ? ProductToBuyDto.buildProductToBuy(productName, existingProduct.quantity + 1)
+      : ProductToBuyDto.buildProductToBuy(productName);
+    
+    isCartEmpty ? handleCreateCart(productsToBuy) : handleAddProductToCart(productsToBuy);
+  }
+
+  function handleProductIsNotAddedToCart() {
+    setIsProductAddedToCart(false);
+  }
+
+  function handleHasErrorFalse() {
+    setHasError(false);
+  }
 }

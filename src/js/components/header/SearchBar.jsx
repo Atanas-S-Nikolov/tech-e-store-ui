@@ -92,6 +92,8 @@ export default function SearchBar() {
           setProducts(data);
           if (data.length > 0) {
             setIsOpen(true);
+          } else {
+            setIsOpen(false);
           }
         })
         .catch(error => console.log(error));
@@ -115,24 +117,27 @@ export default function SearchBar() {
           onKeyDown={handleKeyDown}
         />
         {isOpen
-        ? 
-        <StyledSearchResult ref={searchResultRef}>
-          {
-            products.map(product => (
-              <StyledProduct key={crypto.randomUUID()}>
-                <img src={product.imageUrls[0]} width='15%'/>
-                <p
-                  className='link-default-color'
-                  onClick={() => navigateToProduct(product.name)}
-                  style={{ width: '81%' }}
-                >
-                  {product.name}
-                </p>
-              </StyledProduct>
-            ))
-          }
-        </StyledSearchResult>
-        : null
+          ?
+          <StyledSearchResult ref={searchResultRef}>
+            {
+              products.map(product => {
+              const mainImageUrl = product.images.find(image => image.main).url;
+                return (
+                  <StyledProduct key={crypto.randomUUID()}>
+                    <img src={mainImageUrl} width='15%'/>
+                    <p
+                      className='link-default-color'
+                      onClick={() => navigateToProduct(product.name)}
+                      style={{ width: '81%' }}
+                    >
+                      {product.name}
+                    </p>
+                  </StyledProduct>
+                )
+              })
+            }
+          </StyledSearchResult>
+          : null
       }
       </Search>
     </>
@@ -141,7 +146,7 @@ export default function SearchBar() {
   function handleChange(event) {
     event.preventDefault();
     const value = event.target.value;
-    if (value && isNotBlank(value)) {
+    if (isNotBlank(value)) {
       setSearchWord(value);
       return;
     }

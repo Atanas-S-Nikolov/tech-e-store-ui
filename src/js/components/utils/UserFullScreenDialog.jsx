@@ -141,7 +141,7 @@ export default function UserFullScreenDialog({ open, handleClose, action, user =
   async function handleSave(event) {
     event.preventDefault();
     try {
-      const userDto = new UserDto(firstName, lastName, email, phone, address, username, password, null, role);
+      const userDto = new UserDto(firstName, lastName, email, phone, address, username, password, role);
       if (isActionCreate) {
         await createUser(userDto);
       } else if(isActionUpdate) {

@@ -11,8 +11,7 @@ import { useState } from 'react';
 import SnackbarMessage from "./SnackbarMessage";
 
 export default function FavoriteButton(props) {
-  const { product } = props;
-  const {product: _, ...propsForButton} = props;
+  const {product, ...propsForButton} = props;
   const dispatch = useDispatch();
   const [hasError, setHasError] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);

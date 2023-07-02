@@ -7,9 +7,8 @@ const PASSWORD_LOWERCASE_MESSAGE = "Password should contains atleast 1 lowercase
 const PASSWORD_DIGITS_MESSAGE = "Password should contains atleast 1 digit";
 const PASSWORD_SYMBOLS_MESSAGE = "Password should contains atleast 1 special symbol";
 
-const validator = new PasswordValidator();
-
 export function validatePassword(password) {
+  const validator = new PasswordValidator();
   validator
   .is().min(8, PASSWORD_LENGTH_MESSAGE)
   .is().max(30, PASSWORD_LENGTH_MESSAGE)
@@ -19,8 +18,7 @@ export function validatePassword(password) {
   .has().symbols(1, PASSWORD_SYMBOLS_MESSAGE)
   .has().not().spaces();
 
-  let message;
-  message = validator.validate(password, { details: true })?.message;
+  let message = validator.validate(password, { details: true })[0]?.message;
 
   if (!message) {
     const ABCD_SEQUENCE = "abcdefghijklmnopqrstuvwxyz";

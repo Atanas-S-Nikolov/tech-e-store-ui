@@ -30,7 +30,6 @@ export default function Register() {
   const [address, setAddress] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
 
   // error state
   const [hasPasswordError, setHasPasswordError] = useState(false);
@@ -53,7 +52,7 @@ export default function Register() {
   const navigate = useNavigate();
 
   const registerUser = () => {
-    register(new UserDto(firstName, lastName, email, phone, address, username, password, confirmPassword))
+    register(new UserDto(firstName, lastName, email, phone, address, username, password))
     .then(response => {
       navigate(HOME_URL);
     })
@@ -92,11 +91,15 @@ export default function Register() {
         setUsernameErrorMessage(message);
         setHasUsernameError(true);
         break;
+      case "password":
+        setPasswordErrorMessage(message);
+        setHasPasswordError(true);
+        break;
       case "firstName":
         setFirstNameErrorMessage(message);
         setHasFirstNameError(true);
         break;
-      case "lasName":
+      case "lastName":
         setLastNameErrorMessage(message);
         setHasLastNameError(true);
         break;
@@ -139,7 +142,6 @@ export default function Register() {
     }
     setConfirmPasswordErrorMessage("");
     setHasConfirmPasswordError(false);
-    setConfirmPassword(value);
   }
 
   return (

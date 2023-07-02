@@ -28,11 +28,12 @@ export default function ProductPreview({ product }) {
     <Card className='product-preview' sx={{ maxWidth: 275 }}>
       <div onClick={handleOnClick}>
         <CardMedia
+          className='product-img'
           component="img"
           src={mainImageUrl}
           alt={name}
           title={name}
-          sx={{ height: 280 }}
+          loading="lazy"
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">

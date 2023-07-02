@@ -34,6 +34,7 @@ import SnackbarMessage from './SnackbarMessage';
 import Action from '@/js/model/Action';
 import { createProduct, updateProduct } from '@/js/api/service/ProductService';
 import { isValidUrl } from "@/js/utils/URLUtils";
+import { checkIfIsNaN } from "@/js/utils/NumberUtils";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -41,6 +42,7 @@ const Transition = forwardRef(function Transition(props, ref) {
 
 export default function ProductFullScreenDialog({ open, handleClose, action, product }) {
   const [title, setTitle] = useState("");
+  const [name, setName] = useState("");
   const [brand, setBrand] = useState("");
   const [model, setModel] = useState("");
   const [category, setCategory] = useState("");
@@ -75,101 +77,6 @@ export default function ProductFullScreenDialog({ open, handleClose, action, pro
   const [hasError, setHasError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const handleSwitchOnChange = () => {
-    setEarlyAccess(prevState => !prevState);
-  }
-
-  const handleIsSavedFailed = () => {
-    setIsSavedSuccessfully(false);
-  }
-
-  function handleHasErrorFalse() {
-    setHasError(false);
-  }
-
-  function resetBackendErrorState() {
-    setBrandErrorMessage("");
-    setHasBrandError(false);
-    setModelErrorMessage("");
-    setHasModelError(false);
-    setCategoryErrorMessage("");
-    setHasCategoryError(false);
-    setTypeErrorMessage("");
-    setHasTypeError(false);
-    setPriceErrorMessage("");
-    setHasPriceError(false);
-    setStocksErrorMessage("");
-    setHasStocksError(false);
-    handleHasErrorFalse();
-  }
-
-  function setBackendErrorState(property, message) {
-    switch(property) {
-      case "model":
-        setModelErrorMessage(message);
-        setHasModelError(true);
-        break;
-      case "brand":
-        setBrandErrorMessage(message);
-        setHasBrandError(true);
-        break;
-      case "category":
-        setCategoryErrorMessage(message);
-        setHasCategoryError(true);
-        break;
-      case "type":
-        setTypeErrorMessage(message);
-        setHasTypeError(true);
-        break;
-      case "price":
-        setPriceErrorMessage(message);
-        setHasPriceError(true);
-        break;
-      case "stocks":
-        setStocksErrorMessage(message);
-        setHasStocksError(true);
-        break;
-      default:
-        console.log("No one property was recognized!");
-    }
-  }
-
-  async function handleSave(event) {
-    event.preventDefault();
-    try {
-      const productDto = new ProductDto(`${brand} ${model}`, price, stocks, category, type, brand, model, description, earlyAccess);
-      const mainImage = images[radioButtonValue];
-      images.splice(radioButtonValue, 1);
-      switch(action) {
-        case Action.CREATE:
-          await createProduct(productDto, images, mainImage);
-          break;
-        case Action.UPDATE:
-          await updateProduct(productDto, images, mainImage, new DeleteImagesDto(imageUrlsToDelete));
-          break;
-        default:
-          console.log("Action did not match!");
-          return;
-      }
-      setIsSavedSuccessfully(true);
-    } catch(error) {
-      const response = error.response;
-      const status = response.status;
-      if (status === 400) {
-        const { rejectedProperties } = response.data;
-        resetBackendErrorState();
-
-        rejectedProperties.forEach(rejected => {
-          const { property, message } = rejected;
-          setBackendErrorState(property, message);
-        });
-      } else if (status === 409) {
-        setErrorMessage(response.data.messages[0]);
-        setHasError(true);
-      }
-    }
-  }
-
   useEffect(() => {
     switch(action) {
       case Action.CREATE:
@@ -178,6 +85,7 @@ export default function ProductFullScreenDialog({ open, handleClose, action, pro
       case Action.UPDATE:
         setTitle("Edit product");
         if (product) {
+          setName(product.name);
           setBrand(product.brand);
           setModel(product.model);
           setCategory(product.category);
@@ -210,47 +118,6 @@ export default function ProductFullScreenDialog({ open, handleClose, action, pro
       setImages(images);
     }
   }, [images, imageIsRemoved, shouldCombineImages, productImageUrls])
-
-  
-  function handleRemoveImage(event, index, url) {
-    event.preventDefault();
-    switch(action) {
-      case Action.CREATE:
-        const imagesCopy = [...images];
-        imagesCopy.splice(index, 1);
-        setImages(imagesCopy);
-        break;
-      case Action.UPDATE:
-        const productImageUrlsCopy = [...productImageUrls];
-        productImageUrlsCopy.splice(index, 1);
-        setImageUrls(productImageUrlsCopy);
-        setProductImageUrls(productImageUrlsCopy);
-        if (url.startsWith("https://firebasestorage.googleapis.com/")) {
-          const urlsToDelete = [url, ...imageUrlsToDelete];
-          setImageUrlsToDelete(urlsToDelete);
-        }
-        setImageIsRemoved(true);
-        
-        break;
-      default:
-        console.log("Action did not match!");
-    }
-  }
-
-  function handleImageChange(event) {
-    event.preventDefault();
-    setShouldCombineImages(false);
-    setImageIsRemoved(false);
-    let allImages = [...event.target.files];
-    if (!shouldCombineImages && action === Action.CREATE) {
-      allImages = [...allImages, ...imageUrls]
-    }
-    if (productImageUrls && action === Action.UPDATE) {
-      allImages = [...allImages, ...productImageUrls];
-      setShouldCombineImages(true);
-    }
-    setImages(allImages);
-  }
 
   return (
     <Dialog
@@ -413,7 +280,145 @@ export default function ProductFullScreenDialog({ open, handleClose, action, pro
     </Dialog>
   );
 
+  function handleSwitchOnChange() {
+    setEarlyAccess(prevState => !prevState);
+  }
+
+  function handleIsSavedFailed() {
+    setIsSavedSuccessfully(false);
+  }
+
+  function handleHasErrorFalse() {
+    setHasError(false);
+  }
+
   function handleRadioButtonChange(index) {
     setRadioButtonValue(index);
+  }
+
+  function resetBackendErrorState() {
+    setBrandErrorMessage("");
+    setHasBrandError(false);
+    setModelErrorMessage("");
+    setHasModelError(false);
+    setCategoryErrorMessage("");
+    setHasCategoryError(false);
+    setTypeErrorMessage("");
+    setHasTypeError(false);
+    setPriceErrorMessage("");
+    setHasPriceError(false);
+    setStocksErrorMessage("");
+    setHasStocksError(false);
+    handleHasErrorFalse();
+  }
+
+  function setBackendErrorState(property, message) {
+    switch(property) {
+      case "model":
+        setModelErrorMessage(message);
+        setHasModelError(true);
+        break;
+      case "brand":
+        setBrandErrorMessage(message);
+        setHasBrandError(true);
+        break;
+      case "category":
+        setCategoryErrorMessage(message);
+        setHasCategoryError(true);
+        break;
+      case "type":
+        setTypeErrorMessage(message);
+        setHasTypeError(true);
+        break;
+      case "price":
+        setPriceErrorMessage(message);
+        setHasPriceError(true);
+        break;
+      case "stocks":
+        setStocksErrorMessage(message);
+        setHasStocksError(true);
+        break;
+      default:
+        console.log("No one property was recognized!");
+    }
+  }
+
+  async function handleSave(event) {
+    event.preventDefault();
+    try {
+      const productPrice = checkIfIsNaN(price) ? 0 : price;
+      const productStocks = checkIfIsNaN(stocks) ? -1 : stocks;
+      const productDto = new ProductDto(productPrice, productStocks, category, type, brand, model, description, earlyAccess);
+      const mainImage = images[radioButtonValue];
+      images.splice(radioButtonValue, 1);
+      switch(action) {
+        case Action.CREATE:
+          await createProduct(productDto, images, mainImage);
+          break;
+        case Action.UPDATE:
+          await updateProduct(name, productDto, images, mainImage, new DeleteImagesDto(imageUrlsToDelete));
+          break;
+        default:
+          console.log("Action did not match!");
+          return;
+      }
+      setIsSavedSuccessfully(true);
+      handleClose();
+    } catch(error) {
+      const response = error.response;
+      const status = response.status;
+      if (status === 400) {
+        const { rejectedProperties } = response.data;
+        resetBackendErrorState();
+
+        rejectedProperties.forEach(rejected => {
+          const { property, message } = rejected;
+          setBackendErrorState(property, message);
+        });
+      } else if (status === 409) {
+        setErrorMessage(response.data.messages[0]);
+        setHasError(true);
+      }
+    }
+  }
+
+  function handleRemoveImage(event, index, url) {
+    event.preventDefault();
+    switch(action) {
+      case Action.CREATE:
+        const imagesCopy = [...images];
+        imagesCopy.splice(index, 1);
+        setImages(imagesCopy);
+        break;
+      case Action.UPDATE:
+        const productImageUrlsCopy = [...productImageUrls];
+        productImageUrlsCopy.splice(index, 1);
+        setImageUrls(productImageUrlsCopy);
+        setProductImageUrls(productImageUrlsCopy);
+        if (url.startsWith("https://firebasestorage.googleapis.com/")) {
+          const urlsToDelete = [url, ...imageUrlsToDelete];
+          setImageUrlsToDelete(urlsToDelete);
+        }
+        setImageIsRemoved(true);
+        
+        break;
+      default:
+        console.log("Action did not match!");
+    }
+  }
+
+  function handleImageChange(event) {
+    event.preventDefault();
+    setShouldCombineImages(false);
+    setImageIsRemoved(false);
+    let allImages = [...event.target.files];
+    if (!shouldCombineImages && action === Action.CREATE) {
+      allImages = [...allImages, ...imageUrls]
+    }
+    if (productImageUrls && action === Action.UPDATE) {
+      allImages = [...allImages, ...productImageUrls];
+      setShouldCombineImages(true);
+    }
+    setImages(allImages);
   }
 }

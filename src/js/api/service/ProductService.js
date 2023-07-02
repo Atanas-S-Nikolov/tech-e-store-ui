@@ -1,5 +1,5 @@
 import { request, formDataRequest, buildAccessTokenConfig } from "../backend";
-import { buildProductUrl, buildProductParams, buildSearchParams, buildSearchQueryParams } from "../builder/URLBuilder";
+import { buildProductUrl, buildProductNameParam, buildProductParams, buildSearchParams, buildSearchQueryParams } from "../builder/URLBuilder";
 import { PRODUCTS_URL, PRODUCTS_SEARCH_URL, PRODUCTS_SEARCH_QUERY_URL } from "../../constants/UrlConstants";
 
 function buildFormData(productDto, images = [], mainImage, deleteImagesDto) {
@@ -22,12 +22,14 @@ export function createProduct(productDto, images, mainImage) {
   return formDataRequest.post(PRODUCTS_URL, buildFormData(productDto, images, mainImage), buildAccessTokenConfig());
 }
 
-export function updateProduct(productDto, images, mainImage, deleteImages) {
-  return formDataRequest.put(PRODUCTS_URL, buildFormData(productDto, images, mainImage, deleteImages), buildAccessTokenConfig());
+export function updateProduct(productName, productDto, images, mainImage, deleteImages) {
+  const config = buildAccessTokenConfig();
+  config.params = buildProductNameParam(productName);
+  return formDataRequest.put(PRODUCTS_URL, buildFormData(productDto, images, mainImage, deleteImages), config);
 }
 
 export async function getProduct(productName) {
-  return await request.get(buildProductUrl(productName));
+  return await request.get(buildProductUrl(productName), buildAccessTokenConfig());
 }
 
 export function getNotEarlyAccessProducts(page, size, category, type) {

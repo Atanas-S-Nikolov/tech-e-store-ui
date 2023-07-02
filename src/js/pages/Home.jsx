@@ -12,7 +12,7 @@ export default function Home() {
         <Typography variant="h3" sx={{ mt: 3 }}>Welcome to Tech E-Store</Typography>
         <Typography variant="h5" sx={{ mt: 5, mb: 1 }}>Check out our latest products</Typography>
       </div>
-      <PaginationProductContainer columnsCount={4}/> 
+      <PaginationProductContainer columnsCount={4} pageSize={4}/> 
       <AppFooter />
     </>
   );
