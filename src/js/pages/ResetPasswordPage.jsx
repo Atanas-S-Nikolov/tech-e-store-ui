@@ -14,6 +14,8 @@ import { resetPassword } from "@/js/api/service/AuthService";
 import ResetPasswordDto from "@/js/model/auth/ResetPasswordDto";
 
 import { isBlank } from "underscore.string";
+import { validatePassword } from "@/js/utils/PasswordValidator";
+import { PASSWORD_PROPERTY, TOKEN_PROPERTY } from "@/js/constants/PropertyConstants";
 
 export default function ResetPasswordPage() {
   const [password, setPassword] = useState("");
@@ -67,6 +69,11 @@ export default function ResetPasswordPage() {
           ? <SnackbarMessage message={snackbarMessage} afterCloseCallback={handleCloseSnackbar}/>
           : null
       }
+      {
+        hasError
+          ? <SnackbarMessage severity="error" message={errorMessage} afterErrorCallback={handleHasErrorFalse}/>
+          : null
+      }
       <AppFooter/>
     </>
   );
@@ -74,6 +81,11 @@ export default function ResetPasswordPage() {
   function handleCloseSnackbar() {
     setIsSnackbarMessageVisible(false);
     setSnackbarMessage("");
+  }
+
+  function handleHasErrorFalse() {
+    setHasError(false);
+    setErrorMessage("");
   }
 
   function handlePasswordChange(event) {
@@ -113,20 +125,48 @@ export default function ResetPasswordPage() {
   }
 
   function handlePasswordReset() {
+    resetBackendErrorState();
     resetPassword(new ResetPasswordDto(password, passwordResetToken))
       .then(response => {
         setErrorMessage("");
         setHasError(false);
         setSnackbarMessage(response.data.message);
         setIsSnackbarMessageVisible(true);
-        set
       }).catch(error => {
         const { status, data } = error.response;
-        if (status === 401 | 404) {
+        if (status === 400) {
+          const { rejectedProperties } = data;
+          rejectedProperties.forEach(rejected => {
+            const { property, message } = rejected;
+            setBackendErrorState(property, message)
+          })
+        } else if (status === 401 || status === 404) {
           setErrorMessage(data.messages[0]);
           setHasError(true);
         }
         console.log(error);
       })
+  }
+
+  function resetBackendErrorState() {
+    setPasswordErrorMessage("");
+    setHasPasswordError(false);
+    setPasswordResetTokenErrorMessage("");
+    setHasPasswordResetTokenError(false);
+  }
+
+  function setBackendErrorState(property, message) {
+    switch(property) {
+      case PASSWORD_PROPERTY:
+        setPasswordErrorMessage(message);
+        setHasPasswordError(true);
+        break;
+      case TOKEN_PROPERTY:
+        setPasswordResetTokenErrorMessage(message);
+        setHasPasswordResetTokenError(true);
+        break;
+      default:
+        console.log("No one property was recognized!");
+    }
   }
 }

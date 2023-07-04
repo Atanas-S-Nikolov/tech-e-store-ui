@@ -172,6 +172,7 @@ export default function ProductFullScreenDialog({ open, handleClose, action, pro
             id="category"
             label="Category"
             labelId="category-label-id"
+            required
             error={hasCategoryError}
             errorMessage={categoryErrorMessage}
             value={category}
@@ -183,6 +184,7 @@ export default function ProductFullScreenDialog({ open, handleClose, action, pro
             id="type"
             label="Type"
             labelId="type-label-id"
+            required
             error={hasTypeError}
             errorMessage={typeErrorMessage}
             value={type}
@@ -205,6 +207,7 @@ export default function ProductFullScreenDialog({ open, handleClose, action, pro
           <CustomFormTextInput
             id="stocks"
             label="Stocks"
+            required
             error={hasStocksError}
             errorMessage={stocksErrorMessage}
             value={stocks}

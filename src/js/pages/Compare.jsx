@@ -81,7 +81,7 @@ export default function Compare() {
               <div key={crypto.randomUUID()} align="center" style={{ width: "300px" }}>
                 <StyledCloseIconButton onClick={(event) => handleRemoveProduct(event, index)}/>
                 <img src={mainImageUrl} alt={name}/>
-                <Typography>
+                <Typography className="text-overflow-ellipsis">
                   <Link className="link-default-color" to={`../${buildProductUrl(name)}`}>
                     {name}
                   </Link>

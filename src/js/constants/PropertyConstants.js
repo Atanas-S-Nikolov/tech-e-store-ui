@@ -7,3 +7,4 @@ export const EMAIL_PROPERTY = "email";
 export const PHONE_PROPERTY = "phone";
 export const ADDRESS_PROPERTY = "address";
 export const ROLE_PROPERTY = "role";
+export const TOKEN_PROPERTY = "token";

@@ -10,6 +10,8 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import Chip from '@mui/material/Chip';
 
+import { Link } from "react-router-dom";
+
 import { useNavigate } from "react-router-dom";
 import { buildProductUrl } from "@/js/api/builder/URLBuilder";
 
@@ -26,7 +28,7 @@ export default function ProductPreview({ product }) {
 
   return (
     <Card className='product-preview' sx={{ maxWidth: 275 }}>
-      <div onClick={handleOnClick}>
+      <Link className="link-default-color-no-hover" to={buildProductUrl(name)}>
         <CardMedia
           className='product-img'
           component="img"
@@ -36,7 +38,7 @@ export default function ProductPreview({ product }) {
           loading="lazy"
         />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
+          <Typography className="text-overflow-ellipsis" gutterBottom variant="h6" component="div">
             {name}
           </Typography>
           <Typography variant="body2" color="text.secondary">
@@ -48,7 +50,7 @@ export default function ProductPreview({ product }) {
               : null
           }
         </CardContent>
-      </div>
+      </Link>
       <BuyButton fullWidth product={product}/>
       <CompareButton product={product} size="small" sx={{ float: "left", width: "50%" }}/>
       <FavoriteButton productName={name} size="small" sx={{ float: "right", width: "50%" }}/>

@@ -18,6 +18,7 @@ import CustomFormPasswordInput from "@/js/components/utils/CustomFormPasswordInp
 import StyledHeader from "@/js/components/styled/StyledHeader";
 import { HOME_URL } from "@/js/constants/UrlConstants";
 import { validatePassword } from "@/js/utils/PasswordValidator";
+import CountrySelect from "@/js/components/utils/CountrySelect";
 
 export default function Register() {
   const passwordId = "password";
@@ -26,10 +27,12 @@ export default function Register() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastname] = useState("");
   const [email, setEmail] = useState("");
+  const [dialingCode, setDialingCode] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isPhoneInputDisabled, setIsPhoneInputDisabled] = useState(true);
 
   // error state
   const [hasPasswordError, setHasPasswordError] = useState(false);
@@ -44,6 +47,8 @@ export default function Register() {
   const [lastNameErrorMessage, setLastNameErrorMessage] = useState("");
   const [hasEmailError, setHasEmailError] = useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = useState("");
+  const [hasDialingCodeError, setHasDialingCodeError] = useState(false);
+  const [dialingCodeErrorMessage, setDialingCodeErrorMessage] = useState("");
   const [hasPhoneError, setHasPhoneError] = useState(false);
   const [phoneErrorMessage, setPhoneErrorMessage] = useState("");
   const [hasAddressError, setHasAddressError] = useState(false);
@@ -51,7 +56,128 @@ export default function Register() {
 
   const navigate = useNavigate();
 
-  const registerUser = () => {
+  return (
+    <>
+      <StyledHeader />
+      <Box className="centered-container">
+        <CustomFormTextInput
+          id="username"
+          label="Username"
+          required
+          error={hasUsernameError}
+          errorMessage={usernameErrorMessage}
+          onChange={event => setUsername(event.target.value)}
+          sx={{ width: '82ch' }}
+        />
+        <div>
+          <CustomFormPasswordInput
+            id={passwordId}
+            label="Password"
+            onChange={handlePasswordChange}
+            error={hasPasswordError}
+            errorMessage={passwordErrorMessage}
+            sx={{ mr: 1 }}
+          />
+          <CustomFormPasswordInput
+            id={confirmPasswordId}
+            label="Confirm password"
+            onChange={handleConfirmPasswordChange}
+            error={hasConfirmPasswordError}
+            errorMessage={confirmPasswordErrorMessage}
+            sx={{ ml: 1 }}
+          />
+        </div>
+        <div>
+          <CustomFormTextInput
+            id="first-name"
+            label="First name"
+            required
+            error={hasFirstNameError}
+            errorMessage={firstNameErrorMessage}
+            onChange={event => setFirstName(event.target.value)}
+            sx={{ mr: 1 }}
+          />
+          <CustomFormTextInput
+            id="last-name"
+            label="Last name"
+            required
+            error={hasLastNameError}
+            errorMessage={lastNameErrorMessage}
+            onChange={event => setLastname(event.target.value)}
+            sx={{ ml: 1 }}
+          />
+        </div>
+        <div className="centered-column-container">
+          <CountrySelect
+            error={hasDialingCodeError}
+            errorMessage={dialingCodeErrorMessage}
+            onChange={handleDialingCodeChange}
+            sx={{ mr: 1 }}
+          />
+          <CustomFormTextInput
+            id="phone"
+            label="Phone"
+            adornment={<PhoneIcon/>}
+            required
+            disabled={isPhoneInputDisabled}
+            error={hasPhoneError}
+            errorMessage={phoneErrorMessage}
+            onChange={event => setPhone(event.target.value)}
+            value={phone}
+            sx={{ ml: 1 }}
+          />
+        </div>
+        <div>
+          <CustomFormTextInput
+            id="email"
+            label="Email"
+            adornment={<AlternateEmailIcon/>}
+            required
+            error={hasEmailError}
+            errorMessage={emailErrorMessage}
+            onChange={event => setEmail(event.target.value)}
+            sx={{ mr: 1 }}
+          />
+          <CustomFormTextInput
+            id="address"
+            label="Address"
+            adornment={<LocalShippingIcon/>}
+            required
+            error={hasAddressError}
+            errorMessage={addressErrorMessage}
+            onChange={event => setAddress(event.target.value)}
+            sx={{ ml: 1 }}
+          />
+        </div>
+        <StyledFormControl sx={{ width: "82ch" }}>
+          <div>
+            <StyledFormButton 
+              onClick={registerUser}
+              sx={{ width: "48.5%", mr: 1 }}
+            >
+              REGISTER
+            </StyledFormButton>
+            <StyledFormButton
+              onClick={() => navigate(-1)}
+              sx={{ width: "48.5%", ml: 1 }}
+            >
+              CANCEL
+            </StyledFormButton>
+          </div>
+        </StyledFormControl>
+      </Box>
+      <AppFooter/>
+    </>
+  );
+
+  function registerUser() {
+    if (!dialingCode) {
+      setDialingCodeErrorMessage("Dialing code is required");
+      setHasDialingCodeError(true);
+    } else {
+      setDialingCodeErrorMessage("");
+      setHasDialingCodeError(false);
+    }
     register(new UserDto(firstName, lastName, email, phone, address, username, password))
     .then(response => {
       navigate(HOME_URL);
@@ -120,7 +246,7 @@ export default function Register() {
     }
   }
 
-  const handlePasswordChange = (event) => {
+  function handlePasswordChange(event) {
     const value = event.target.value;
     setPassword(value);
     const message = validatePassword(value);
@@ -133,7 +259,7 @@ export default function Register() {
     setHasPasswordError(false);
   }
 
-  const handleConfirmPasswordChange = (event) => {
+  function handleConfirmPasswordChange(event) {
     const value = event.target.value;
     if (password !== value && value.length !== 0) {
       setConfirmPasswordErrorMessage("Confirmed password should be the same as password");
@@ -144,108 +270,14 @@ export default function Register() {
     setHasConfirmPasswordError(false);
   }
 
-  return (
-    <>
-      <StyledHeader />
-      <Box className="centered-container">
-        <div>
-          <CustomFormTextInput
-            id="first-name"
-            label="First name"
-            required
-            error={hasFirstNameError}
-            errorMessage={firstNameErrorMessage}
-            onChange={event => setFirstName(event.target.value)}
-            sx={{ mr: 1 }}
-          />
-          <CustomFormTextInput
-            id="last-name"
-            label="Last name"
-            required
-            error={hasLastNameError}
-            errorMessage={lastNameErrorMessage}
-            onChange={event => setLastname(event.target.value)}
-            sx={{ ml: 1 }}
-          />
-        </div>
-        <div>
-          <CustomFormTextInput
-            id="email"
-            label="Email"
-            adornment={<AlternateEmailIcon/>}
-            required
-            error={hasEmailError}
-            errorMessage={emailErrorMessage}
-            onChange={event => setEmail(event.target.value)}
-            sx={{ mr: 1 }}
-          />
-          <CustomFormTextInput
-            id="phone"
-            label="Phone"
-            adornment={<PhoneIcon/>}
-            error={hasPhoneError}
-            errorMessage={phoneErrorMessage}
-            onChange={event => setPhone(event.target.value)}
-            sx={{ ml: 1 }}
-          />
-        </div>
-        <div>
-          <CustomFormTextInput
-            id="address"
-            label="Address"
-            adornment={<LocalShippingIcon/>}
-            required
-            error={hasAddressError}
-            errorMessage={addressErrorMessage}
-            onChange={event => setAddress(event.target.value)}
-            sx={{ mr: 1 }}
-          />
-          <CustomFormTextInput
-            id="username"
-            label="Username"
-            required
-            error={hasUsernameError}
-            errorMessage={usernameErrorMessage}
-            onChange={event => setUsername(event.target.value)}
-            sx={{ ml: 1 }}
-          />
-        </div>
-        <div>
-          <CustomFormPasswordInput
-            id={passwordId}
-            label="Password"
-            onChange={handlePasswordChange}
-            error={hasPasswordError}
-            errorMessage={passwordErrorMessage}
-            sx={{ mr: 1 }}
-          />
-          <CustomFormPasswordInput
-            id={confirmPasswordId}
-            label="Confirm password"
-            onChange={handleConfirmPasswordChange}
-            error={hasConfirmPasswordError}
-            errorMessage={confirmPasswordErrorMessage}
-            sx={{ ml: 1 }}
-          />
-        </div>
-        <StyledFormControl sx={{ width: "82ch" }}>
-          <div>
-            <StyledFormButton 
-              onClick={registerUser}
-              sx={{ width: "48.5%", mr: 1 }}
-            >
-              REGISTER
-            </StyledFormButton>
-            <StyledFormButton
-              onClick={() => navigate(-1)}
-              sx={{ width: "48.5%", ml: 1 }}
-            >
-              CANCEL
-            </StyledFormButton>
-          </div>
-        </StyledFormControl>
-      </Box>
-      <AppFooter/>
-    </>
-  );
+  function handleDialingCodeChange(event, code) {
+    setDialingCode(code);
+    if (!code) {
+      setPhone("");
+      setIsPhoneInputDisabled(true);
+      return
+    }
+    setPhone(`+${code.phone} `);
+    setIsPhoneInputDisabled(false);
+  }
 }
