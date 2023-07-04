@@ -42,12 +42,6 @@ export default function OrderRow({ order }) {
         default:
           console.log('Unrecognized order status');
       }
-      
-      if (status.toLocaleLowerCase() === orderStatus.CREATED) {
-        
-      } else if (status.toLocaleLowerCase() === orderStatus.RECEIVED) {
-        
-      }
     }
     setActionButton(<Button disabled={isButtonDisabled} onClick={onClick}>{label}</Button>);
   }, [orderResponse]);

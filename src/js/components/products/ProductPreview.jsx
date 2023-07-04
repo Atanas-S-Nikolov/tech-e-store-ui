@@ -12,20 +12,12 @@ import Chip from '@mui/material/Chip';
 
 import { Link } from "react-router-dom";
 
-import { useNavigate } from "react-router-dom";
 import { buildProductUrl } from "@/js/api/builder/URLBuilder";
 
 export default function ProductPreview({ product }) {
   const { name, price, earlyAccess, images } = product;
   const mainImageUrl = images.find(image => image.main).url;
   
-  const navigate = useNavigate();
-
-  const handleOnClick = (event) => {
-    event.preventDefault();
-    navigate(buildProductUrl(name));
-  }
-
   return (
     <Card className='product-preview' sx={{ maxWidth: 275 }}>
       <Link className="link-default-color-no-hover" to={buildProductUrl(name)}>
