@@ -1,5 +1,6 @@
 import "@/styles/products/ProductHeader.css";
 
+import ProductImagePicker from "@/js/components/products/ProductImagePicker";
 import CustomPriceTypography from "./CustomPriceTypography";
 import FavoriteButton from "@/js/components/utils/FavoriteButton";
 import CompareButton from "@/js/components/utils/CompareButton";
@@ -19,8 +20,8 @@ import { useSelector } from "react-redux";
 import { formatDate } from "@/js/utils/DateUtils";
 
 export default function ProductHeader({ product }) {
-  const { name, price, stocks, earlyAccess, images, dateOfCreation, dateOfModification } = product;
-  const mainImageUrl = images.find(image => image.main).url;
+  const { name, price, stocks, earlyAccess, dateOfCreation, dateOfModification } = product;
+  const sortedImages = product.images.sort((a, b) => b.main - a.main);
   const { role } = useSelector(state => state.authentication);
   const isAdmin = role === import.meta.env.VITE_ADMIN_ROLE;
 
@@ -36,7 +37,7 @@ export default function ProductHeader({ product }) {
 
   return (
     <div className='product-header-section'>
-      <img className='main-image' src={mainImageUrl} alt={name}/>
+      <ProductImagePicker images={sortedImages}/>
       <TableContainer>
         <Table>
           <TableBody>
