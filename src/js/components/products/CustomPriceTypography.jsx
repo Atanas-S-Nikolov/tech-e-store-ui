@@ -1,6 +1,6 @@
 import Typography from '@mui/material/Typography';
 
-export default function CustomPriceTypography({ price, variant = 'h6' }) {
+export default function CustomPriceTypography({ price, variant = 'span' }) {
   const formatedPrice = parseFloat(price).toFixed(2);
   const zero = 0;
   return (

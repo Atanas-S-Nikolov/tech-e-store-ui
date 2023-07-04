@@ -13,11 +13,16 @@ import AppFooter from "@/js/components/footer/AppFooter";
 
 import { forgotPassword } from "@/js/api/service/UserService";
 import EmailDto from "@/js/model/user/EmailDto";
+import { EMAIL_PROPERTY } from "@/js/constants/PropertyConstants";
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
   const [isSnackbarMessageVisible, setIsSnackbarMessageVisible] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
+
+  // error state
+  const [hasError, setHasError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   return (
     <>
@@ -30,6 +35,8 @@ export default function ForgotPasswordPage() {
           label="Email"
           adornment={<AlternateEmailIcon/>}
           required
+          error={hasError}
+          errorMessage={errorMessage}
           onChange={event => setEmail(event.target.value)}
         />
         <StyledFormControl onClick={handleForgotPassword}>
@@ -51,11 +58,25 @@ export default function ForgotPasswordPage() {
   }
 
   function handleForgotPassword() {
+    // reset error state
+    setErrorMessage("");
+    setHasError(false);
     forgotPassword(new EmailDto(email))
       .then(response => {
         setSnackbarMessage(response.data.message);
         setIsSnackbarMessageVisible(true);
       }).catch(error => {
+        const { status, data } = error.response;
+        if (status === 400) {
+          const { rejectedProperties } = data;
+          rejectedProperties.forEach(rejected => {
+            const { property, message } = rejected;
+            if (property === EMAIL_PROPERTY) {
+              setErrorMessage(message);
+              setHasError(true);
+            }
+          })
+        }
         handleCloseSnackbar();
         console.log(error);
       })

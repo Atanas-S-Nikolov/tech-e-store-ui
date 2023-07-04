@@ -25,6 +25,10 @@ body, .root, .app {
   color: rgb(71, 71, 71)
 }
 
+.link-default-color-no-hover {
+  color: black;
+}
+
 .link {
   color: green;
 }
@@ -33,4 +37,10 @@ body, .root, .app {
   color: green;
   text-decoration: underline;
   cursor: pointer;
+}
+
+.text-overflow-ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }

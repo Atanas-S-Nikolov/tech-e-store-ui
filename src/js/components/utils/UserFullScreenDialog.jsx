@@ -21,6 +21,7 @@ import Action from '@/js/model/Action';
 import { createUser, updateUser } from '@/js/api/service/UserService';
 import UserDto from '@/js/model/user/UserDto';
 import CustomFormSelect from './CustomFormSelect';
+import CountrySelect from "./CountrySelect";
 import {
   ADDRESS_PROPERTY,
   EMAIL_PROPERTY, 
@@ -51,6 +52,8 @@ export default function UserFullScreenDialog({ open, handleClose, action, user =
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
+  const [dialingCode, setDialingCode] = useState("");
+  const [isPhoneInputDisabled, setIsPhoneInputDisabled] = useState(true);
   const [isSavedSuccessfully, setIsSavedSuccessfully] = useState(false);
 
   // error state
@@ -70,113 +73,10 @@ export default function UserFullScreenDialog({ open, handleClose, action, user =
   const [addressErrorMessage, setAddressErrorMessage] = useState("");
   const [hasRoleError, setHasRoleError] = useState(false);
   const [roleErrorMessage, setRoleErrorMessage] = useState("");
+  const [hasDialingCodeError, setHasDialingCodeError] = useState(false);
+  const [dialingCodeErrorMessage, setDialingCodeErrorMessage] = useState("");
   const [hasError, setHasError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-
-  const handleIsSavedFailed = () => {
-    setIsSavedSuccessfully(false);
-  }
-
-  function handleHasErrorFalse() {
-    setHasError(false);
-  }
-
-  function resetBackendErrorState() {
-    setUsernameErrorMessage("");
-    setHasUsernameError(false);
-    setFirstNameErrorMessage("");
-    setHasFirstNameError(false);
-    setLastNameErrorMessage("");
-    setHasLastNameError(false);
-    setEmailErrorMessage("");
-    setHasEmailError(false);
-    setPhoneErrorMessage("");
-    setHasPhoneError(false);
-    setAddressErrorMessage("");
-    setHasAddressError(false);
-    setRoleErrorMessage("");
-    setHasRoleError(false);
-    handleHasErrorFalse();
-  }
-
-  function setBackendErrorState(property, message) {
-    switch(property) {
-      case USERNAME_PROPERTY:
-        setUsernameErrorMessage(message);
-        setHasUsernameError(true);
-        break;
-      case PASSWORD_PROPERTY:
-        setPasswordErrorMessage(message);
-        setHasPasswordError(true);
-        break;
-      case FIRST_NAME_PROPERTY:
-        setFirstNameErrorMessage(message);
-        setHasFirstNameError(true);
-        break;
-      case LAST_NAME_PROPERTY:
-        setLastNameErrorMessage(message);
-        setHasLastNameError(true);
-        break;
-      case EMAIL_PROPERTY:
-        setEmailErrorMessage(message);
-        setHasEmailError(true);
-        break;
-      case PHONE_PROPERTY:
-        setPhoneErrorMessage(message);
-        setHasPhoneError(true);
-        break;
-      case ADDRESS_PROPERTY:
-        setAddressErrorMessage(message);
-        setHasAddressError(true);
-        break;
-      case ROLE_PROPERTY:
-        setRoleErrorMessage(message);
-        setHasRoleError(true);
-        break;
-      default:
-        console.log("No one property was recognized!");
-    }
-  }
-
-  async function handleSave(event) {
-    event.preventDefault();
-    try {
-      const userDto = new UserDto(firstName, lastName, email, phone, address, username, password, role);
-      if (isActionCreate) {
-        await createUser(userDto);
-      } else if(isActionUpdate) {
-        await updateUser(userDto);
-      } else {
-        console.log("Action did not match!");
-      }
-      setIsSavedSuccessfully(true);
-      setTimeout(handleClose(), 6000);
-    } catch(error) {
-      const response = error.response;
-      const status = response.status;
-      if (status === 400) {
-        const { rejectedProperties, messages } = response.data;
-        console.log(response)
-        resetBackendErrorState();
-
-        if (messages) {
-          messages.forEach(message => {
-            if (message.includes(PASSWORD_PROPERTY)) {
-              rejectedProperties.push({ property: PASSWORD_PROPERTY, message: message });
-            }
-          })
-        }
-
-        rejectedProperties.forEach(rejected => {
-          const { property, message } = rejected;
-          setBackendErrorState(property, message);
-        });
-      } else if (status === 404 | 409) {
-        setErrorMessage(response.data.messages[0]);
-        setHasError(true);
-      }
-    }
-  }
 
   useEffect(() => {
     if (isActionCreate) {
@@ -273,29 +173,6 @@ export default function UserFullScreenDialog({ open, handleClose, action, user =
         </div>
         <div>
           <CustomFormTextInput
-            id="email"
-            label="Email"
-            adornment={<AlternateEmailIcon/>}
-            required
-            error={hasEmailError}
-            errorMessage={emailErrorMessage}
-            value={email}
-            onChange={event => setEmail(event.target.value)}
-            sx={{ mr: 1 }}
-          />
-          <CustomFormTextInput
-            id="phone"
-            label="Phone"
-            adornment={<PhoneIcon/>}
-            error={hasPhoneError}
-            errorMessage={phoneErrorMessage}
-            value={phone}
-            onChange={event => setPhone(event.target.value)}
-            sx={{ ml: 1 }}
-          />
-        </div>
-        <div>
-          <CustomFormTextInput
             id="address"
             label="Address"
             adornment={<LocalShippingIcon/>}
@@ -306,23 +183,53 @@ export default function UserFullScreenDialog({ open, handleClose, action, user =
             onChange={event => setAddress(event.target.value)}
             sx={addressTextFieldStyle}
           />
-          {
-            isActionCreate
-              ? <CustomFormSelect
-                  id="role"
-                  label="Role"
-                  lableId="role-label-id"
-                  required
-                  error={hasRoleError}
-                  errorMessage={roleErrorMessage}
-                  value={role}
-                  values={roles}
-                  onChange={(event) => setRole(event.target.value)}
-                  sx={{ ml: 1 }}
-                />
-              : null
-          }
+          <CustomFormTextInput
+            id="email"
+            label="Email"
+            adornment={<AlternateEmailIcon/>}
+            required
+            error={hasEmailError}
+            errorMessage={emailErrorMessage}
+            value={email}
+            onChange={event => setEmail(event.target.value)}
+            sx={{ ml: 1 }}
+          />
         </div>
+        <div>
+          <CountrySelect
+            error={hasDialingCodeError}
+            errorMessage={dialingCodeErrorMessage}
+            onChange={handleDialingCodeChange}
+            sx={{ mr: 1 }}
+          />
+          <CustomFormTextInput
+            id="phone"
+            label="Phone"
+            adornment={<PhoneIcon/>}
+            required
+            error={hasPhoneError}
+            errorMessage={phoneErrorMessage}
+            value={phone}
+            onChange={event => setPhone(event.target.value)}
+            sx={{ ml: 1 }}
+          />
+        </div>
+        {
+          isActionCreate
+            ? <CustomFormSelect
+                id="role"
+                label="Role"
+                lableId="role-label-id"
+                required
+                error={hasRoleError}
+                errorMessage={roleErrorMessage}
+                value={role}
+                values={roles}
+                onChange={(event) => setRole(event.target.value)}
+                sx={{ ml: 1 }}
+              />
+            : null
+        }
       </Box>
       {
         isSavedSuccessfully 
@@ -336,4 +243,120 @@ export default function UserFullScreenDialog({ open, handleClose, action, user =
       }
     </Dialog>
   );
+
+  async function handleSave(event) {
+    event.preventDefault();
+    try {
+      const userDto = new UserDto(firstName, lastName, email, phone, address, username, password, role);
+      if (isActionCreate) {
+        await createUser(userDto);
+      } else if(isActionUpdate) {
+        await updateUser(userDto);
+      } else {
+        console.log("Action did not match!");
+      }
+      setIsSavedSuccessfully(true);
+      setTimeout(handleClose(), 6000);
+    } catch(error) {
+      const response = error.response;
+      const status = response.status;
+      if (status === 400) {
+        const { rejectedProperties, messages } = response.data;
+        console.log(response)
+        resetBackendErrorState();
+
+        if (messages) {
+          messages.forEach(message => {
+            if (message.includes(PASSWORD_PROPERTY)) {
+              rejectedProperties.push({ property: PASSWORD_PROPERTY, message: message });
+            }
+          })
+        }
+
+        rejectedProperties.forEach(rejected => {
+          const { property, message } = rejected;
+          setBackendErrorState(property, message);
+        });
+      } else if (status === 404 | 409) {
+        setErrorMessage(response.data.messages[0]);
+        setHasError(true);
+      }
+    }
+  }
+
+  function handleDialingCodeChange(event, code) {
+    setDialingCode(code);
+    if (!code) {
+      setPhone("");
+      setIsPhoneInputDisabled(true);
+      return
+    }
+    setPhone(`+${code.phone} `);
+    setIsPhoneInputDisabled(false);
+  }
+
+  function handleIsSavedFailed() {
+    setIsSavedSuccessfully(false);
+  }
+
+  function handleHasErrorFalse() {
+    setHasError(false);
+  }
+
+  function resetBackendErrorState() {
+    setUsernameErrorMessage("");
+    setHasUsernameError(false);
+    setFirstNameErrorMessage("");
+    setHasFirstNameError(false);
+    setLastNameErrorMessage("");
+    setHasLastNameError(false);
+    setEmailErrorMessage("");
+    setHasEmailError(false);
+    setPhoneErrorMessage("");
+    setHasPhoneError(false);
+    setAddressErrorMessage("");
+    setHasAddressError(false);
+    setRoleErrorMessage("");
+    setHasRoleError(false);
+    handleHasErrorFalse();
+  }
+
+  function setBackendErrorState(property, message) {
+    switch(property) {
+      case USERNAME_PROPERTY:
+        setUsernameErrorMessage(message);
+        setHasUsernameError(true);
+        break;
+      case PASSWORD_PROPERTY:
+        setPasswordErrorMessage(message);
+        setHasPasswordError(true);
+        break;
+      case FIRST_NAME_PROPERTY:
+        setFirstNameErrorMessage(message);
+        setHasFirstNameError(true);
+        break;
+      case LAST_NAME_PROPERTY:
+        setLastNameErrorMessage(message);
+        setHasLastNameError(true);
+        break;
+      case EMAIL_PROPERTY:
+        setEmailErrorMessage(message);
+        setHasEmailError(true);
+        break;
+      case PHONE_PROPERTY:
+        setPhoneErrorMessage(message);
+        setHasPhoneError(true);
+        break;
+      case ADDRESS_PROPERTY:
+        setAddressErrorMessage(message);
+        setHasAddressError(true);
+        break;
+      case ROLE_PROPERTY:
+        setRoleErrorMessage(message);
+        setHasRoleError(true);
+        break;
+      default:
+        console.log("No one property was recognized!");
+    }
+  }
 }

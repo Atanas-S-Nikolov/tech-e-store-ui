@@ -7,15 +7,18 @@ import StyledFormErrorText from '@/js/components/styled/StyledFormErrorText';
 
 export default function CustomFormSelect({ id, label, labelId, value, values, onChange, sx, required = false, error, errorMessage }) {
   return (
-    <FormControl margin='normal' sx={{ width: "40ch", ...sx}}>
+    <FormControl
+      margin='normal'
+      required={required}
+      error={error}
+      sx={{ width: "40ch", ...sx}}
+    >
       <InputLabel id={labelId}>{label}</InputLabel>
       <Select
         labelId={labelId}
         id={id}
         value={value}
         label={label}
-        error={error}
-        required={required}
         onChange={onChange}
       >
         <MenuItem value="">

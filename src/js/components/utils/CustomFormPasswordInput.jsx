@@ -15,14 +15,17 @@ export default function CustomFormPasswordInput({ id, label, sx, error, errorMes
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   return (
-    <FormControl margin='normal' sx={{ width: "40ch", ...sx }}>
+    <FormControl
+      margin='normal'
+      required
+      error={error}
+      sx={{ width: "40ch", ...sx }}
+    >
       <InputLabel htmlFor={id}>{label}</InputLabel>
       <OutlinedInput
         id={id}
         label={label}
         type={showPassword ? 'text' : 'password'}
-        required
-        error={error}
         onChange={onChange}
         endAdornment={
           <IconButton
