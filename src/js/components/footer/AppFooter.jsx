@@ -4,6 +4,8 @@ import Typography from "@mui/material/Typography";
 import { CONTACTS_URL } from "@/js/constants/UrlConstants";
 import { Link } from "react-router-dom";
 
+const CURRENT_YEAR = new Date().getFullYear();
+
 export default function AppFooter() {
   return(
     <footer>
@@ -15,7 +17,7 @@ export default function AppFooter() {
           Contacts
         </Link>
       </Typography>
-      <Typography variant="body2">@ 2023 Tech E-Store. All rights reserved.</Typography>
+      <Typography variant="body2">© {CURRENT_YEAR} Tech E-Store. All rights reserved.</Typography>
     </footer>
   );  
 }
